@@ -2,6 +2,7 @@
 <h4>gemaakt door:</h4> <br>
 <h4>https://github.com/CavovanMastrigt</h4>
 <h4>https://github.com/WGioW</h4>
+<h4>https://github.com/Serdar1616</h4>
 <h4></h4>
 
 <h1>Inleiding</h1> <br>
