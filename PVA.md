@@ -14,8 +14,8 @@ Opdrachtbeschrijving
 
 Functioneel ontwerp
 
-Technisch ontwerp
+Technisch ontwerp (gio)
 
 Doelen
 
-Risico's en maatregelen
+Risico's en maatregelen (gio)
