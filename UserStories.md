@@ -8,3 +8,4 @@
 * Als manager wil ik klanten hun status kunnen aanpassen, zodat ik mijn klanten kan beheren
 * Als manager wil ik openingstijden en bedrijfsinstellingen kunnen aanpassen, zodat ik de klanten informatie kan geven via de homepage over veranderingen
 * Als manager wil ik facturen automatisch kunnen genereren via mijn programma, zodat ik zelf weinig papierwerk hoef te doen en het automatisch gaat
+* Als manager wil ik een klant verifiëren via een ID kaart, zodat ik zeker weet wie deze klant is
