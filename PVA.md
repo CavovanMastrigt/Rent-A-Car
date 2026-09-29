@@ -36,38 +36,29 @@ De applicatie omvat de volgende kernfunctionaliteiten:
 * **Dashboard en Rapportages:** Een beveiligd dashboard exclusief voor beheerders met overzichten van onder andere reserveringen per maand, omzet per maand, bezettingsgraad, meest verhuurde auto's en terugkerende klanten.
 
 # Technisch ontwerp
+
 (Giovanni)
+
 **Gebruikte technieken:**
 
 * Database: MYSQL
-
 * frontend: C# forms
-
 * backend: C#
-
 * Versiebeheer: Github
 
 **Rollen:**
 
 * Manager
-
 * Customer
 
 **belangerijke functionaliteiten**
-
 * Inloggen met rollen
-
 * Automatisering van facturen (pdf bestanden)
-
 * Beheer van klanten
-
 * Auto beheer
-
 * Bestellen en zien van Auto's op de homepage
 
 **beveiliging**
-* Wachtwoorden worden gesleuteld opgeslagen
-
+* Wachtwoorden worden gesleuteld opgeslagen <br>
 * Alleen de gebruiker kan bij hun gegevens
-
 * Bevestiging bij verwijderen of wijzigingen
