@@ -13,9 +13,6 @@
 * Technisch ontwerp (Gio)
 * Doelen (Cavo)
 * Risico's en maatregelen (Gio)
-* Userstories Mark (Serdar)
-* Userstories Klant (Cavo)
-* Userstories Laura (Gio)
 
 # Opdrachtbeschrijving: Rent-a-Car 
 (serdar)
