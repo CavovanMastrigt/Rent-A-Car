@@ -12,10 +12,10 @@ https://github.com/Serdar1616
 
 Opdrachtbeschrijving
 
-Functioneel ontwerp
+Functioneel ontwerp (Cavo)
 
 Technisch ontwerp (gio)
 
-Doelen
+Doelen (Cavo)
 
 Risico's en maatregelen (gio)
