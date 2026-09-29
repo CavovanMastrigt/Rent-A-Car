@@ -56,26 +56,26 @@ OpdrachtbeschrijvingIn opdracht van de eigenaren Laura Beekman en Mark van Tesse
 # Risico's en maatregelen
 (Giovanni)
 
-* **Risico:** Fouten in de code bij het mergen
-* **Gevolg:** Meerdere aspecten van het programma kunnen kapot gaan
-* **Maatregel:** Ieder een eigen branche dat uiteindelijk merged naar de main, in deze branch word ook getest
+**Risico:** Fouten in de code bij het mergen <br>
+**Gevolg:** Meerdere aspecten van het programma kunnen kapot gaan <br>
+**Maatregel:** Ieder een eigen branche dat uiteindelijk merged naar de main, in deze branch word ook getest
 
-* **Risico:** Merge conflicten verwijderen belangrijke code
-* **Gevolg:** Het programma breekt en we moeten changes terug zetten
-* **Maatregel:** Met elkaar goed afstemmen wie bezig is in welke bestand, zodat het zo min mogelijk gebeurt
+**Risico:** Merge conflicten verwijderen belangrijke code <br>
+**Gevolg:** Het programma breekt en we moeten changes terug zetten <br>
+**Maatregel:** Met elkaar goed afstemmen wie bezig is in welke bestand, zodat het zo min mogelijk gebeurt
 
-* **Risico:** Afwezigheid vanwege ziekte
-* **Gevolg:** Contact in persoon en problemen kunnen mogelijk niet opgelost worden
-* **Maatregel:** Zodra de persoon beter is, met elkaar bellen en hier zoveel mogelijk inhalen
+**Risico:** Afwezigheid vanwege ziekte <br>
+**Gevolg:** Contact in persoon en problemen kunnen mogelijk niet opgelost worden <br>
+**Maatregel:** Zodra de persoon beter is, met elkaar bellen en hier zoveel mogelijk inhalen
 
-* **Risico:** Onvoldoende communicatie in het projectteam
-* **Gevolg:** Er gaan problemen komen doordat wij niet goed de functies hergebruiken
-* **Maatregel:** Elke dinsdag kijken wie wat heeft gedaan en waar ze mee bezig gaan
+**Risico:** Onvoldoende communicatie in het projectteam <br>
+**Gevolg:** Er gaan problemen komen doordat wij niet goed de functies hergebruiken <br>
+**Maatregel:** Elke dinsdag kijken wie wat heeft gedaan en waar ze mee bezig gaan
 
-* **Risico:** Onvoldoende tijd spenderen aan bug-testen
-* **Gevolg:** Er komen bugs tijdens de presentaties waardoor het programma er niet af uit ziet
-* **Maatregel:** Op tijd beginnen, elkaar vragen voor hulp als je vast zit
+**Risico:** Onvoldoende tijd spenderen aan bug-testen <br>
+**Gevolg:** Er komen bugs tijdens de presentaties waardoor het programma er niet af uit ziet <br>
+**Maatregel:** Op tijd beginnen, elkaar vragen voor hulp als je vast zit
 
-* **Risico:** Achterlopen van de planning.
-* **Gevolg:** Het programma gaat mogelijk niet af zijn voor de deadlines
-* **Maatregel:** Samen als team kijken waarom we achterlopen en hoe wij dit samen oplossen
+**Risico:** Achterlopen van de planning. <br>
+**Gevolg:** Het programma gaat mogelijk niet af zijn voor de deadlines <br>
+**Maatregel:** Samen als team kijken waarom we achterlopen en hoe wij dit samen oplossen
