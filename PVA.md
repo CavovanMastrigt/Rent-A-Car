@@ -2,26 +2,20 @@
 
 ## **gemaakt door:**
 
-https://github.com/CavovanMastrigt
-
-https://github.com/WGioW
-
-https://github.com/Serdar1616
+* https://github.com/CavovanMastrigt
+* https://github.com/WGioW
+* https://github.com/Serdar1616
 
 
 # **inhoudsopgave**
-
-Inleiding (Serdar)
-
-Opdrachtbeschrijving (Serdar)
-
-Functioneel ontwerp (Cavo)
-
-Technisch ontwerp (Gio)
-
-Doelen (Cavo)
-
-Risico's en maatregelen (Gio)
+* Opdrachtbeschrijving (Serdar)
+* Functioneel ontwerp (Cavo)
+* Technisch ontwerp (Gio)
+* Doelen (Cavo)
+* Risico's en maatregelen (Gio)
+* Userstories Mark (Serdar)
+* Userstories Klant (Cavo)
+* Userstories Laura (Gio)
 
 # Opdrachtbeschrijving: Rent-a-Car 
 (serdar)
@@ -35,8 +29,9 @@ De applicatie omvat de volgende kernfunctionaliteiten:
 * **Klantenbeheer:** Het registreren en beheren van klanten (inclusief NAW-gegevens, e-mailadres, wachtwoord en klantstatus zoals actief, gepauzeerd of beëindigd).
 * **Dashboard en Rapportages:** Een beveiligd dashboard exclusief voor beheerders met overzichten van onder andere reserveringen per maand, omzet per maand, bezettingsgraad, meest verhuurde auto's en terugkerende klanten.
 
-# Technisch ontwerp
+# Functioneel ontwerp
 
+# Technisch ontwerp
 (Giovanni)
 
 **Gebruikte technieken:**
@@ -62,3 +57,32 @@ De applicatie omvat de volgende kernfunctionaliteiten:
 * Wachtwoorden worden gesleuteld opgeslagen <br>
 * Alleen de gebruiker kan bij hun gegevens
 * Bevestiging bij verwijderen of wijzigingen
+
+# Doelen
+
+# Risico's en maatregelen
+(Giovanni)
+
+**Risico:** Fouten in de code bij het mergen
+**Gevolg:** Meerdere aspecten van het programma kunnen kapot gaan
+**Maatregel:** Ieder een eigen branche dat uiteindelijk merged naar de main, in deze branch word ook getest
+
+**Risico:** Merge conflicten verwijderen belangrijke code
+**Gevolg:** Het programma breekt en we moeten changes terug zetten
+**Maatregel:** Met elkaar goed afstemmen wie bezig is in welke bestand, zodat het zo min mogelijk gebeurt
+
+**Risico:** Afwezigheid vanwege ziekte
+**Gevolg:** Contact in persoon en problemen kunnen mogelijk niet opgelost worden
+**Maatregel:** Zodra de persoon beter is, met elkaar bellen en hier zoveel mogelijk inhalen
+
+**Risico:** Onvoldoende communicatie in het projectteam
+**Gevolg:** Er gaan problemen komen doordat wij niet goed de functies hergebruiken
+**Maatregel:** Elke dinsdag kijken wie wat heeft gedaan en waar ze mee bezig gaan
+
+**Risico:** Onvoldoende tijd spenderen aan bug-testen
+**Gevolg:** Er komen bugs tijdens de presentaties waardoor het programma er niet af uit ziet
+**Maatregel:** Op tijd beginnen, elkaar vragen voor hulp als je vast zit
+
+**Risico:** Achterlopen van de planning.
+**Gevolg:** Het programma gaat mogelijk niet af zijn voor de deadlines
+**Maatregel:** Samen als team kijken waarom we achterlopen en hoe wij dit samen oplossen
