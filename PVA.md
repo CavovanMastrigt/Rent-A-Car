@@ -8,14 +8,16 @@ https://github.com/WGioW
 
 https://github.com/Serdar1616
 
-### **Inleiding**
+### **inhoudsopgave**
 
-Opdrachtbeschrijving(Serdar)
+Inleiding (Serdar)
+
+Opdrachtbeschrijving (Serdar)
 
 Functioneel ontwerp (Cavo)
 
-Technisch ontwerp (gio)
+Technisch ontwerp (Gio)
 
 Doelen (Cavo)
 
-Risico's en maatregelen (gio)
+Risico's en maatregelen (Gio)
