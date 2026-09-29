@@ -9,7 +9,7 @@ https://github.com/WGioW
 https://github.com/Serdar1616
 
 
-### **inhoudsopgave**
+# **inhoudsopgave**
 
 Inleiding (Serdar)
 
@@ -35,7 +35,7 @@ De applicatie omvat de volgende kernfunctionaliteiten:
 * **Klantenbeheer:** Het registreren en beheren van klanten (inclusief NAW-gegevens, e-mailadres, wachtwoord en klantstatus zoals actief, gepauzeerd of beëindigd).
 * **Dashboard en Rapportages:** Een beveiligd dashboard exclusief voor beheerders met overzichten van onder andere reserveringen per maand, omzet per maand, bezettingsgraad, meest verhuurde auto's en terugkerende klanten.
 
-### Technisch ontwerp
+# Technisch ontwerp
 (Giovanni)
 **Gebruikte technieken:**
 
