@@ -1,3 +1,3 @@
-# Userstories (Gio)
-# Userstories (Serdar)
-# Userstories (Cavo)
+# Userstories Mark (Serdar)
+# Userstories Klant (Cavo)
+# Userstories Laura (Gio)
