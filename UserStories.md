@@ -1,8 +1,10 @@
 # Userstories Mark (Serdar)
+
 *Als operational manager wil ik een handig overzicht zien van welke auto's er vandaag verhuurd zijn en aan wie, zodat ik de planning goed kan regelen*
 *Als operational manager wil ik de status van een auto (zoals 'beschikbaar', 'verhuurd' of 'in onderhoud') snel kunnen aanpassen, zodat iedereen direct de juiste informatie ziet*
 *Als operational manager wil ik dat alle reserveringen en formulieren digitaal gaan, zodat we minder papierwerk op kantoor hebben*
 *Als operational manager wil ik onze openingstijden en haal- en brengtijden kunnen instellen, zodat klanten alleen binnen die tijden een auto kunnen reserveren*
+
 # Userstories Klant (Cavo)
 # Userstories Laura (Gio)
 * Als manager wil ik inzicht hebben in prestaties en omzet, zodat ik weet of mijn bedrijf er goed voor staat
