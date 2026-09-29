@@ -23,7 +23,8 @@ Doelen (Cavo)
 
 Risico's en maatregelen (Gio)
 
-# Opdrachtbeschrijving: Rent-a-Car
+# Opdrachtbeschrijving: Rent-a-Car 
+(serdar)
 
 In opdracht van de eigenaren Laura Beekman en Mark van Tessel wordt voor het autoverhuurbedrijf *Rent-a-Car* een professionele C#-desktopapplicatie ontwikkeld, ondersteund door een MySQL-database. Het doel van het project is het moderniseren en automatiseren van de interne bedrijfsprocessen en de dienstverlening richting klanten.
 
