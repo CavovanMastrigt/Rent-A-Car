@@ -34,3 +34,40 @@ De applicatie omvat de volgende kernfunctionaliteiten:
 * **Facturatie:** Het automatisch genereren van facturen op basis van de reserveringsperiode, kosten en unieke factuurnummers, die als PDF kunnen worden opgeslagen of geprint.
 * **Klantenbeheer:** Het registreren en beheren van klanten (inclusief NAW-gegevens, e-mailadres, wachtwoord en klantstatus zoals actief, gepauzeerd of beëindigd).
 * **Dashboard en Rapportages:** Een beveiligd dashboard exclusief voor beheerders met overzichten van onder andere reserveringen per maand, omzet per maand, bezettingsgraad, meest verhuurde auto's en terugkerende klanten.
+
+### Technisch ontwerp
+(Giovanni)
+**Gebruikte technieken:**
+
+* Database: MYSQL
+
+* frontend: C# forms
+
+* backend: C#
+
+* Versiebeheer: Github
+
+**Rollen:**
+
+* Manager
+
+* Customer
+
+**belangerijke functionaliteiten**
+
+* Inloggen met rollen
+
+* Automatisering van facturen (pdf bestanden)
+
+* Beheer van klanten
+
+* Auto beheer
+
+* Bestellen en zien van Auto's op de homepage
+
+**beveiliging**
+* Wachtwoorden worden gesleuteld opgeslagen
+
+* Alleen de gebruiker kan bij hun gegevens
+
+* Bevestiging bij verwijderen of wijzigingen
