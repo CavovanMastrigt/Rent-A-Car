@@ -20,14 +20,7 @@
 # Opdrachtbeschrijving: Rent-a-Car 
 (serdar)
 
-In opdracht van de eigenaren Laura Beekman en Mark van Tessel wordt voor het autoverhuurbedrijf *Rent-a-Car* een professionele C#-desktopapplicatie ontwikkeld, ondersteund door een MySQL-database. Het doel van het project is het moderniseren en automatiseren van de interne bedrijfsprocessen en de dienstverlening richting klanten.
-
-De applicatie omvat de volgende kernfunctionaliteiten:
-* **Wagenparkbeheer:** Het beheren van het voertuigbestand (inclusief merk, model, kenteken, type, dagprijs en statussen zoals beschikbaar, verhuurd, in onderhoud of buiten gebruik). Ook het instellen van openingstijden, haal- en brengtijden en optionele extra's behoort hiertoe.
-* **Reserveringssysteem:** Klanten kunnen auto's reserveren voor een specifieke periode, waarbij het systeem automatisch de beschikbaarheid controleert (rekening houdend met openingstijden, verhuurperiodes en datums). Gemaakte reserveringen kunnen daarnaast worden ingezien, gewijzigd of geannuleerd.
-* **Facturatie:** Het automatisch genereren van facturen op basis van de reserveringsperiode, kosten en unieke factuurnummers, die als PDF kunnen worden opgeslagen of geprint.
-* **Klantenbeheer:** Het registreren en beheren van klanten (inclusief NAW-gegevens, e-mailadres, wachtwoord en klantstatus zoals actief, gepauzeerd of beëindigd).
-* **Dashboard en Rapportages:** Een beveiligd dashboard exclusief voor beheerders met overzichten van onder andere reserveringen per maand, omzet per maand, bezettingsgraad, meest verhuurde auto's en terugkerende klanten.
+OpdrachtbeschrijvingIn opdracht van de eigenaren Laura Beekman en Mark van Tessel bouwen we een C#-programma op de computer, gekoppeld aan een MySQL-database. Het doel is om het autoverhuurbedrijf Rent-a-Car te vernieuwen en alle handelingen digitaal te regelen.   Het programma krijgt de volgende belangrijke onderdelen:Wagenparkbeheer: Alle auto's netjes bijhouden (zoals merk, model, kenteken, prijs en of een auto beschikbaar, verhuurd, in onderhoud of stuk is). Ook kun je hier de openingstijden, haal- en brengtijden en extra's zoals navigatie instellen.   Reserveringssysteem: Klanten kunnen zelf auto's reserveren voor een bepaalde periode. Het programma controleert dan meteen of de auto vrij is en of het binnen de openingstijden valt. Klanten kunnen hun reservering daarna ook bekijken, wijzigen of annuleren.   Facturatie: Het programma maakt automatisch rekeningen (facturen) op basis van de gehuurde periode en kosten, met een uniek nummer. Je kunt deze facturen meteen opslaan als PDF of uitprinten.   Klantenbeheer: Het opslaan en beheren van alle klantgegevens (naam, adres, e-mail, wachtwoord) en de status van de klant (of ze actief zijn, op pauze staan of gestopt zijn).   Dashboard en Rapportages: Een speciaal overzicht alleen voor de bazen. Hierop zie je handige cijfers zoals het aantal reserveringen per maand, de totale omzet, hoe vaak auto's verhuurd zijn (bezettingsgraad), de populairste auto's en vaste klanten.  
 
 # Functioneel ontwerp
 
