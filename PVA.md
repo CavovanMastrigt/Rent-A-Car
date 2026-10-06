@@ -13,6 +13,11 @@
 * Technisch ontwerp (Gio)
 * Doelen (Cavo)
 * Risico's en maatregelen (Gio)
+* Planning (Cavo)
+* User Stories
+* User Story (Cavo)
+* User Story (Gio)
+* User Story (Serdar)
 
 # Opdrachtbeschrijving: Rent-a-Car 
 (serdar)
