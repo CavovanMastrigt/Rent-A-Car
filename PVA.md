@@ -13,7 +13,7 @@
 * Technisch ontwerp (Gio)
 * Doelen (Cavo)
 * Risico's en maatregelen (Gio)
-* Planning (Cavo)
+* Planning (Serdar)
 * User Stories
 * User Story (Cavo)
 * User Story (Gio)
