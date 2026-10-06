@@ -171,6 +171,115 @@ Bij het maken van een reservering wordt rekening gehouden met deze tijden.
 
 # Doelen
 
+# Functionele doelen
+
+# Inlog- en rollensysteem
+
+Een doel is om een veilig inlogsysteem te ontwikkelen waarbij gebruikers met hun e-mailadres en wachtwoord kunnen inloggen.
+Het systeem moet onderscheid kunnen maken tussen de rollen **Manager** en **Customer**. Na het inloggen krijgt iedere gebruiker alleen toegang tot de onderdelen die bij zijn of haar rol horen.
+
+* Managers krijgen toegang tot het beheergedeelte.
+* Klanten krijgen toegang tot het klantgedeelte.
+* Bij verkeerde inloggegevens wordt een duidelijke foutmelding weergegeven.
+* Gebruikers mogen niet bij gegevens komen die niet voor hun rol bestemd zijn.
+
+# Klantenbeheer
+
+Een doel is om alle klantgegevens digitaal te kunnen opslaan en beheren.
+De applicatie moet onder andere de volgende gegevens kunnen opslaan:
+
+* Voornaam
+* Achternaam
+* Adres
+* Postcode
+* Woonplaats
+* E-mailadres
+* Wachtwoord
+* Klantstatus
+
+Klanten moeten hun eigen gegevens kunnen bekijken en aanpassen. Managers moeten klanten kunnen bekijken en beheren.
+Bij belangrijke wijzigingen of het verwijderen van gegevens moet een bevestiging worden gevraagd om fouten te voorkomen.
+
+# Wagenparkbeheer
+
+Een belangrijk doel is om het volledige wagenpark digitaal te beheren.
+Per auto moet relevante informatie kunnen worden opgeslagen, zoals:
+
+* Merk
+* Model
+* Kenteken
+* Dagprijs
+* Beschikbaarheidsstatus
+
+Daarnaast moet de status van een auto kunnen aangeven of deze:
+
+* Beschikbaar is
+* Verhuurd is
+* In onderhoud is
+* Buiten gebruik is
+
+Managers moeten auto's kunnen toevoegen, wijzigen en verwijderen. Ook moet de beschikbaarheid van auto's kunnen worden aangepast.
+
+# Reserveringssysteem
+
+Een doel is om klanten zelfstandig auto's te laten reserveren.
+Bij het maken van een reservering moet een klant kunnen aangeven:
+
+* Welke auto gewenst is
+* Wat de startdatum van de huurperiode is
+* Wat de einddatum van de huurperiode is
+* Welke extra opties gewenst zijn
+
+Het systeem moet automatisch controleren of de gekozen auto beschikbaar is gedurende de volledige huurperiode.
+Een reservering mag niet worden gemaakt wanneer de auto al verhuurd is, in onderhoud is, buiten gebruik is of wanneer de gekozen periode niet binnen de toegestane verhuurperiode valt.
+
+# Reserveringen beheren
+
+Een doel is om bestaande reserveringen overzichtelijk te kunnen beheren.
+Klanten moeten hun eigen reserveringen kunnen bekijken en, wanneer dit volgens de regels is toegestaan, een reservering kunnen wijzigen of annuleren.
+Bij iedere reservering moet minimaal informatie worden weergegeven over:
+
+* De gehuurde auto
+* De startdatum
+* De einddatum
+* De totale huurprijs
+* De gekozen extra's
+* De status van de reservering
+
+Managers en Admins moeten alle reserveringen kunnen bekijken, wijzigen en annuleren.
+
+# Automatische facturatie
+
+Een doel is om het maken van facturen zoveel mogelijk te automatiseren.
+Na het maken van een reservering moet het systeem een factuur kunnen genereren. Op de factuur moeten onder andere de volgende gegevens staan:
+
+* Een uniek factuurnummer
+* De klantgegevens
+* De gegevens van de gehuurde auto
+* De huurperiode
+* De dagprijs
+* Eventuele extra kosten
+* De totale kosten
+* De factuurdatum
+
+De factuur moet als PDF kunnen worden opgeslagen en geprint. Iedere factuur moet een uniek factuurnummer krijgen zodat facturen eenvoudig van elkaar kunnen worden onderscheiden.
+
+# Openingstijden en haal- en brengtijden
+
+Managers moeten de openingstijden en de tijden waarop auto's kunnen worden opgehaald en teruggebracht kunnen instellen en wijzigen.
+Het reserveringssysteem moet deze instellingen gebruiken bij het controleren van nieuwe reserveringen. Hierdoor kunnen klanten geen reserveringen maken die buiten de toegestane tijden vallen.
+
+# Dashboard en rapportages
+
+Een doel is om managers inzicht te geven in de prestaties van het verhuurbedrijf.
+Het dashboard moet relevante informatie overzichtelijk kunnen weergeven, zoals:
+
+* Het aantal reserveringen per maand
+* De totale omzet
+* De bezettingsgraad van auto's
+* De populairste auto's
+* Informatie over vaste klanten
+
 # Risico's en maatregelen
 (Giovanni)
 
