@@ -6,6 +6,10 @@ CID = CarID <br>
 IID = InvoiceID <br>
 RID = RentalID <br>
 
+identity status = pending, disabled, enabled <br>
+user status = active, disabled, temp_disabled <br>
+car price = per day - > in Rental opslaan, kan later niet aangepast worden als het aangemaakt is <br>
+
 ## 1NV
 * Role: ID, Name
 * User: ID, Role, Name, LastName, Address, city, password
