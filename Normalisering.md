@@ -1,5 +1,56 @@
 # Normalisatie (Cavo)
+
+**UID = UserID**  
+**CID = CarID**  
+**RID = RentalID**  
+**IID = InvoiceID**  
+**ROID = RentalOptionID**  
+**OID = OptionID**  
+**RoleID = RoleID**  
+**BID = BusinessHoursID**
+
+### Statussen
+
+- **user status** = active, disabled
+- **car status** = available, rented, maintenance, out_of_service
+- **rental status** = reserved, confirmed, ongoing, completed, cancelled
+- **invoice status** = open, paid, overdue
+
+## 1NV
+
+- Role: ID, Name
+- User: ID, RoleID, FirstName, LastName, Email, Password, Phone_Number, Address, City, Status
+- Car: ID, License_Plate, Brand, Model, Build_Year, Fuel, Price_Per_Day, Status
+- Rental: ID, UserID, CarID, FirstName, LastName, Email, License_Plate, Brand, Model, Price_Per_Day, Date_Started, Date_Planned_Ended, Date_End, Status, Total_Price
+- Extra_Option: ID, Name, Description, Price
+- Rental_Option: ID, RentalID, OptionID, Option_Name, Option_Price
+- Invoice: ID, RentalID, UserID, Invoice_Date, Expiration_Date, Customer_Name, Customer_Address, Car_Name, Date_Started, Date_Planned_Ended, Price_Per_Day, Extra_Costs, Total_Price, Status
+- Business_Hours: ID, Day_Of_Week, Opening_Time, Closing_Time, Is_Closed
+
+## 2NV
+
+- Role: ID, Name
+- User: ID, RoleID, FirstName, LastName, Email, Password, Phone_Number, Address, City, Status
+- Car: ID, License_Plate, Brand, Model, Build_Year, Fuel, Price_Per_Day, Status
+- Rental: ID, UserID, CarID, Date_Started, Date_Planned_Ended, Date_End, Status, Price_Per_Day, Total_Price
+- Extra_Option: ID, Name, Description, Price
+- Rental_Option: ID, RentalID, OptionID, Option_Price
+- Invoice: ID, RentalID, Invoice_Date, Expiration_Date, Total_Price, Status
+- Business_Hours: ID, Day_Of_Week, Opening_Time, Closing_Time, Is_Closed
+
+## 3NV
+
+- **Role:** ID, Name
+- **User:** ID, RoleID, FirstName, LastName, Email, Password, Phone_Number, Address, City, Status, Created_At
+- **Car:** ID, License_Plate, Brand, Model, Build_Year, Fuel, Price_Per_Day, Status
+- **Rental:** ID, UserID, CarID, Date_Started, Date_Planned_Ended, Date_End, Status, Price_Per_Day, Total_Price, Created_At
+- **Extra_Option:** ID, Name, Description, Price
+- **Rental_Option:** ID, RentalID, OptionID, Option_Price
+- **Invoice:** ID, RentalID, Invoice_Number, Invoice_Date, Expiration_Date, Total_Price, Status
+- **Business_Hours:** ID, Day_Of_Week, Opening_Time, Closing_Time, Is_Closed
+
 # Normalisatie (Serdar)
+
 # Normalisatie (Gio)
 UID = UserID <br>
 CID = CarID <br>
