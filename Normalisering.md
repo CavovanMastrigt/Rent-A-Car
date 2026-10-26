@@ -37,3 +37,5 @@ Date planned ended is voor als er te laat een auto is ingeleverd
 * Car: ID, License_plate, Brand, Model, Build_date, Price, Status
 * Rental: ID, UID, CID, Price_Per_Day, Date_Started, Date_Planned_Ended, Date_End
 * Invoice: ID, RID, Total_Price, Expiration_Date, status
+
+![Gio's ERD](/RentACar_Images/ERD_gio.png)
