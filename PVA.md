@@ -281,18 +281,14 @@ Het dashboard moet relevante informatie overzichtelijk kunnen weergeven, zoals:
 
 **Risico:** Fouten in de code bij het mergen <br>
 **Gevolg:** Meerdere aspecten van het programma kunnen kapot gaan <br>
-**Maatregel:** Ieder een eigen branche dat uiteindelijk merged naar de main, in deze branch word ook getest
-
-**Risico:** Merge conflicten verwijderen belangrijke code <br>
-**Gevolg:** Het programma breekt en we moeten changes terug zetten <br>
-**Maatregel:** Met elkaar goed afstemmen wie bezig is in welke bestand, zodat het zo min mogelijk gebeurt
+**Maatregel:** Ieder een eigen branche dat uiteindelijk merged naar de main, in deze branch word ook getest, wordt getest door minimaal 2 mensen
 
 **Risico:** Afwezigheid vanwege ziekte <br>
-**Gevolg:** Contact in persoon en problemen kunnen mogelijk niet opgelost worden <br>
-**Maatregel:** Zodra de persoon beter is, met elkaar bellen en hier zoveel mogelijk inhalen
+**Gevolg:** Er word mogelijk niet gewerkt <br>
+**Maatregel:** deadlines gaan niet afgemaakt worden
 
 **Risico:** Onvoldoende communicatie in het projectteam <br>
-**Gevolg:** Er gaan problemen komen doordat wij niet goed de functies hergebruiken <br>
+**Gevolg:** Iedereen maakt hun eigen versie van code dat al bestaat <br>
 **Maatregel:** Elke dinsdag kijken wie wat heeft gedaan en waar ze mee bezig gaan
 
 **Risico:** Onvoldoende tijd spenderen aan bug-testen <br>
