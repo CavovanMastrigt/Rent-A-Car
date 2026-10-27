@@ -72,6 +72,7 @@ Date planned ended is voor als er te laat een auto is ingeleverd
 * Car: ID, License_plate, Brand, Model, Build_Date, Price
 * Rental: ID
 * Invoice: ID
+* OpeningTimes: Time_Open, Time_Closed, Weekday
 
 ## 2NV
 * Role: ID, Name
@@ -80,6 +81,7 @@ Date planned ended is voor als er te laat een auto is ingeleverd
 * Car: ID, License_plate, Brand, Model, Price
 * Rental: ID, UID, CID,
 * Invoice: ID, RID
+* OpeningTimes: Time_Open, Time_Closed, Weekday
 
 ## 3NV
 * Role: ID, Name
@@ -88,5 +90,6 @@ Date planned ended is voor als er te laat een auto is ingeleverd
 * Car: ID, License_plate, Brand, Model, Build_date, Price, Status
 * Rental: ID, UID, CID, Price_Per_Day, Date_Started, Date_Planned_Ended, Date_End
 * Invoice: ID, RID, Total_Price, Expiration_Date, status
+* OpeningTimes: Time_Open, Time_Closed, Weekday
 # ERD Gio
 ![Gio's ERD](/RentACar_Images/ERD_gio.png)
