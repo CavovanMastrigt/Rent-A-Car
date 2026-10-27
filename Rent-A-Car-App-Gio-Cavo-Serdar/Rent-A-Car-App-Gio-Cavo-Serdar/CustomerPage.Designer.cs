@@ -1,6 +1,6 @@
-﻿namespace Rent_A_Car_App_Gio_Cavo_Serdar
+namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
-    partial class Form1
+    partial class CustomerPage
     {
         /// <summary>
         /// Required designer variable.
@@ -20,7 +20,7 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -28,13 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // CustomerPage
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(246)))));
+            this.Name = "CustomerPage";
+            this.Size = new System.Drawing.Size(1280, 700);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
     }
 }
-

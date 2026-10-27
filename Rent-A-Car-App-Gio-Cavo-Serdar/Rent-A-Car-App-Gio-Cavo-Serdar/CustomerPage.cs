@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,9 +10,10 @@ using System.Windows.Forms;
 
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
-    public partial class Form1 : Form
+    // Page shown under the top bar for role 0 (customer).
+    public partial class CustomerPage : UserControl
     {
-        public Form1()
+        public CustomerPage()
         {
             InitializeComponent();
         }

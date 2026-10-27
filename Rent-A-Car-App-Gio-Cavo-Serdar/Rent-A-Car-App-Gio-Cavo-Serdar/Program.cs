@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +16,9 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            // Everything happens in the home window; closing it ends the program.
+            Application.Run(new HomeForm());
         }
     }
 }
