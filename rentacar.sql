@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Gegenereerd op: 27 okt 2026 om 12:27
+-- Gegenereerd op: 28 okt 2026 om 12:13
 -- Serverversie: 9.1.0
 -- PHP-versie: 8.2.26
 
@@ -121,7 +121,15 @@ CREATE TABLE IF NOT EXISTS `role` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `rolename` varchar(40) NOT NULL COMMENT '0 = customer\r\n1 = admin',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `role`
+--
+
+INSERT INTO `role` (`ID`, `rolename`) VALUES
+(0, 'Customer'),
+(1, 'Admin');
 
 -- --------------------------------------------------------
 
@@ -137,19 +145,33 @@ CREATE TABLE IF NOT EXISTS `user` (
   `Password` varchar(255) NOT NULL,
   `Name` varchar(40) NOT NULL,
   `LastName` varchar(40) NOT NULL,
-  `Address` varchar(10) NOT NULL,
+  `Address` varchar(100) NOT NULL,
   `City` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `Phone_Number` int NOT NULL,
+  `Phone_Number` varchar(20) NOT NULL,
   `User_Status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'active, disabled',
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `Role_ID` (`RID`),
-  UNIQUE KEY `Email_key` (`Email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `Email_key` (`Email`),
+  KEY `Role_ID` (`RID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `user`
+--
+
+INSERT INTO `user` (`ID`, `RID`, `Created_At`, `Password`, `Name`, `LastName`, `Address`, `City`, `Email`, `Phone_Number`, `User_Status`) VALUES
+(1, 1, '2026-10-27', 'zwjialoyNO0JL+RtMIeSVg==.3atqV7VeUCx9vRQbwPgi7mkgNz/M4JEYUihLaZOLd9M=', 'gio', 'gio', 'test', 'test', 'gio@gio.com', '223122131', 'active'),
+(2, 0, '2026-10-27', 'LHn8n9ZXFXclp4Xo0RYVRg==.BhBbbOnfpYWiRN4tTQQzqPuIfcDI+yCB5HvYTN5DuiY=', 'cavo', 'cavo', 'ijdwaodja', 'djwaidojaw', 'cavo@cavo.com', '2821312312', 'active');
 
 --
 -- Beperkingen voor geëxporteerde tabellen
 --
+
+--
+-- Beperkingen voor tabel `identity`
+--
+ALTER TABLE `identity`
+  ADD CONSTRAINT `identity_user_fk` FOREIGN KEY (`UserID`) REFERENCES `user` (`ID`);
 
 --
 -- Beperkingen voor tabel `rental`
@@ -160,16 +182,10 @@ ALTER TABLE `rental`
   ADD CONSTRAINT `rental_ibfk_3` FOREIGN KEY (`ID`) REFERENCES `invoice` (`Rental_ID`);
 
 --
--- Beperkingen voor tabel `role`
---
-ALTER TABLE `role`
-  ADD CONSTRAINT `role_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `user` (`RID`);
-
---
 -- Beperkingen voor tabel `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `identity` (`UserID`);
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`RID`) REFERENCES `role` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
