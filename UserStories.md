@@ -1,9 +1,58 @@
 # Userstories Mark (Serdar)
 
-* Als operational manager wil ik een handig overzicht zien van welke auto's er vandaag verhuurd zijn en aan wie, zodat ik de planning goed kan regelen*
-* Als operational manager wil ik de status van een auto (zoals 'beschikbaar', 'verhuurd' of 'in onderhoud') snel kunnen aanpassen, zodat iedereen direct de juiste informatie ziet*
-* Als operational manager wil ik dat alle reserveringen en formulieren digitaal gaan, zodat we minder papierwerk op kantoor hebben*
-* Als operational manager wil ik onze openingstijden en haal- en brengtijden kunnen instellen, zodat klanten alleen binnen die tijden een auto kunnen reserveren*
+US1 – Dagoverzicht
+Als medewerker wil ik een automatisch overzicht van de reserveringen van vandaag, zodat ik weet welke auto’s er worden opgehaald en teruggebracht.
+
+Toont klant, auto, ophaal- en retourtijd, status
+Datum is te wisselen (gisteren, vandaag, morgen)
+Gesorteerd op tijd
+
+US2 – Planning van auto’s
+Als operationeel manager wil ik een planning (agenda) per auto, zodat ik zie wie welke auto wanneer heeft.
+
+Weekweergave met alle auto’s
+Bezet, vrij, onderhoud en buiten gebruik zijn te onderscheiden
+Klik op een blok geeft de reserveringsdetails
+
+US3 – Reservering maken namens klant
+Als medewerker wil ik een reservering maken voor een klant aan de balie of telefonisch, zodat klanten niet zelf online hoeven te boeken.
+
+Klant zoeken, auto, periode en extra’s kiezen
+Beschikbaarheidscontrole, openingstijden en 1 jaar-limiet gelden ook hier
+Een gepauzeerde of geblokkeerde klant kan niet reserveren
+Factuur wordt automatisch aangemaakt
+
+US4 – Reservering wijzigen of annuleren namens klant
+Als medewerker wil ik reserveringen wijzigen of annuleren, zodat ik klanten kan helpen die dat telefonisch vragen.
+
+Beschikbaarheid wordt opnieuw gecontroleerd en de prijs herberekend
+Annuleren volgt de 24-uursregel, met bevestiging
+
+US5 – Ophalen en terugbrengen registreren
+Als medewerker wil ik vastleggen dat een auto is opgehaald of teruggebracht, zodat de status altijd klopt.
+
+Reserveringsstatus: Gereserveerd → Opgehaald → Teruggebracht (of Geannuleerd)
+Bij ophalen wordt de auto Verhuurd, bij terugbrengen Beschikbaar
+Ophalen en terugbrengen alleen binnen openingstijden
+Bij schade kan de auto direct op Buiten gebruik worden gezet, met een korte opmerking
+
+US6 – Extra’s en dagprijzen beheren
+Als beheerder wil ik extra’s (navigatie, kinderstoeltje, luxe-pakket) en dagprijzen beheren, zodat het aanbod actueel is.
+
+Extra’s toevoegen, bewerken en uit gebruik nemen
+Prijswijzigingen gelden alleen voor nieuwe reserveringen (bestaande reserveringen houden hun prijs)
+
+US7 – Rollen en inloggen medewerkers
+Als beheerder wil ik medewerkers accounts met een rol geven, zodat iedereen alleen ziet wat hij nodig heeft.
+
+Rollen: klant, medewerker, beheerder
+Medewerkers kunnen niet bij dashboard en rapportages (alleen eigenaren)
+
+US8 – Klantgegevens inzien door medewerker
+Als medewerker wil ik klantgegevens kunnen zoeken en bekijken, zodat ik snel een klant kan helpen.
+
+Zoeken op naam of e-mail, met overzicht van de reserveringen van de klant
+Dit vult doc 2 US4/US5 aan, dus stem af zodat je geen dubbel werk doet
 
 # Userstories Klant (Cavo)
 
