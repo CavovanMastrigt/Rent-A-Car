@@ -1,8 +1,4 @@
-# ERD v2 – Rent-a-Car (samengevoegd)
 
-Basis: ERD van Cavo, aangevuld met Identity (Gio), autotype, extra's, `CreatedBy` en geplande/werkelijke datums.
-
-```mermaid
 erDiagram
     Role ||--o{ User : "has"
     User ||--o{ Identity : "verified by"
