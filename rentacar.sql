@@ -8,6 +8,7 @@
 -- PHP-versie: 8.2.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET FOREIGN_KEY_CHECKS = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -38,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `car` (
   `Car_Status` varchar(50) NOT NULL COMMENT 'active, disabled, maintenance',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `licenseplate` (`License_Plate`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -58,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `identity` (
   `Document_Number` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Identity_Users_Key` (`UserID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -74,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `Expiration_Date` date NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Invoice_Rental_Key` (`Rental_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -87,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `openingtimes` (
   `Time_Open` time NOT NULL,
   `Time_Closed` time NOT NULL,
   `Weekday` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -108,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `rental` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Rental_User_Key` (`UserID`),
   UNIQUE KEY `Rental_Car_Key` (`CarID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -121,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `rolename` varchar(40) NOT NULL COMMENT '0 = customer\r\n1 = admin',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `role`
@@ -149,11 +150,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   `City` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Phone_Number` varchar(20) NOT NULL,
-  `User_Status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'active, disabled',
+  `User_Status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'active, disabled',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Email_key` (`Email`),
   KEY `Role_ID` (`RID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `user`
@@ -186,6 +187,7 @@ ALTER TABLE `rental`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`RID`) REFERENCES `role` (`ID`);
+SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
