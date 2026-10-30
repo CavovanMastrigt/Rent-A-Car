@@ -20,8 +20,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private void ProfileForm_Load(object sender, EventArgs e)
         {
             DataTable user = DBHelper.getdataTable(
-                "SELECT Name, LastName, Email, Phone_Number, Address, City FROM user WHERE ID = @id",
-                new Dictionary<string, object> { { "@id", DBHelper.loggedinuserid } });
+                "SELECT Name, LastName, Email, Phone_Number, Address, City FROM user WHERE ID = " + DBHelper.loggedinuserid);
 
             if (user.Rows.Count == 0)
             {
@@ -53,7 +52,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 return;
             }
 
-            bool changePassword =txtNewPassword.Text != "" || txtConfirmNewPassword.Text != "";
+            bool changePassword = txtNewPassword.Text != "" || txtConfirmNewPassword.Text != "";
             if (changePassword && !checkNewPassword())
             {
                 return;
@@ -62,8 +61,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             try
             {
                 object count = DBHelper.getScalar(
-                    "SELECT COUNT(*) FROM user WHERE Email = @email AND ID <> @id",
-                    new Dictionary<string, object> { { "@email", txtEmail.Text.Trim() }, { "@id", DBHelper.loggedinuserid } });
+                    "SELECT COUNT(*) FROM user WHERE Email = " + AuthHelper.sql(txtEmail.Text) + " AND ID <> " + DBHelper.loggedinuserid);
 
                 if (Convert.ToInt32(count) > 0)
                 {
@@ -72,28 +70,20 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 }
 
                 DBHelper.RunSql(
-                    "UPDATE user SET Name = @name, LastName = @lastName, Email = @email, Phone_Number = @phone, " +
-                    "Address = @address, City = @city WHERE ID = @id",
-                    new Dictionary<string, object>
-                    {
-                        { "@name", txtName.Text.Trim() },
-                        { "@lastName", txtLastName.Text.Trim() },
-                        { "@email", txtEmail.Text.Trim() },
-                        { "@phone", txtPhone.Text.Trim() },
-                        { "@address", txtAddress.Text.Trim() },
-                        { "@city", txtCity.Text.Trim() },
-                        { "@id", DBHelper.loggedinuserid }
-                    });
+                    "UPDATE user SET" +
+                    " Name = " + AuthHelper.sql(txtName.Text) +
+                    ", LastName = " + AuthHelper.sql(txtLastName.Text) +
+                    ", Email = " + AuthHelper.sql(txtEmail.Text) +
+                    ", Phone_Number = " + AuthHelper.sql(txtPhone.Text) +
+                    ", Address = " + AuthHelper.sql(txtAddress.Text) +
+                    ", City = " + AuthHelper.sql(txtCity.Text) +
+                    " WHERE ID = " + DBHelper.loggedinuserid);
 
                 if (changePassword)
                 {
                     DBHelper.RunSql(
-                        "UPDATE user SET Password = @password WHERE ID = @id",
-                        new Dictionary<string, object>
-                        {
-                            { "@password", DBHelper.HashPassword(txtNewPassword.Text) },
-                            { "@id", DBHelper.loggedinuserid }
-                        });
+                        "UPDATE user SET Password = " + AuthHelper.sql(AuthHelper.HashPassword(txtNewPassword.Text)) +
+                        " WHERE ID = " + DBHelper.loggedinuserid);
                 }
             }
             catch (Exception ex)
@@ -111,10 +101,9 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private bool checkNewPassword()
         {
             object storedHash = DBHelper.getScalar(
-                "SELECT Password FROM user WHERE ID = @id",
-                new Dictionary<string, object> { { "@id", DBHelper.loggedinuserid } });
+                "SELECT Password FROM user WHERE ID = " + DBHelper.loggedinuserid);
 
-            if (storedHash == null || !DBHelper.VerifyPassword(txtCurrentPassword.Text, storedHash.ToString()))
+            if (storedHash == null || !AuthHelper.VerifyPassword(txtCurrentPassword.Text, storedHash.ToString()))
             {
                 MessageBox.Show("Your current password is wrong.", "Profile settings", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;

@@ -63,6 +63,7 @@
     <Compile Include="CustomerPage.Designer.cs">
       <DependentUpon>CustomerPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="AuthHelper.cs" />
     <Compile Include="DBHelper.cs" />
     <Compile Include="HomeForm.cs">
       <SubType>Form</SubType>

@@ -29,8 +29,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             try
             {
                 user = DBHelper.getdataTable(
-                    "SELECT ID, RID, Password FROM user WHERE Email = @email AND User_Status = 'active'",
-                    new Dictionary<string, object> { { "@email", txtEmail.Text.Trim() } });
+                    "SELECT ID, RID, Password FROM user WHERE Email = " + AuthHelper.sql(txtEmail.Text) + " AND User_Status = 'active'");
             }
             catch (Exception ex)
             {
@@ -38,7 +37,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 return;
             }
 
-            if (user.Rows.Count == 0 || !DBHelper.VerifyPassword(txtPassword.Text, user.Rows[0]["Password"].ToString()))
+            if (user.Rows.Count == 0 || !AuthHelper.VerifyPassword(txtPassword.Text, user.Rows[0]["Password"].ToString()))
             {
                 MessageBox.Show("Wrong email or password.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPassword.Clear();
@@ -47,14 +46,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
 
             int roleId = Convert.ToInt32(user.Rows[0]["RID"]);
-            if (roleId != DBHelper.RoleCustomer && roleId != DBHelper.RoleAdmin)
+            if (roleId != AuthHelper.RoleCustomer && roleId != AuthHelper.RoleAdmin)
             {
                 MessageBox.Show("Your account has no valid role. Please contact an admin.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             DBHelper.loggedinuserid = Convert.ToInt32(user.Rows[0]["ID"]);
-            DBHelper.loggedinroleid = roleId;
+            AuthHelper.loggedinroleid = roleId;
 
             // The top bar shows the customer or admin page when this popup closes with OK.
             DialogResult = DialogResult.OK;

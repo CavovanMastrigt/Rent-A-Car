@@ -51,8 +51,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             try
             {
                 object count = DBHelper.getScalar(
-                    "SELECT COUNT(*) FROM user WHERE Email = @email",
-                    new Dictionary<string, object> { { "@email", txtEmail.Text.Trim() } });
+                    "SELECT COUNT(*) FROM user WHERE Email = " + AuthHelper.sql(txtEmail.Text));
 
                 if (Convert.ToInt32(count) > 0)
                 {
@@ -63,17 +62,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 // RID 0 = standard user
                 DBHelper.RunSql(
                     "INSERT INTO user (RID, Created_At, Password, Name, LastName, Address, City, Email, Phone_Number, User_Status) " +
-                    "VALUES (0, CURDATE(), @password, @name, @lastName, @address, @city, @email, @phone, 'active')",
-                    new Dictionary<string, object>
-                    {
-                        { "@password", DBHelper.HashPassword(txtPassword.Text) },
-                        { "@name", txtName.Text.Trim() },
-                        { "@lastName", txtLastName.Text.Trim() },
-                        { "@address", txtAddress.Text.Trim() },
-                        { "@city", txtCity.Text.Trim() },
-                        { "@email", txtEmail.Text.Trim() },
-                        { "@phone", txtPhone.Text.Trim() }
-                    });
+                    "VALUES (0, CURDATE(), " +
+                    AuthHelper.sql(AuthHelper.HashPassword(txtPassword.Text)) + ", " +
+                    AuthHelper.sql(txtName.Text) + ", " +
+                    AuthHelper.sql(txtLastName.Text) + ", " +
+                    AuthHelper.sql(txtAddress.Text) + ", " +
+                    AuthHelper.sql(txtCity.Text) + ", " +
+                    AuthHelper.sql(txtEmail.Text) + ", " +
+                    AuthHelper.sql(txtPhone.Text) + ", 'active')");
             }
             catch (Exception ex)
             {

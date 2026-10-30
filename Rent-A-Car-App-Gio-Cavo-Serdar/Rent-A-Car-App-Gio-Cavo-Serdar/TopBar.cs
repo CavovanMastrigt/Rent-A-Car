@@ -84,8 +84,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
 
             DataTable user = DBHelper.getdataTable(
-                "SELECT Name, LastName, Email FROM user WHERE ID = @id",
-                new Dictionary<string, object> { { "@id", DBHelper.loggedinuserid } });
+                "SELECT Name, LastName, Email FROM user WHERE ID = " + DBHelper.loggedinuserid);
 
             if (user.Rows.Count == 0)
             {
@@ -97,7 +96,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             btnProfile.Text = name + " " + lastName + "  ▾";
             lblInitials.Text = (name.Substring(0, 1) + lastName.Substring(0, 1)).ToUpper();
-            lblMenuName.Text = name + " " + lastName + (DBHelper.loggedinroleid == DBHelper.RoleAdmin ? "  (Admin)" : "");
+            lblMenuName.Text = name + " " + lastName + (AuthHelper.loggedinroleid == AuthHelper.RoleAdmin ? "  (Admin)" : "");
             lblMenuEmail.Text = user.Rows[0]["Email"].ToString();
 
             positionProfileButton();
@@ -255,7 +254,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         {
             hideMenuNow();
             DBHelper.loggedinuserid = 0;
-            DBHelper.loggedinroleid = 0;
+            AuthHelper.loggedinroleid = 0;
             loadUser();
             LoginChanged?.Invoke(this, EventArgs.Empty);
         }
