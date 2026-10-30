@@ -1,9 +1,70 @@
-# Userstories Mark (Serdar)
+# Userstories – Mark van Tessel (operationeel manager & medewerkers)
 
-* Als operational manager wil ik een handig overzicht zien van welke auto's er vandaag verhuurd zijn en aan wie, zodat ik de planning goed kan regelen*
-* Als operational manager wil ik de status van een auto (zoals 'beschikbaar', 'verhuurd' of 'in onderhoud') snel kunnen aanpassen, zodat iedereen direct de juiste informatie ziet*
-* Als operational manager wil ik dat alle reserveringen en formulieren digitaal gaan, zodat we minder papierwerk op kantoor hebben*
-* Als operational manager wil ik onze openingstijden en haal- en brengtijden kunnen instellen, zodat klanten alleen binnen die tijden een auto kunnen reserveren*
+Casus: Rent-a-Car (C# applicatie + MySQL-database)
+
+## US1 – Dagoverzicht reserveringen
+Als medewerker wil ik een automatisch overzicht van de reserveringen van vandaag, zodat ik weet welke auto's er worden opgehaald en teruggebracht.
+
+**Acceptatiecriteria**
+- Het overzicht toont klant, auto, ophaaltijd, retourtijd en status
+- De datum is te wisselen (gisteren, vandaag, morgen)
+- De reserveringen zijn gesorteerd op tijd
+
+## US2 – Planning van auto's
+Als operationeel manager wil ik een planning (agenda) per auto, zodat ik zie wie welke auto wanneer heeft.
+
+**Acceptatiecriteria**
+- Er is een weekweergave met alle auto's
+- Bezet, vrij, in onderhoud en buiten gebruik zijn te onderscheiden
+- Een klik op een blok toont de reserveringsdetails
+
+## US3 – Reservering maken namens klant
+Als medewerker wil ik een reservering maken voor een klant aan de balie of telefonisch, zodat klanten niet zelf online hoeven te boeken.
+
+**Acceptatiecriteria**
+- Een klant zoeken, een auto, periode en extra's kiezen
+- Beschikbaarheidscontrole, openingstijden en de limiet van 1 jaar vooruit gelden ook hier
+- Een gepauzeerde of geblokkeerde klant kan niet reserveren
+- Een factuur wordt automatisch aangemaakt
+
+## US4 – Reservering wijzigen of annuleren namens klant
+Als medewerker wil ik reserveringen wijzigen of annuleren, zodat ik klanten kan helpen die dat telefonisch vragen.
+
+**Acceptatiecriteria**
+- Bij wijzigen wordt de beschikbaarheid opnieuw gecontroleerd en de prijs herberekend
+- Annuleren volgt de regel van 24 uur vooraf, met een bevestigingsvraag
+
+## US5 – Ophalen en terugbrengen registreren
+Als medewerker wil ik vastleggen dat een auto is opgehaald of teruggebracht, zodat de status altijd klopt.
+
+**Acceptatiecriteria**
+- Reserveringsstatus: Gereserveerd → Opgehaald → Teruggebracht (of Geannuleerd)
+- Bij ophalen wordt de auto Verhuurd, bij terugbrengen Beschikbaar
+- Ophalen en terugbrengen kan alleen binnen de openingstijden
+- Bij schade kan de auto direct op Buiten gebruik worden gezet, met een korte opmerking
+
+## US6 – Extra's en dagprijzen beheren
+Als beheerder wil ik extra's (navigatie, kinderstoeltje, luxe-pakket) en dagprijzen beheren, zodat het aanbod actueel is.
+
+**Acceptatiecriteria**
+- Extra's kunnen worden toegevoegd, bewerkt en uit gebruik genomen
+- Prijswijzigingen gelden alleen voor nieuwe reserveringen
+
+## US7 – Rollen en inloggen medewerkers
+Als beheerder wil ik medewerkers accounts met een rol geven, zodat iedereen alleen ziet wat hij nodig heeft.
+
+**Acceptatiecriteria**
+- Rollen: klant, medewerker, beheerder
+- Medewerkers hebben geen toegang tot dashboard en rapportages (alleen eigenaren)
+
+## US8 – Klantgegevens inzien door medewerker
+Als medewerker wil ik klantgegevens kunnen zoeken en bekijken, zodat ik snel een klant kan helpen.
+
+**Acceptatiecriteria**
+- Zoeken kan op naam of e-mailadres
+- Het overzicht toont ook de reserveringen van de klant
+
+---
 
 # Userstories Klant (Cavo)
 
