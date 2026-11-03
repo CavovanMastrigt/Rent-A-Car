@@ -46,11 +46,21 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
 
             int roleId = Convert.ToInt32(user.Rows[0]["RID"]);
-            if (roleId != AuthHelper.RoleCustomer && roleId != AuthHelper.RoleAdmin)
+
+            if (roleId != AuthHelper.RoleCustomer &&
+               roleId != AuthHelper.RoleAdmin &&
+                    roleId != AuthHelper.RoleEmployee)
             {
-                MessageBox.Show("Your account has no valid role. Please contact an admin.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Your account has no valid role. Please contact an admin.",
+                    "Login",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
+
+
+
 
             DBHelper.loggedinuserid = Convert.ToInt32(user.Rows[0]["ID"]);
             AuthHelper.loggedinroleid = roleId;

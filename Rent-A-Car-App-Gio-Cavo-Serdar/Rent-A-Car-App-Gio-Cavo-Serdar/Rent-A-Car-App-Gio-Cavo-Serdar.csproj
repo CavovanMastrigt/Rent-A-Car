@@ -64,7 +64,13 @@
       <DependentUpon>CustomerPage.cs</DependentUpon>
     </Compile>
     <Compile Include="AuthHelper.cs" />
+    <Compile Include="DayOverviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="DBHelper.cs" />
+    <Compile Include="EmployeePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="HomeForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -13,7 +13,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         public const int RoleCustomer = 0;
         public const int RoleAdmin = 1;
-
+        public const int RoleEmployee = 2;
         // Puts user input in quotes for a DBHelper query, e.g. "WHERE Email = " + AuthHelper.sql(txtEmail.Text).
         // Quotes and backslashes are escaped, so the input can't break out of the string (SQL injection).
         public static string sql(string value)
