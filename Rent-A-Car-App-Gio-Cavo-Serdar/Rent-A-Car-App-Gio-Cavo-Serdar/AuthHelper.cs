@@ -9,7 +9,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
     internal class AuthHelper
     {
-        public static int loggedinroleid = 0; // 0 = customer, 1 = admin
+        public static int loggedinroleid = 0; // 0 = customer, 1 = admin, 2 = employee
 
         public const int RoleCustomer = 0;
         public const int RoleAdmin = 1;
