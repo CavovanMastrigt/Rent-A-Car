@@ -102,6 +102,7 @@
     <Compile Include="RegisterForm.Designer.cs">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="StatusText.cs" />
     <Compile Include="TopBar.cs">
       <SubType>UserControl</SubType>
     </Compile>

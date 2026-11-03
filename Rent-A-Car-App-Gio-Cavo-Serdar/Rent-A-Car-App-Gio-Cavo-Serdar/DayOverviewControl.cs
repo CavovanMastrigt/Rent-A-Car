@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
-    // Employee screen (user story 1): all pick-ups and returns planned for one day, sorted by time.
+    // Medewerkerscherm (user story 1): alle ophalingen en terugbrengingen van één dag, gesorteerd op tijd.
     public class DayOverviewControl : UserControl
     {
         private static readonly Color AccentColor = Color.FromArgb(79, 70, 229);
@@ -24,7 +24,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             BackColor = Color.White;
             Font = new Font("Segoe UI", 9.75F);
 
-            // Table with the reservations. Added first so it fills what the top panel leaves over.
+            // Tabel met de reserveringen. Eerst toegevoegd, zodat hij de ruimte vult die het bovenpaneel overlaat.
             grid = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -52,7 +52,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             grid.DefaultCellStyle.SelectionForeColor = TextColor;
             grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(249, 250, 251);
 
-            // Top panel with the day picker.
+            // Bovenpaneel met de dagkiezer.
             var top = new Panel { Dock = DockStyle.Top, Height = 56, BackColor = Color.White };
 
             Button btnPrev = makeButton("‹", 16, 36);
@@ -64,7 +64,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 Value = DateTime.Today
             };
             Button btnNext = makeButton("›", 304, 36);
-            Button btnToday = makeButton("Today", 346, 80);
+            Button btnToday = makeButton("Vandaag", 346, 80);
             btnToday.BackColor = AccentColor;
             btnToday.ForeColor = Color.White;
 
@@ -124,48 +124,55 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             return button;
         }
 
-        // Pick-ups use the planned start of a reservation, returns the planned end. Cancelled reservations are left out.
+        // Ophalingen gebruiken de geplande start van een reservering, terugbrengingen het geplande einde. Geannuleerde reserveringen blijven weg.
         private void loadData()
         {
             string day = "'" + dtpDay.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "'";
 
             string sql =
-                "SELECT r.ID AS `No`, TIME_FORMAT(r.Date_Started, '%H:%i') AS `Time`, 'Pick-up' AS `Type`, " +
-                "CONCAT(u.Name, ' ', u.LastName) AS `Customer`, " +
-                "CONCAT(c.Brand, ' ', c.Model, ' (', c.License_Plate, ')') AS `Car`, r.Status AS `Status` " +
+                "SELECT r.ID AS `Nr`, TIME_FORMAT(r.Date_Started, '%H:%i') AS `Tijd`, 'Ophalen' AS `Soort`, " +
+                "CONCAT(u.Name, ' ', u.LastName) AS `Klant`, " +
+                "CONCAT(c.Brand, ' ', c.Model, ' (', c.License_Plate, ')') AS `Auto`, r.Status AS `Status` " +
                 "FROM rental r JOIN user u ON u.ID = r.UserID JOIN car c ON c.ID = r.CarID " +
                 "WHERE DATE(r.Date_Started) = " + day + " AND r.Status <> 'cancelled' " +
                 "UNION ALL " +
-                "SELECT r.ID, TIME_FORMAT(r.Date_Planned_Ending, '%H:%i'), 'Return', " +
+                "SELECT r.ID, TIME_FORMAT(r.Date_Planned_Ending, '%H:%i'), 'Terugbrengen', " +
                 "CONCAT(u.Name, ' ', u.LastName), " +
                 "CONCAT(c.Brand, ' ', c.Model, ' (', c.License_Plate, ')'), r.Status " +
                 "FROM rental r JOIN user u ON u.ID = r.UserID JOIN car c ON c.ID = r.CarID " +
                 "WHERE DATE(r.Date_Planned_Ending) = " + day + " AND r.Status <> 'cancelled' " +
-                "ORDER BY `Time`, `Type`";
+                "ORDER BY `Tijd`, `Soort`";
 
             try
             {
                 DataTable table = DBHelper.getdataTable(sql);
+
+                // De database bewaart de statussen in het Engels; op het scherm tonen we ze in het Nederlands.
+                foreach (DataRow row in table.Rows)
+                {
+                    row["Status"] = StatusText.Rental(Convert.ToString(row["Status"]));
+                }
+
                 grid.DataSource = table;
 
-                if (grid.Columns.Contains("No"))
+                if (grid.Columns.Contains("Nr"))
                 {
-                    grid.Columns["No"].FillWeight = 30;
+                    grid.Columns["Nr"].FillWeight = 30;
                 }
-                if (grid.Columns.Contains("Time"))
+                if (grid.Columns.Contains("Tijd"))
                 {
-                    grid.Columns["Time"].FillWeight = 40;
+                    grid.Columns["Tijd"].FillWeight = 40;
                 }
-                if (grid.Columns.Contains("Type"))
+                if (grid.Columns.Contains("Soort"))
                 {
-                    grid.Columns["Type"].FillWeight = 60;
+                    grid.Columns["Soort"].FillWeight = 60;
                 }
 
                 int pickUps = 0;
                 int returns = 0;
                 foreach (DataRow row in table.Rows)
                 {
-                    if (row["Type"].ToString() == "Pick-up")
+                    if (row["Soort"].ToString() == "Ophalen")
                     {
                         pickUps++;
                     }
@@ -175,11 +182,11 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     }
                 }
 
-                lblSummary.Text = pickUps + " pick-up(s), " + returns + " return(s)";
+                lblSummary.Text = pickUps + " ophaling(en), " + returns + " terugbrenging(en)";
             }
             catch (Exception ex)
             {
-                MessageBox.Show("The reservations could not be loaded: " + ex.Message, "Day overview",
+                MessageBox.Show("De reserveringen konden niet worden geladen: " + ex.Message, "Dagoverzicht",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

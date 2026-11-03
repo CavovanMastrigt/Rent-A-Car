@@ -7,8 +7,8 @@ using System.Windows.Forms;
 
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
-    // Employee screen (user story 2): week planning with every car as a row and the days of the week as columns.
-    // A cell shows who has the car that day, or that the car is in maintenance / out of service.
+    // Medewerkerscherm (user story 2): weekplanning met elke auto als rij en de dagen van de week als kolommen.
+    // Een cel toont wie de auto die dag heeft, of dat de auto in onderhoud of buiten gebruik is.
     public class PlanningControl : UserControl
     {
         private static readonly Color AccentColor = Color.FromArgb(79, 70, 229);
@@ -23,7 +23,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private static readonly Color MaintenanceColor = Color.FromArgb(254, 243, 199);
         private static readonly Color OutOfServiceColor = Color.FromArgb(254, 226, 226);
 
-        // One reservation, kept in the Tag of every cell it covers.
+        // Datums en dagnamen worden Nederlands getoond (niet voor SQL, daar blijft het yyyy-MM-dd).
+        private static readonly CultureInfo Dutch = new CultureInfo("nl-NL");
+
+        // Eén reservering, bewaard in de Tag van elke cel die hij beslaat.
         private class Booking
         {
             public int RentalId;
@@ -46,7 +49,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             Font = new Font("Segoe UI", 9.75F);
             weekStart = mondayOf(DateTime.Today);
 
-            // Table: first column is the car, then one column per day. Added first so it fills what is left over.
+            // Tabel: eerste kolom is de auto, daarna één kolom per dag. Eerst toegevoegd, zodat hij de overgebleven ruimte vult.
             grid = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -78,7 +81,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             grid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             grid.CellClick += (s, e) => showDetails(e.RowIndex, e.ColumnIndex);
 
-            // Details of the clicked cell, below the table.
+            // Details van de aangeklikte cel, onder de tabel.
             lblDetails = new Label
             {
                 Dock = DockStyle.Bottom,
@@ -87,10 +90,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 ForeColor = TextColor,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Padding = new Padding(16, 0, 16, 0),
-                Text = "Click a cell to see the details."
+                Text = "Klik op een cel voor de details."
             };
 
-            // Top panel with the week navigation and the legend.
+            // Bovenpaneel met de weeknavigatie en de legenda.
             var top = new Panel { Dock = DockStyle.Top, Height = 56, BackColor = Color.White };
 
             Button btnPrev = makeButton("‹", 16, 36);
@@ -103,10 +106,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 Font = new Font("Segoe UI", 10F, FontStyle.Bold)
             };
             Button btnNext = makeButton("›", 314, 36);
-            Button btnThisWeek = makeButton("This week", 356, 96);
+            Button btnThisWeek = makeButton("Deze week", 356, 100);
             btnThisWeek.BackColor = AccentColor;
             btnThisWeek.ForeColor = Color.White;
-            Button btnRefresh = makeButton("Refresh", 460, 80);
+            Button btnRefresh = makeButton("Vernieuwen", 464, 100);
 
             var legend = new FlowLayoutPanel
             {
@@ -116,11 +119,11 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 WrapContents = false,
                 Padding = new Padding(0, 14, 12, 0)
             };
-            legend.Controls.Add(makeLegend("Reserved", ReservedColor));
-            legend.Controls.Add(makeLegend("Ongoing", OngoingColor));
-            legend.Controls.Add(makeLegend("Completed", CompletedColor));
-            legend.Controls.Add(makeLegend("Maintenance", MaintenanceColor));
-            legend.Controls.Add(makeLegend("Out of service", OutOfServiceColor));
+            legend.Controls.Add(makeLegend("Gereserveerd", ReservedColor));
+            legend.Controls.Add(makeLegend("Verhuurd", OngoingColor));
+            legend.Controls.Add(makeLegend("Afgerond", CompletedColor));
+            legend.Controls.Add(makeLegend("In onderhoud", MaintenanceColor));
+            legend.Controls.Add(makeLegend("Buiten gebruik", OutOfServiceColor));
 
             top.Controls.Add(btnPrev);
             top.Controls.Add(lblRange);
@@ -142,7 +145,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             };
             btnRefresh.Click += (s, e) => loadData();
 
-            // Reservations can change on other tabs, so reload every time this tab is shown again.
+            // Reserveringen kunnen op andere tabbladen veranderen, dus laad opnieuw zodra dit tabblad weer getoond wordt.
             VisibleChanged += (s, e) =>
             {
                 if (ready && Visible)
@@ -176,7 +179,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         private static string shortDateTime(DateTime date)
         {
-            return date.ToString("d MMM HH:mm", CultureInfo.InvariantCulture);
+            return date.ToString("d MMM HH:mm", Dutch);
         }
 
         private static Color darker(Color color)
@@ -220,11 +223,11 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             loadData();
         }
 
-        // Loads all cars and all reservations that touch the shown week (cancelled ones are left out).
+        // Laadt alle auto's en alle reserveringen die de getoonde week raken (geannuleerde blijven weg).
         private void loadData()
         {
-            lblRange.Text = weekStart.ToString("d MMM", CultureInfo.InvariantCulture) + " – " +
-                            weekStart.AddDays(6).ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+            lblRange.Text = weekStart.ToString("d MMM", Dutch) + " – " +
+                            weekStart.AddDays(6).ToString("d MMM yyyy", Dutch);
 
             string start = sqlDate(weekStart);
             string endExclusive = sqlDate(weekStart.AddDays(7));
@@ -248,7 +251,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
             catch (Exception ex)
             {
-                MessageBox.Show("The planning could not be loaded: " + ex.Message, "Planning",
+                MessageBox.Show("De planning kon niet worden geladen: " + ex.Message, "Planning",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -275,7 +278,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             grid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "car",
-                HeaderText = "Car",
+                HeaderText = "Auto",
                 FillWeight = 150,
                 SortMode = DataGridViewColumnSortMode.NotSortable
             });
@@ -284,7 +287,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 grid.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "day" + i,
-                    HeaderText = weekStart.AddDays(i).ToString("ddd d MMM", CultureInfo.InvariantCulture),
+                    HeaderText = weekStart.AddDays(i).ToString("ddd d MMM", Dutch),
                     FillWeight = 100,
                     SortMode = DataGridViewColumnSortMode.NotSortable
                 });
@@ -320,13 +323,13 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     }
                     else if (carStatus == "maintenance")
                     {
-                        setCell(cell, "Maintenance", MaintenanceColor);
-                        cell.Tag = "The car is in maintenance.";
+                        setCell(cell, "In onderhoud", MaintenanceColor);
+                        cell.Tag = "De auto is in onderhoud.";
                     }
                     else if (carStatus == "disabled")
                     {
-                        setCell(cell, "Out of service", OutOfServiceColor);
-                        cell.Tag = "The car is out of service.";
+                        setCell(cell, "Buiten gebruik", OutOfServiceColor);
+                        cell.Tag = "De auto is buiten gebruik.";
                     }
                     else
                     {
@@ -337,8 +340,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             grid.ClearSelection();
             lblDetails.Text = cars.Rows.Count == 0
-                ? "There are no cars yet."
-                : "Click a cell to see the details.";
+                ? "Er zijn nog geen auto's."
+                : "Klik op een cel voor de details.";
         }
 
         private static Booking findBooking(List<Booking> bookings, int carId, DateTime day)
@@ -389,15 +392,15 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
 
             DateTime day = weekStart.AddDays(columnIndex - 1);
-            string dayText = day.ToString("ddd d MMM", CultureInfo.InvariantCulture);
+            string dayText = day.ToString("ddd d MMM", Dutch);
             object tag = grid[columnIndex, rowIndex].Tag;
             Booking booking = tag as Booking;
 
             if (booking != null)
             {
-                lblDetails.Text = carName + "  |  " + dayText + "  |  Reservation #" + booking.RentalId + ": " +
-                                  booking.Customer + ", " + booking.Status + ", " +
-                                  shortDateTime(booking.Start) + " to " + shortDateTime(booking.End);
+                lblDetails.Text = carName + "  |  " + dayText + "  |  Reservering #" + booking.RentalId + ": " +
+                                  booking.Customer + ", " + StatusText.Rental(booking.Status).ToLowerInvariant() + ", " +
+                                  shortDateTime(booking.Start) + " tot " + shortDateTime(booking.End);
             }
             else if (tag is string)
             {
@@ -405,7 +408,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
             else
             {
-                lblDetails.Text = carName + "  |  " + dayText + "  |  Free.";
+                lblDetails.Text = carName + "  |  " + dayText + "  |  Vrij.";
             }
         }
     }
