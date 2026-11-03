@@ -83,6 +83,9 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewReservationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="PlanningControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
