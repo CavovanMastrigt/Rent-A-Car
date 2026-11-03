@@ -1,7 +1,8 @@
+
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-
+ 
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
     // Page shown under the top bar for role 2 (employee).
@@ -20,7 +21,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             Controls.Add(tabs);
 
             addTab("Day overview", new DayOverviewControl());
-            // Next tabs: Planning, New reservation, Pick-up / return, Extras & prices, Customers.
+            addTab("Planning", new PlanningControl());
+            // Next tabs: New reservation, Pick-up / return, Extras & prices, Customers.
         }
 
         private void addTab(string title, UserControl content)

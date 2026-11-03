@@ -43,6 +43,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             };
             grid.ColumnHeadersDefaultCellStyle.BackColor = HeaderColor;
             grid.ColumnHeadersDefaultCellStyle.ForeColor = TextColor;
+            grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = HeaderColor;
+            grid.ColumnHeadersDefaultCellStyle.SelectionForeColor = TextColor;
             grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             grid.ColumnHeadersHeight = 36;
             grid.DefaultCellStyle.ForeColor = TextColor;
