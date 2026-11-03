@@ -4,8 +4,8 @@ using System.Windows.Forms;
 
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
-    // Page shown under the top bar for role 2 (employee).
-    // Every feature is its own UserControl on its own tab, so features can be added without touching each other.
+    // Pagina onder de topbalk voor rol 2 (medewerker).
+    // Elke functie is een eigen UserControl op een eigen tabblad, zodat functies los van elkaar toegevoegd kunnen worden.
     public class EmployeePage : UserControl
     {
         private readonly TabControl tabs;
@@ -19,8 +19,9 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             tabs = new TabControl { Dock = DockStyle.Fill };
             Controls.Add(tabs);
 
-            addTab("Day overview", new DayOverviewControl());
-            // Next tabs: Planning, New reservation, Pick-up / return, Extras & prices, Customers.
+            addTab("Dagoverzicht", new DayOverviewControl());
+            addTab("Planning", new PlanningControl());
+            // Volgende tabbladen: Nieuwe reservering, Ophalen / terugbrengen, Extra's en prijzen, Klanten.
         }
 
         private void addTab(string title, UserControl content)

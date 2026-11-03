@@ -83,6 +83,9 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlanningControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ProfileForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +102,7 @@
     <Compile Include="RegisterForm.Designer.cs">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="StatusText.cs" />
     <Compile Include="TopBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
