@@ -57,6 +57,9 @@
     <Compile Include="AdminPage.Designer.cs">
       <DependentUpon>AdminPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChangeCancelControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CustomerPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -82,6 +85,13 @@
     </Compile>
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewReservationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OpeningHours.cs" />
+    <Compile Include="PickupReturnControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PlanningControl.cs">
       <SubType>UserControl</SubType>

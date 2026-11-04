@@ -22,6 +22,24 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
         }
 
+        // Status van een klant (user.User_Status).
+        public static string Customer(string status)
+        {
+            switch ((status ?? "").Trim().ToLowerInvariant())
+            {
+                case "active":
+                    return "Actief";
+                case "paused":
+                    return "Gepauzeerd";
+                case "disabled":
+                    return "Uitgeschakeld";
+                case "terminated":
+                    return "Beëindigd";
+                default:
+                    return status;
+            }
+        }
+
         // Status van een auto (car.Car_Status).
         public static string Car(string status)
         {

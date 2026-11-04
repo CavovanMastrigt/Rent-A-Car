@@ -94,6 +94,15 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     loadData();
                 }
             };
+
+            // Reserveringen kunnen op andere tabbladen veranderen, dus laad opnieuw zodra dit tabblad weer getoond wordt.
+            VisibleChanged += (s, e) =>
+            {
+                if (ready && Visible)
+                {
+                    loadData();
+                }
+            };
         }
 
         protected override void OnLoad(EventArgs e)
