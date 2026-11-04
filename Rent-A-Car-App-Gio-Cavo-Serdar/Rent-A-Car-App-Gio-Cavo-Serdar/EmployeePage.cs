@@ -22,7 +22,9 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             addTab("Dagoverzicht", new DayOverviewControl());
             addTab("Planning", new PlanningControl());
             addTab("Nieuwe reservering", new NewReservationControl());
-            // Volgende tabbladen: Ophalen / terugbrengen, Wijzigen / annuleren, Extra's en prijzen, Klanten.
+            addTab("Ophalen / terugbrengen", new PickupReturnControl());
+            addTab("Wijzigen / annuleren", new ChangeCancelControl());
+            // Volgende tabbladen: Extra's en prijzen, Klanten.
         }
 
         private void addTab(string title, UserControl content)

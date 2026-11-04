@@ -22,12 +22,6 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         private static readonly CultureInfo Dutch = new CultureInfo("nl-NL");
 
-        // Mogelijke schrijfwijzen van een weekdag in de tabel openingtimes, geïndexeerd op (int)DayOfWeek (zondag = 0).
-        private static readonly string[] EnglishDays = { "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday" };
-        private static readonly string[] EnglishShort = { "sun", "mon", "tue", "wed", "thu", "fri", "sat" };
-        private static readonly string[] DutchDays = { "zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag" };
-        private static readonly string[] DutchShort = { "zo", "ma", "di", "wo", "do", "vr", "za" };
-
         // Betaaltermijn van de factuur in dagen.
         private const int InvoiceDays = 14;
 
@@ -83,7 +77,6 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private readonly Label lblMessage;
         private readonly Button btnSave;
 
-        private DataTable openingTimes = new DataTable();
         private bool ready = false;
         private bool adjusting = false;
 
@@ -452,15 +445,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         private void loadOpeningTimes()
         {
-            try
-            {
-                openingTimes = DBHelper.getdataTable(
-                    "SELECT Weekday, Time_Open, Time_Closed, Is_Closed FROM openingtimes");
-            }
-            catch (Exception)
-            {
-                openingTimes = new DataTable();
-            }
+            OpeningHours.Load();
         }
 
         // Toont de auto's die actief zijn en in de gekozen periode niet al gereserveerd zijn.
@@ -515,62 +500,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         // ---------- Openingstijden ----------
 
-        private static TimeSpan toTimeSpan(object value)
-        {
-            if (value is TimeSpan)
-            {
-                return (TimeSpan)value;
-            }
-            if (value is DateTime)
-            {
-                return ((DateTime)value).TimeOfDay;
-            }
-            return TimeSpan.Parse(Convert.ToString(value), CultureInfo.InvariantCulture);
-        }
-
-        private DataRow findOpeningRow(DayOfWeek day)
-        {
-            int d = (int)day;
-            string iso = (d == 0 ? 7 : d).ToString();
-
-            foreach (DataRow row in openingTimes.Rows)
-            {
-                string weekday = Convert.ToString(row["Weekday"]).Trim().ToLowerInvariant();
-                if (weekday == EnglishDays[d] || weekday == EnglishShort[d] ||
-                    weekday == DutchDays[d] || weekday == DutchShort[d] ||
-                    weekday == iso || (d == 0 && weekday == "0"))
-                {
-                    return row;
-                }
-            }
-            return null;
-        }
-
         // Geeft een foutmelding als het moment buiten de openingstijden valt, anders null.
-        private string checkOpeningHours(DateTime moment, string what)
+        private static string checkOpeningHours(DateTime moment, string what)
         {
-            DataRow row = findOpeningRow(moment.DayOfWeek);
-            if (row == null)
-            {
-                return null;
-            }
-
-            string dayName = Dutch.DateTimeFormat.GetDayName(moment.DayOfWeek);
-            if (Convert.ToBoolean(row["Is_Closed"]))
-            {
-                return what + " kan niet op " + dayName + ": dan zijn we gesloten.";
-            }
-
-            TimeSpan open = toTimeSpan(row["Time_Open"]);
-            TimeSpan closed = toTimeSpan(row["Time_Closed"]);
-            TimeSpan time = moment.TimeOfDay;
-            if (time < open || time > closed)
-            {
-                return what + " kan op " + dayName + " alleen tussen " +
-                       open.ToString(@"hh\:mm") + " en " + closed.ToString(@"hh\:mm") + ".";
-            }
-
-            return null;
+            return OpeningHours.Check(moment, what);
         }
 
         // ---------- Controles ----------
@@ -665,7 +598,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 int days = countDays(start, end);
                 lblPeriodInfo.Text = "Duur: " + days + " dag(en), gerekend per begonnen dag van 24 uur." +
-                                     (openingTimes.Rows.Count == 0
+                                     (!OpeningHours.IsConfigured
                                          ? " Er zijn nog geen openingstijden ingesteld, dus die worden niet gecontroleerd."
                                          : "");
 
