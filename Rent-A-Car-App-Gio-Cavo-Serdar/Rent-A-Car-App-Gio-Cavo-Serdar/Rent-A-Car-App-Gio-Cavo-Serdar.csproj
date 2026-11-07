@@ -74,6 +74,9 @@
     <Compile Include="EmployeePage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="ExtrasPricesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="HomeForm.cs">
       <SubType>Form</SubType>
     </Compile>
