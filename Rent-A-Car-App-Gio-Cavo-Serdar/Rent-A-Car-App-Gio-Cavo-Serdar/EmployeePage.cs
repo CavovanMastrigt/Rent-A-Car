@@ -7,91 +7,125 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
     public class EmployeePage : UserControl
     {
-        private readonly TabControl tabs;
+        private readonly Panel sidebar;
+        private readonly Panel contentPanel;
+        private Button activeButton;
 
         public EmployeePage()
         {
             BackColor = UITheme.Background;
-            Font = UITheme.Body;
-            Padding = new Padding(20);
+            Padding = new Padding(15);
 
-            // Hoofdcontainer
             var layout = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                ColumnCount = 1,
-                RowCount = 2,
+                ColumnCount = 2,
+                RowCount = 1,
                 BackColor = UITheme.Background
             };
 
-            layout.RowStyles.Add(
-                new RowStyle(SizeType.Absolute, 85));
+            layout.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Absolute, 220));
 
-            layout.RowStyles.Add(
-                new RowStyle(SizeType.Percent, 100));
+            layout.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Percent, 100));
 
-            // Paginatitel
-            var header = new Panel
+            sidebar = new Panel
             {
                 Dock = DockStyle.Fill,
-                BackColor = UITheme.Background
+                BackColor = Color.White,
+                Padding = new Padding(10)
             };
 
-            var lblTitle = new Label
-            {
-                Text = "Medewerkersdashboard",
-                Font = UITheme.Heading,
-                ForeColor = UITheme.Text,
-                AutoSize = true,
-                Location = new Point(0, 0)
-            };
-
-            var lblSubtitle = new Label
-            {
-                Text = "Beheer dagelijkse verhuuractiviteiten en reserveringen.",
-                Font = UITheme.SubHeading,
-                ForeColor = UITheme.Muted,
-                AutoSize = true,
-                Location = new Point(2, 38)
-            };
-
-            header.Controls.Add(lblTitle);
-            header.Controls.Add(lblSubtitle);
-
-            // Tabbladen
-            tabs = new TabControl
+            contentPanel = new Panel
             {
                 Dock = DockStyle.Fill,
-                Font = UITheme.Button,
-                BackColor = UITheme.Surface,
-                Padding = new Point(14, 7)
+                BackColor = UITheme.Background,
+                Padding = new Padding(20)
             };
 
-            layout.Controls.Add(header, 0, 0);
-            layout.Controls.Add(tabs, 0, 1);
+            var lblLogo = new Label
+            {
+                Text = "RENT A CAR",
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                ForeColor = UITheme.Primary,
+                Dock = DockStyle.Top,
+                Height = 65,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            sidebar.Controls.Add(lblLogo);
+
+            layout.Controls.Add(sidebar, 0, 0);
+            layout.Controls.Add(contentPanel, 1, 0);
 
             Controls.Add(layout);
 
-            addTab("Dagoverzicht", new DayOverviewControl());
-            addTab("Planning", new PlanningControl());
-            addTab("Nieuwe reservering", new NewReservationControl());
-            addTab("Ophalen / terugbrengen", new PickupReturnControl());
-            addTab("Wijzigen / annuleren", new ChangeCancelControl());
-            addTab("Extra's en prijzen", new ExtrasPricesControl());
+            AddMenuButton("Dagoverzicht",
+                () => new DayOverviewControl());
+
+            AddMenuButton("Planning",
+                () => new PlanningControl());
+
+            AddMenuButton("Nieuwe reservering",
+                () => new NewReservationControl());
+
+            AddMenuButton("Ophalen / terugbrengen",
+                () => new PickupReturnControl());
+
+            AddMenuButton("Wijzigen / annuleren",
+                () => new ChangeCancelControl());
+
+            AddMenuButton("Extra's en prijzen",
+                () => new ExtrasPricesControl());
         }
 
-        private void addTab(string title, UserControl content)
+        private void AddMenuButton(
+            string title,
+            Func<UserControl> createPage)
         {
-            var page = new TabPage(title)
+            var button = new Button
             {
-                BackColor = UITheme.Surface,
-                Padding = new Padding(8)
+                Text = title,
+                Dock = DockStyle.Top,
+                Height = 48,
+                FlatStyle = FlatStyle.Flat,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Padding = new Padding(12, 0, 0, 0),
+                Font = UITheme.Body,
+                BackColor = Color.White,
+                ForeColor = UITheme.Text,
+                Cursor = Cursors.Hand
             };
 
-            content.Dock = DockStyle.Fill;
+            button.FlatAppearance.BorderSize = 0;
 
-            page.Controls.Add(content);
-            tabs.TabPages.Add(page);
+            button.Click += (s, e) =>
+            {
+                if (activeButton != null)
+                {
+                    activeButton.BackColor = Color.White;
+                    activeButton.ForeColor = UITheme.Text;
+                }
+
+                activeButton = button;
+                button.BackColor = UITheme.Selection;
+                button.ForeColor = UITheme.Primary;
+
+                contentPanel.Controls.Clear();
+
+                UserControl page = createPage();
+                page.Dock = DockStyle.Fill;
+
+                contentPanel.Controls.Add(page);
+            };
+
+            sidebar.Controls.Add(button);
+            sidebar.Controls.SetChildIndex(button, 0);
+
+            // Open eerste pagina automatisch.
+            if (activeButton == null)
+                button.PerformClick();
         }
     }
 }
