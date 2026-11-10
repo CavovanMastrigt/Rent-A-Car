@@ -1,131 +1,82 @@
-
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
+    // Pagina onder de topbalk voor rol 2 (medewerker).
     public class EmployeePage : UserControl
     {
-        private readonly Panel sidebar;
-        private readonly Panel contentPanel;
-        private Button activeButton;
+        private readonly TabControl tabs = new TabControl
+        {
+            Dock = DockStyle.Fill,
+            Name = nameof(tabs)
+        };
 
         public EmployeePage()
         {
-            BackColor = UITheme.Background;
-            Padding = new Padding(15);
+            BackColor = Color.White;
+            ForeColor = Color.FromArgb(31, 41, 55);
+            Font = new Font("Segoe UI", 9.75F);
+            Padding = new Padding(16);
 
-            var layout = new TableLayoutPanel
+            SuspendLayout();
+
+            AddCommonTabs();
+
+            if (AuthHelper.loggedinroleid == AuthHelper.RoleAdmin)
             {
-                Dock = DockStyle.Fill,
-                ColumnCount = 2,
-                RowCount = 1,
-                BackColor = UITheme.Background
-            };
+                AddAdminTabs();
+            }
 
-            layout.ColumnStyles.Add(
-                new ColumnStyle(SizeType.Absolute, 220));
+            Controls.Add(tabs);
 
-            layout.ColumnStyles.Add(
-                new ColumnStyle(SizeType.Percent, 100));
-
-            sidebar = new Panel
+            if (tabs.TabPages.Count > 0)
             {
-                Dock = DockStyle.Fill,
-                BackColor = Color.White,
-                Padding = new Padding(10)
-            };
+                tabs.SelectedIndex = 0;
+            }
 
-            contentPanel = new Panel
-            {
-                Dock = DockStyle.Fill,
-                BackColor = UITheme.Background,
-                Padding = new Padding(20)
-            };
-
-            var lblLogo = new Label
-            {
-                Text = "RENT A CAR",
-                Font = new Font("Segoe UI", 16, FontStyle.Bold),
-                ForeColor = UITheme.Primary,
-                Dock = DockStyle.Top,
-                Height = 65,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-
-            sidebar.Controls.Add(lblLogo);
-
-            layout.Controls.Add(sidebar, 0, 0);
-            layout.Controls.Add(contentPanel, 1, 0);
-
-            Controls.Add(layout);
-
-            AddMenuButton("Dagoverzicht",
-                () => new DayOverviewControl());
-
-            AddMenuButton("Planning",
-                () => new PlanningControl());
-
-            AddMenuButton("Nieuwe reservering",
-                () => new NewReservationControl());
-
-            AddMenuButton("Ophalen / terugbrengen",
-                () => new PickupReturnControl());
-
-            AddMenuButton("Wijzigen / annuleren",
-                () => new ChangeCancelControl());
-
-            AddMenuButton("Extra's en prijzen",
-                () => new ExtrasPricesControl());
+            ResumeLayout(false);
         }
 
-        private void AddMenuButton(
-            string title,
-            Func<UserControl> createPage)
+        private void AddCommonTabs()
         {
-            var button = new Button
+            AddTab("Dagoverzicht", new DayOverviewControl());
+            AddTab("Planning", new PlanningControl());
+            AddTab("Nieuwe reservering", new NewReservationControl());
+            AddTab("Ophalen / terugbrengen", new PickupReturnControl());
+            AddTab("Wijzigen / annuleren", new ChangeCancelControl());
+            AddTab("Klanten", new CustomersControl());
+        }
+
+        private void AddAdminTabs()
+        {
+            AddTab("Extra's en prijzen", new ExtrasPricesControl());
+            AddTab("Gebruikers en rollen", new UsersRolesControl());
+        }
+
+        // Voegt een UserControl toe als een nieuw tabblad.
+        public void AddTab(string title, Control content)
+        {
+            if (string.IsNullOrWhiteSpace(title))
             {
-                Text = title,
-                Dock = DockStyle.Top,
-                Height = 48,
-                FlatStyle = FlatStyle.Flat,
-                TextAlign = ContentAlignment.MiddleLeft,
-                Padding = new Padding(12, 0, 0, 0),
-                Font = UITheme.Body,
+                throw new ArgumentException("Een tabblad moet een titel hebben.", nameof(title));
+            }
+
+            if (content == null)
+            {
+                throw new ArgumentNullException(nameof(content));
+            }
+
+            TabPage page = new TabPage(title)
+            {
                 BackColor = Color.White,
-                ForeColor = UITheme.Text,
-                Cursor = Cursors.Hand
+                Padding = new Padding(4)
             };
 
-            button.FlatAppearance.BorderSize = 0;
-
-            button.Click += (s, e) =>
-            {
-                if (activeButton != null)
-                {
-                    activeButton.BackColor = Color.White;
-                    activeButton.ForeColor = UITheme.Text;
-                }
-
-                activeButton = button;
-                button.BackColor = UITheme.Selection;
-                button.ForeColor = UITheme.Primary;
-
-                contentPanel.Controls.Clear();
-
-                UserControl page = createPage();
-                page.Dock = DockStyle.Fill;
-
-                contentPanel.Controls.Add(page);
-            };
-
-            sidebar.Controls.Add(button);
-            sidebar.Controls.SetChildIndex(button, 0);
-
-            // Open eerste pagina automatisch.
-            if (activeButton == null)
-                button.PerformClick();
+            content.Dock = DockStyle.Fill;
+            page.Controls.Add(content);
+            tabs.TabPages.Add(page);
         }
     }
 }
