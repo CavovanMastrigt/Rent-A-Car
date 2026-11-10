@@ -336,11 +336,11 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     { "@ln", txtLastName.Text.Trim() },
                     { "@dob", dtpBirth.Value.Date },
                     { "@exp", dtpExpiry.Value.Date },
-                    { "@doc", VerificationHelper.MaskDocument(txtDocument.Text) },
+                    { "@doc", txtDocument.Text.Trim() },
                     { "@rev", reviewerName() },
                 };
                 // Verified: ID details taken over, reviewer + time recorded,
-                // document number stored masked, scans wiped.
+                // document number stored as entered, scans wiped.
                 DBHelper.RunSql(
                     "UPDATE identity SET Identity_Status = 'Verified', " +
                     "ID_First_Name = @fn, ID_Last_Name = @ln, Date_Of_Birth = @dob, Expiration_Date = @exp, " +
