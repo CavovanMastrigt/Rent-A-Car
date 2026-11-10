@@ -9,8 +9,8 @@ using System.Windows.Forms;
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
     // User story 8 - admin-only page to review customer ID verifications.
-    // The admin compares the ID with the customer's name/birth date, enters the
-    // document number and approves or rejects (with a mandatory reason).
+    // The admin compares the ID (front + back) with the customer's name/birth date,
+    // enters the document number and approves or rejects (with a mandatory reason).
     public class CustomerVerificationPage : UserControl
     {
         private static readonly Color Border = Color.FromArgb(229, 231, 235);
@@ -19,11 +19,12 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private static readonly Color Red = Color.FromArgb(185, 28, 28);
 
         private DataGridView grid;
-        private PictureBox photo;
-        private Label lblPhotoNote;
+        private PictureBox photoFront, photoBack;
+        private Label lblFrontNote, lblBackNote;
+        private Button btnOpenFront, btnOpenBack;
         private Label lblAccount, lblIdData, lblReviewInfo;
         private TextBox txtDocument, txtReason;
-        private Button btnOpenPdf, btnApprove, btnReject;
+        private Button btnApprove, btnReject;
         private Panel detailPanel;
 
         private int selectedUserId = -1;
@@ -51,8 +52,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             };
 
             var split = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1, Padding = new Padding(0, 8, 0, 0) };
-            split.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 42f));
-            split.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 58f));
+            split.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40f));
+            split.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60f));
 
             grid = new DataGridView
             {
@@ -101,39 +102,30 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 }
             };
 
-            lblAccount = new Label { Location = new Point(18, 16), Size = new Size(520, 46), Font = new Font("Segoe UI", 11F, FontStyle.Bold) };
-            lblIdData = new Label { Location = new Point(18, 66), Size = new Size(520, 46), ForeColor = Muted, Font = new Font("Segoe UI", 9.5F) };
+            lblAccount = new Label { Location = new Point(18, 16), Size = new Size(540, 44), Font = new Font("Segoe UI", 11F, FontStyle.Bold) };
+            lblIdData = new Label { Location = new Point(18, 62), Size = new Size(540, 48), ForeColor = Muted, Font = new Font("Segoe UI", 9.5F) };
 
-            photo = new PictureBox
-            {
-                Location = new Point(18, 118),
-                Size = new Size(520, 230),
-                BorderStyle = BorderStyle.FixedSingle,
-                SizeMode = PictureBoxSizeMode.Zoom,
-                BackColor = Color.FromArgb(249, 250, 251)
-            };
-            lblPhotoNote = new Label { Location = new Point(18, 352), Size = new Size(380, 20), ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
-            btnOpenPdf = new Button
-            {
-                Text = "PDF openen",
-                Location = new Point(410, 350),
-                Size = new Size(128, 26),
-                FlatStyle = FlatStyle.Flat,
-                Visible = false,
-                Cursor = Cursors.Hand
-            };
-            btnOpenPdf.Click += (s, e) => openPdf();
+            var capFront = new Label { Text = "Voorkant", Location = new Point(18, 114), AutoSize = true, Font = new Font("Segoe UI", 9F, FontStyle.Bold) };
+            var capBack = new Label { Text = "Achterkant", Location = new Point(285, 114), AutoSize = true, Font = new Font("Segoe UI", 9F, FontStyle.Bold) };
 
-            var lblDoc = new Label { Text = "Documentnummer", Location = new Point(18, 384), AutoSize = true };
-            txtDocument = new TextBox { Location = new Point(18, 404), Width = 260 };
+            photoFront = makePhotoBox(18, 134);
+            photoBack = makePhotoBox(285, 134);
 
-            var lblReason = new Label { Text = "Reden (verplicht bij afkeuren)", Location = new Point(18, 436), AutoSize = true };
-            txtReason = new TextBox { Location = new Point(18, 456), Width = 520, Height = 48, Multiline = true };
+            lblFrontNote = new Label { Location = new Point(18, 322), Size = new Size(255, 20), ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
+            lblBackNote = new Label { Location = new Point(285, 322), Size = new Size(255, 20), ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
+            btnOpenFront = makeOpenButton(18, 320, true);
+            btnOpenBack = makeOpenButton(285, 320, false);
+
+            var lblDoc = new Label { Text = "Documentnummer", Location = new Point(18, 356), AutoSize = true };
+            txtDocument = new TextBox { Location = new Point(18, 376), Width = 260 };
+
+            var lblReason = new Label { Text = "Reden (verplicht bij afkeuren)", Location = new Point(18, 410), AutoSize = true };
+            txtReason = new TextBox { Location = new Point(18, 430), Width = 522, Height = 46, Multiline = true };
 
             btnApprove = new Button
             {
                 Text = "Goedkeuren",
-                Location = new Point(18, 516),
+                Location = new Point(18, 488),
                 Size = new Size(160, 34),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.FromArgb(22, 163, 74),
@@ -146,7 +138,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             btnReject = new Button
             {
                 Text = "Afkeuren",
-                Location = new Point(188, 516),
+                Location = new Point(188, 488),
                 Size = new Size(160, 34),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.FromArgb(220, 38, 38),
@@ -156,20 +148,47 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             btnReject.FlatAppearance.BorderSize = 0;
             btnReject.Click += (s, e) => reject();
 
-            lblReviewInfo = new Label { Location = new Point(18, 560), Size = new Size(520, 60), ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
+            lblReviewInfo = new Label { Location = new Point(18, 530), Size = new Size(540, 60), ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
 
             card.Controls.AddRange(new Control[]
             {
-                lblAccount, lblIdData, photo, lblPhotoNote, btnOpenPdf,
+                lblAccount, lblIdData, capFront, capBack, photoFront, photoBack,
+                lblFrontNote, lblBackNote, btnOpenFront, btnOpenBack,
                 lblDoc, txtDocument, lblReason, txtReason, btnApprove, btnReject, lblReviewInfo
             });
-            // Hide the detail fields until a customer is selected. The detailPanel
-            // field is not assigned yet here, so hide this card's controls directly.
+            // Hide the detail fields until a customer is selected.
             foreach (Control c in card.Controls)
             {
                 c.Visible = false;
             }
             return card;
+        }
+
+        private PictureBox makePhotoBox(int x, int y)
+        {
+            return new PictureBox
+            {
+                Location = new Point(x, y),
+                Size = new Size(255, 182),
+                BorderStyle = BorderStyle.FixedSingle,
+                SizeMode = PictureBoxSizeMode.Zoom,
+                BackColor = Color.FromArgb(249, 250, 251)
+            };
+        }
+
+        private Button makeOpenButton(int x, int y, bool isFront)
+        {
+            var button = new Button
+            {
+                Text = "PDF openen",
+                Location = new Point(x, y),
+                Size = new Size(120, 26),
+                FlatStyle = FlatStyle.Flat,
+                Visible = false,
+                Cursor = Cursors.Hand
+            };
+            button.Click += (s, e) => openPdf(isFront);
+            return button;
         }
 
         private void loadCustomers()
@@ -215,22 +234,24 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             selectedUserId = Convert.ToInt32(grid.CurrentRow.Cells["UserID"].Value);
 
             DataTable t = DBHelper.getdataTable(
-                "SELECT Front_Photo, File_Type, File_Name, Date_Of_Birth, Expiration_Date, " +
-                "Identity_Status, Reviewed_By, Reviewed_At, Document_Number, Reject_Reason " +
+                "SELECT Front_Photo, File_Type, Back_Photo, Back_File_Type, File_Name, Back_File_Name, " +
+                "Date_Of_Birth, Expiration_Date, Identity_Status, Reviewed_By, Reviewed_At, Document_Number, Reject_Reason " +
                 "FROM identity WHERE UserID = " + selectedUserId);
 
             string name = grid.CurrentRow.Cells["Naam"].Value.ToString();
             string email = grid.CurrentRow.Cells["Email"].Value.ToString();
 
-            clearPhoto();
+            clearPhotos();
 
             if (t.Rows.Count == 0)
             {
                 showDetail(true);
                 lblAccount.Text = name + "\r\n" + email;
                 lblIdData.Text = "Deze klant heeft nog geen ID-kaart geüpload.";
-                lblPhotoNote.Text = "";
-                btnOpenPdf.Visible = false;
+                lblFrontNote.Text = "";
+                lblBackNote.Text = "";
+                btnOpenFront.Visible = false;
+                btnOpenBack.Visible = false;
                 txtDocument.Text = "";
                 txtReason.Text = "";
                 setActionsEnabled(false);
@@ -240,43 +261,22 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             DataRow row = t.Rows[0];
             string status = row["Identity_Status"].ToString();
+            bool reviewed = status == VerificationHelper.StatusVerified || status == VerificationHelper.StatusFailed;
             string dob = row["Date_Of_Birth"] == DBNull.Value ? "-" : Convert.ToDateTime(row["Date_Of_Birth"]).ToString("dd-MM-yyyy");
             string exp = row["Expiration_Date"] == DBNull.Value ? "-" : Convert.ToDateTime(row["Expiration_Date"]).ToString("dd-MM-yyyy");
 
             showDetail(true);
             lblAccount.Text = name + "\r\n" + email;
-            lblIdData.Text = "Geboortedatum (ID): " + dob + "     Vervaldatum ID: " + exp +
-                "\r\nBestand: " + (row["File_Name"] == DBNull.Value ? "-" : row["File_Name"].ToString());
+            lblIdData.Text = "Geboortedatum (ID): " + dob + "     Vervaldatum ID: " + exp;
 
-            bool reviewed = status == VerificationHelper.StatusVerified || status == VerificationHelper.StatusFailed;
-
-            // Show the scan only while it is still pending; it is wiped after review.
-            byte[] bytes = row["Front_Photo"] == DBNull.Value ? null : (byte[])row["Front_Photo"];
-            string fileType = row["File_Type"] == DBNull.Value ? "image" : row["File_Type"].ToString();
-            if (bytes != null && bytes.Length > 0)
-            {
-                if (fileType == "pdf")
-                {
-                    lblPhotoNote.Text = "PDF-document geüpload.";
-                    btnOpenPdf.Visible = true;
-                }
-                else
-                {
-                    try { photo.Image = Image.FromStream(new MemoryStream(bytes)); }
-                    catch { lblPhotoNote.Text = "Afbeelding kon niet getoond worden."; }
-                    btnOpenPdf.Visible = false;
-                }
-            }
-            else
-            {
-                lblPhotoNote.Text = reviewed ? "ID-scan is na verificatie verwijderd." : "Geen scan aanwezig.";
-                btnOpenPdf.Visible = false;
-            }
+            showPhoto(photoFront, lblFrontNote, btnOpenFront,
+                row["Front_Photo"], row["File_Type"], reviewed);
+            showPhoto(photoBack, lblBackNote, btnOpenBack,
+                row["Back_Photo"], row["Back_File_Type"], reviewed);
 
             txtDocument.Text = row["Document_Number"] == DBNull.Value ? "" : row["Document_Number"].ToString();
             txtReason.Text = row["Reject_Reason"] == DBNull.Value ? "" : row["Reject_Reason"].ToString();
 
-            // Only pending submissions can be actioned.
             setActionsEnabled(status == VerificationHelper.StatusPending);
 
             if (reviewed)
@@ -289,8 +289,35 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
             else
             {
-                lblReviewInfo.Text = "In behandeling - controleer de ID-kaart en keur goed of af.";
+                lblReviewInfo.Text = "In behandeling - controleer voor- en achterkant en keur goed of af.";
                 lblReviewInfo.ForeColor = Muted;
+            }
+        }
+
+        // Renders one side's photo, or a PDF button, or a "wiped/none" note.
+        private void showPhoto(PictureBox box, Label note, Button openButton, object photo, object fileType, bool reviewed)
+        {
+            byte[] bytes = photo == DBNull.Value ? null : (byte[])photo;
+            string type = fileType == DBNull.Value ? "image" : fileType.ToString();
+
+            if (bytes != null && bytes.Length > 0)
+            {
+                if (type == "pdf")
+                {
+                    note.Text = "PDF-document geüpload.";
+                    openButton.Visible = true;
+                }
+                else
+                {
+                    try { box.Image = Image.FromStream(new MemoryStream(bytes)); }
+                    catch { note.Text = "Afbeelding kon niet getoond worden."; }
+                    openButton.Visible = false;
+                }
+            }
+            else
+            {
+                note.Text = reviewed ? "Na verificatie verwijderd." : "Geen scan aanwezig.";
+                openButton.Visible = false;
             }
         }
 
@@ -310,7 +337,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     { "@doc", VerificationHelper.MaskDocument(txtDocument.Text) },
                     { "@rev", reviewerName() },
                 };
-                // Verified, reviewer + time recorded, document number stored masked, scan wiped.
+                // Verified, reviewer + time recorded, document number stored masked, both scans wiped.
                 DBHelper.RunSql(
                     "UPDATE identity SET Identity_Status = 'Verified', Document_Number = @doc, " +
                     "Reviewed_By = @rev, Reviewed_At = NOW(), Reject_Reason = NULL, " +
@@ -371,17 +398,19 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             return "Admin #" + DBHelper.loggedinuserid;
         }
 
-        private void openPdf()
+        private void openPdf(bool isFront)
         {
+            string column = isFront ? "Front_Photo" : "Back_Photo";
             try
             {
-                DataTable t = DBHelper.getdataTable("SELECT Front_Photo FROM identity WHERE UserID = " + selectedUserId);
-                if (t.Rows.Count == 0 || t.Rows[0]["Front_Photo"] == DBNull.Value)
+                DataTable t = DBHelper.getdataTable("SELECT " + column + " AS Doc FROM identity WHERE UserID = " + selectedUserId);
+                if (t.Rows.Count == 0 || t.Rows[0]["Doc"] == DBNull.Value)
                 {
                     return;
                 }
-                byte[] bytes = (byte[])t.Rows[0]["Front_Photo"];
-                string path = Path.Combine(Path.GetTempPath(), "id_" + selectedUserId + "_" + Guid.NewGuid().ToString("N") + ".pdf");
+                byte[] bytes = (byte[])t.Rows[0]["Doc"];
+                string path = Path.Combine(Path.GetTempPath(),
+                    "id_" + selectedUserId + "_" + (isFront ? "front" : "back") + "_" + Guid.NewGuid().ToString("N") + ".pdf");
                 File.WriteAllBytes(path, bytes);
                 Process.Start(path);
             }
@@ -405,22 +434,25 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 c.Visible = visible;
             }
+            if (visible)
+            {
+                // PDF buttons are shown on demand by showPhoto.
+                btnOpenFront.Visible = false;
+                btnOpenBack.Visible = false;
+            }
         }
 
-        private void clearPhoto()
+        private void clearPhotos()
         {
-            if (photo.Image != null)
-            {
-                photo.Image.Dispose();
-                photo.Image = null;
-            }
+            if (photoFront.Image != null) { photoFront.Image.Dispose(); photoFront.Image = null; }
+            if (photoBack.Image != null) { photoBack.Image.Dispose(); photoBack.Image = null; }
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                clearPhoto();
+                clearPhotos();
             }
             base.Dispose(disposing);
         }
