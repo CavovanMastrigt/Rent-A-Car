@@ -163,7 +163,12 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 lblAccount, lblIdData, photo, lblPhotoNote, btnOpenPdf,
                 lblDoc, txtDocument, lblReason, txtReason, btnApprove, btnReject, lblReviewInfo
             });
-            showDetail(false);
+            // Hide the detail fields until a customer is selected. The detailPanel
+            // field is not assigned yet here, so hide this card's controls directly.
+            foreach (Control c in card.Controls)
+            {
+                c.Visible = false;
+            }
             return card;
         }
 
