@@ -24,6 +24,29 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
         }
 
+        // Same as RunSql, but with @-parameters. Use this for binary data (photos)
+        // and anywhere user input would otherwise be concatenated into the SQL.
+        public static int RunSql(string sql, IDictionary<string, object> parameters)
+        {
+            using (var connection = createConnection())
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = sql;
+                if (parameters != null)
+                {
+                    foreach (var pair in parameters)
+                    {
+                        var parameter = command.CreateParameter();
+                        parameter.ParameterName = pair.Key;
+                        parameter.Value = pair.Value ?? DBNull.Value;
+                        command.Parameters.Add(parameter);
+                    }
+                }
+                connection.Open();
+                return command.ExecuteNonQuery();
+            }
+        }
+
         public static DataTable getdataTable(string sql)
         {
             using (var connection = createConnection())
