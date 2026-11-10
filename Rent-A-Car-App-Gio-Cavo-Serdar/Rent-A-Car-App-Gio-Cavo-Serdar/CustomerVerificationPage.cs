@@ -334,10 +334,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 var p = new Dictionary<string, object>
                 {
                     { "@uid", selectedUserId },
-                    { "@doc", VerificationHelper.HashDocument(txtDocument.Text) },
+                    { "@doc", txtDocument.Text.Trim() },
                     { "@rev", reviewerName() },
                 };
-                // Verified, reviewer + time recorded, document number stored masked, both scans wiped.
+                // Verified, reviewer + time recorded, document number stored, both scans wiped.
                 DBHelper.RunSql(
                     "UPDATE identity SET Identity_Status = 'Verified', Document_Number = @doc, " +
                     "Reviewed_By = @rev, Reviewed_At = NOW(), Reject_Reason = NULL, " +
