@@ -102,7 +102,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             // Admin pages
             entries.Add(new NavEntry { Text = "📊   Dashboard", AdminOnly = true, CreatePage = () => new DashboardPage() });
-            entries.Add(new NavEntry { Text = "🚗   Auto's", CreatePage = () => new CarsPage() });
+            entries.Add(new NavEntry { Text = "🚗   Auto's", AdminOnly = true, CreatePage = () => new CarsPage() });
 
             // Employee pages (Serdar)
             entries.Add(new NavEntry { Text = "Medewerker", IsHeader = true });
@@ -113,9 +113,13 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             entries.Add(new NavEntry { Text = "Wijzigen / annuleren", CreatePage = () => new ChangeCancelControl() });
             entries.Add(new NavEntry { Text = "Extra's en prijzen", CreatePage = () => new ExtrasPricesControl() });
 
-            // Customer management (admin only)
-            entries.Add(new NavEntry { Text = "Klanten", IsHeader = true, AdminOnly = true });
-            entries.Add(new NavEntry { Text = "Klantverificatie", AdminOnly = true, CreatePage = () => new CustomerVerificationPage() });
+            // Customer management - admins and employees can both verify customers.
+            entries.Add(new NavEntry { Text = "Verificatie", IsHeader = true });
+            entries.Add(new NavEntry { Text = "Klantverificatie", CreatePage = () => new CustomerVerificationPage() });
+
+            // Settings (admin only)
+            entries.Add(new NavEntry { Text = "Instellingen", IsHeader = true, AdminOnly = true });
+            entries.Add(new NavEntry { Text = "Openingstijden", AdminOnly = true, CreatePage = () => new OpeningHoursPage() });
 
             // Employees do not see admin-only pages.
             entries.RemoveAll(e => e.AdminOnly && !isAdmin);
