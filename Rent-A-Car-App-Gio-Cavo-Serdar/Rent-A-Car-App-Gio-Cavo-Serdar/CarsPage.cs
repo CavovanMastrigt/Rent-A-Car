@@ -61,14 +61,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 ForeColor = Color.FromArgb(17, 24, 39)
             };
 
-            var toolbar = new Panel { Dock = DockStyle.Top, Height = 54, Padding = new Padding(0, 8, 0, 10) };
-            txtSearch = new TextBox { Location = new Point(2, 12), Width = 240 };
+            var toolbar = new Panel { Dock = DockStyle.Top, Height = 60, Padding = new Padding(0) };
+            txtSearch = new TextBox { Location = new Point(2, 18), Width = 240 };
             setPlaceholder(txtSearch, "Zoek op kenteken, merk of model");
             txtSearch.TextChanged += (s, e) => { if (!loading) loadCars(); };
 
             cboFilter = new ComboBox
             {
-                Location = new Point(255, 11),
+                Location = new Point(255, 18),
                 Width = 180,
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
@@ -79,7 +79,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             lblCount = new Label
             {
-                Location = new Point(450, 15),
+                Location = new Point(450, 22),
                 AutoSize = true,
                 ForeColor = Color.FromArgb(107, 114, 128),
                 Font = new Font("Segoe UI", 9.5F)
@@ -91,7 +91,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 WrapContents = false,
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Padding = new Padding(0, 10, 0, 0)
+                Padding = new Padding(0, 13, 0, 0)
             };
             var btnAdd = makeActionButton("Nieuwe auto", Accent, Color.White);
             btnAdd.FlatAppearance.MouseOverBackColor = Color.FromArgb(29, 78, 216);
@@ -207,7 +207,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             var layout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 3 };
             layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 46f));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 56f));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 60f));
             layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
             layout.Controls.Add(header, 0, 0);
             layout.Controls.Add(toolbar, 0, 1);
