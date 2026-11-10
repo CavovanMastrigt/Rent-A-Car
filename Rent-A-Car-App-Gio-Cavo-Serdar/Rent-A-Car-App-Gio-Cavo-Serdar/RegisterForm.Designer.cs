@@ -47,6 +47,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             this.txtConfirmPassword = new System.Windows.Forms.TextBox();
             this.btnRegister = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnShowPassword = new System.Windows.Forms.Button();
+            this.btnShowConfirmPassword = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -170,8 +172,23 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             this.txtPassword.Location = new System.Drawing.Point(40, 282);
             this.txtPassword.UseSystemPasswordChar = true;
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(250, 20);
+            this.txtPassword.Size = new System.Drawing.Size(222, 20);
             this.txtPassword.TabIndex = 14;
+            //
+            // btnShowPassword
+            //
+            this.btnShowPassword.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnShowPassword.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(213)))), ((int)(((byte)(219)))));
+            this.btnShowPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShowPassword.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
+            this.btnShowPassword.Location = new System.Drawing.Point(266, 281);
+            this.btnShowPassword.Name = "btnShowPassword";
+            this.btnShowPassword.Size = new System.Drawing.Size(24, 22);
+            this.btnShowPassword.TabIndex = 19;
+            this.btnShowPassword.TabStop = false;
+            this.btnShowPassword.Text = "👁";
+            this.btnShowPassword.UseVisualStyleBackColor = true;
+            this.btnShowPassword.Click += new System.EventHandler(this.btnShowPassword_Click);
             // 
             // lblConfirmPassword
             // 
@@ -186,8 +203,23 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             this.txtConfirmPassword.Location = new System.Drawing.Point(330, 282);
             this.txtConfirmPassword.UseSystemPasswordChar = true;
             this.txtConfirmPassword.Name = "txtConfirmPassword";
-            this.txtConfirmPassword.Size = new System.Drawing.Size(250, 20);
+            this.txtConfirmPassword.Size = new System.Drawing.Size(222, 20);
             this.txtConfirmPassword.TabIndex = 16;
+            //
+            // btnShowConfirmPassword
+            //
+            this.btnShowConfirmPassword.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnShowConfirmPassword.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(213)))), ((int)(((byte)(219)))));
+            this.btnShowConfirmPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShowConfirmPassword.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
+            this.btnShowConfirmPassword.Location = new System.Drawing.Point(556, 281);
+            this.btnShowConfirmPassword.Name = "btnShowConfirmPassword";
+            this.btnShowConfirmPassword.Size = new System.Drawing.Size(24, 22);
+            this.btnShowConfirmPassword.TabIndex = 20;
+            this.btnShowConfirmPassword.TabStop = false;
+            this.btnShowConfirmPassword.Text = "👁";
+            this.btnShowConfirmPassword.UseVisualStyleBackColor = true;
+            this.btnShowConfirmPassword.Click += new System.EventHandler(this.btnShowConfirmPassword_Click);
             // 
             // btnCancel
             // 
@@ -218,6 +250,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             this.ClientSize = new System.Drawing.Size(620, 395);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnRegister);
+            this.Controls.Add(this.btnShowConfirmPassword);
+            this.Controls.Add(this.btnShowPassword);
             this.Controls.Add(this.txtConfirmPassword);
             this.Controls.Add(this.lblConfirmPassword);
             this.Controls.Add(this.txtPassword);
@@ -268,5 +302,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private System.Windows.Forms.TextBox txtConfirmPassword;
         private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnShowPassword;
+        private System.Windows.Forms.Button btnShowConfirmPassword;
     }
 }

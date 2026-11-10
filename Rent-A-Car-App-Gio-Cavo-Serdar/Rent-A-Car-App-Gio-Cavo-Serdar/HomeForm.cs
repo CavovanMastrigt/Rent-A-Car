@@ -31,12 +31,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 Text = "Rent A Car";
                 return;
             }
-
             UserControl page;
 
-            if (AuthHelper.loggedinroleid == AuthHelper.RoleAdmin)
+            // Admin and employee both get the admin area (employee folds into admin later).
+            if (AuthHelper.isStaff(AuthHelper.loggedinroleid))
             {
-                Text = "Rent A Car - Admin";
+                Text = AuthHelper.loggedinroleid == AuthHelper.RoleAdmin
+                    ? "Rent A Car - Admin"
+                    : "Rent A Car - Employee";
                 page = new AdminPage();
             }
             else
