@@ -117,7 +117,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             btnOpenBack = makeOpenButton(285, 320, false);
 
             var lblDoc = new Label { Text = "Documentnummer", Location = new Point(18, 356), AutoSize = true };
-            txtDocument = new TextBox { Location = new Point(18, 376), Width = 260 };
+            txtDocument = new TextBox { Location = new Point(18, 376), Width = 522, Font = new Font("Consolas", 9F) };
 
             var lblReason = new Label { Text = "Reden (verplicht bij afkeuren)", Location = new Point(18, 410), AutoSize = true };
             txtReason = new TextBox { Location = new Point(18, 430), Width = 522, Height = 46, Multiline = true };
