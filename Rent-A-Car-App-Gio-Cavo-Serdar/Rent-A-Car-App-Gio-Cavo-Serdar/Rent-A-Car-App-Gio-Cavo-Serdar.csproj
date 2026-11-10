@@ -90,6 +90,9 @@
     <Compile Include="CarEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="OpeningHoursPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="DashboardPage.cs">
       <SubType>UserControl</SubType>
     </Compile>

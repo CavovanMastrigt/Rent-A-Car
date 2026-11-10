@@ -117,6 +117,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             entries.Add(new NavEntry { Text = "Verificatie", IsHeader = true });
             entries.Add(new NavEntry { Text = "Klantverificatie", CreatePage = () => new CustomerVerificationPage() });
 
+            // Settings (admin only)
+            entries.Add(new NavEntry { Text = "Instellingen", IsHeader = true, AdminOnly = true });
+            entries.Add(new NavEntry { Text = "Openingstijden", AdminOnly = true, CreatePage = () => new OpeningHoursPage() });
+
             // Employees do not see admin-only pages.
             entries.RemoveAll(e => e.AdminOnly && !isAdmin);
 
