@@ -81,6 +81,9 @@
     <Compile Include="CustomerVerificationPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="VerificationReviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CarsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
