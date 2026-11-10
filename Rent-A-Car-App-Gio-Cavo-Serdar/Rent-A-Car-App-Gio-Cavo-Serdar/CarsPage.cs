@@ -91,17 +91,20 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 WrapContents = false,
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Padding = new Padding(0, 8, 0, 0)
+                Padding = new Padding(0, 10, 0, 0)
             };
             var btnAdd = makeActionButton("Nieuwe auto", Accent, Color.White);
+            btnAdd.FlatAppearance.MouseOverBackColor = Color.FromArgb(29, 78, 216);
             btnAdd.Click += (s, e) => openEditor(0);
             var btnEdit = makeActionButton("Bewerken", Color.White, Color.FromArgb(31, 41, 55));
             btnEdit.FlatAppearance.BorderColor = Border;
             btnEdit.FlatAppearance.BorderSize = 1;
+            btnEdit.FlatAppearance.MouseOverBackColor = Color.FromArgb(243, 244, 246);
             btnEdit.Click += (s, e) => editSelected();
             var btnDelete = makeActionButton("Verwijderen", Color.White, Color.FromArgb(185, 28, 28));
-            btnDelete.FlatAppearance.BorderColor = Color.FromArgb(252, 165, 165);
+            btnDelete.FlatAppearance.BorderColor = Color.FromArgb(248, 180, 180);
             btnDelete.FlatAppearance.BorderSize = 1;
+            btnDelete.FlatAppearance.MouseOverBackColor = Color.FromArgb(254, 242, 242);
             btnDelete.Click += (s, e) => deleteSelected();
             actions.Controls.AddRange(new Control[] { btnAdd, btnEdit, btnDelete });
 
@@ -290,16 +293,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             var b = new Button
             {
                 Text = text,
-                Height = 30,
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Padding = new Padding(12, 0, 12, 0),
-                Margin = new Padding(6, 0, 0, 0),
+                Size = new Size(120, 34),
+                Margin = new Padding(8, 0, 0, 0),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = back,
                 ForeColor = fore,
                 Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
-                Cursor = Cursors.Hand
+                Cursor = Cursors.Hand,
+                TabStop = false
             };
             b.FlatAppearance.BorderSize = 0;
             return b;
