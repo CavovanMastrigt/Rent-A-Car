@@ -20,6 +20,22 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             InitializeComponent();
         }
 
+        // Toggles the password field between hidden dots and readable text.
+        private void btnShowPassword_Click(object sender, EventArgs e)
+        {
+            bool show = txtPassword.UseSystemPasswordChar;
+            txtPassword.UseSystemPasswordChar = !show;
+            btnShowPassword.Text = show ? "🙈" : "👁";
+        }
+
+        // Toggles the confirm-password field between hidden dots and readable text.
+        private void btnShowConfirmPassword_Click(object sender, EventArgs e)
+        {
+            bool show = txtConfirmPassword.UseSystemPasswordChar;
+            txtConfirmPassword.UseSystemPasswordChar = !show;
+            btnShowConfirmPassword.Text = show ? "🙈" : "👁";
+        }
+
         private void btnRegister_Click(object sender, EventArgs e)
         {
             if (txtName.Text.Trim() == "" || txtLastName.Text.Trim() == "" || txtEmail.Text.Trim() == "" ||
