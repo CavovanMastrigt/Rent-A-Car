@@ -63,8 +63,83 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
 
             pagePanel.Controls.Add(carsPanel);
+
+            Panel banner = createVerificationBanner();
+            if (banner != null)
+            {
+                pagePanel.Controls.Add(banner);
+            }
+
             pagePanel.Controls.Add(headerPanel);
             Controls.Add(pagePanel);
+        }
+
+        // Shows an ID-verification notice above the car overview until the customer
+        // is verified (user story 8).
+        private Panel createVerificationBanner()
+        {
+            string status = VerificationHelper.GetStatus(DBHelper.loggedinuserid);
+            if (status == VerificationHelper.StatusVerified)
+            {
+                return null;
+            }
+
+            Color bg;
+            string message;
+            bool showButton = true;
+            if (status == VerificationHelper.StatusPending)
+            {
+                bg = Color.FromArgb(254, 249, 195);
+                message = "Je ID-kaart is in behandeling. Je kunt pas een auto huren nadat deze is goedgekeurd.";
+                showButton = false;
+            }
+            else if (status == VerificationHelper.StatusFailed)
+            {
+                bg = Color.FromArgb(254, 226, 226);
+                message = "Je ID-verificatie is afgekeurd. Upload een nieuwe ID-kaart om een auto te kunnen huren.";
+            }
+            else
+            {
+                bg = Color.FromArgb(254, 226, 226);
+                message = "Je account is nog niet geverifieerd. Verifieer je ID-kaart om een auto te kunnen huren.";
+            }
+
+            Panel banner = new Panel { Dock = DockStyle.Top, Height = 54, BackColor = bg, Padding = new Padding(16, 8, 16, 8) };
+            Label label = new Label
+            {
+                Text = message,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Segoe UI", 10F),
+                ForeColor = darkColor
+            };
+            banner.Controls.Add(label);
+
+            if (showButton)
+            {
+                Button verify = new Button
+                {
+                    Text = "Verifieer nu",
+                    Dock = DockStyle.Right,
+                    Width = 150,
+                    FlatStyle = FlatStyle.Flat,
+                    BackColor = blueColor,
+                    ForeColor = Color.White,
+                    Cursor = Cursors.Hand
+                };
+                verify.FlatAppearance.BorderSize = 0;
+                verify.Click += (s, e) =>
+                {
+                    if (PopupForm.show(FindForm(), new IdentityVerificationForm()) == DialogResult.OK)
+                    {
+                        showOverview();
+                    }
+                };
+                banner.Controls.Add(verify);
+                verify.BringToFront();
+            }
+
+            return banner;
         }
 
         private List<CarInfo> loadAvailableCars()
@@ -449,6 +524,17 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         private void saveReservation()
         {
+            // User story 8: a customer whose ID is not verified cannot rent a car.
+            if (!VerificationHelper.IsVerified(DBHelper.loggedinuserid))
+            {
+                MessageBox.Show(
+                    "Je account is nog niet geverifieerd. Verifieer eerst je ID-kaart voordat je een auto huurt.",
+                    "Niet geverifieerd",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
             DateTime start = startDatePicker.Value;
             DateTime end = endDatePicker.Value;
 
