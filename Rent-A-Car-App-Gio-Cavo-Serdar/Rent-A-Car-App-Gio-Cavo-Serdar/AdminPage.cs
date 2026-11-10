@@ -102,7 +102,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             // Admin pages
             entries.Add(new NavEntry { Text = "📊   Dashboard", AdminOnly = true, CreatePage = () => new DashboardPage() });
-            entries.Add(new NavEntry { Text = "🚗   Auto's", CreatePage = () => new CarsPage() });
+            entries.Add(new NavEntry { Text = "🚗   Auto's", AdminOnly = true, CreatePage = () => new CarsPage() });
 
             // Employee pages (Serdar)
             entries.Add(new NavEntry { Text = "Medewerker", IsHeader = true });

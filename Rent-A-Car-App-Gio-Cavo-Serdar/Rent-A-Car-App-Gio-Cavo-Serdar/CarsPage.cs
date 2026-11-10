@@ -84,7 +84,28 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 ForeColor = Color.FromArgb(107, 114, 128),
                 Font = new Font("Segoe UI", 9.5F)
             };
-            toolbar.Controls.AddRange(new Control[] { txtSearch, cboFilter, lblCount });
+            var actions = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Right,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Padding = new Padding(0, 8, 0, 0)
+            };
+            var btnAdd = makeActionButton("Nieuwe auto", Accent, Color.White);
+            btnAdd.Click += (s, e) => openEditor(0);
+            var btnEdit = makeActionButton("Bewerken", Color.White, Color.FromArgb(31, 41, 55));
+            btnEdit.FlatAppearance.BorderColor = Border;
+            btnEdit.FlatAppearance.BorderSize = 1;
+            btnEdit.Click += (s, e) => editSelected();
+            var btnDelete = makeActionButton("Verwijderen", Color.White, Color.FromArgb(185, 28, 28));
+            btnDelete.FlatAppearance.BorderColor = Color.FromArgb(252, 165, 165);
+            btnDelete.FlatAppearance.BorderSize = 1;
+            btnDelete.Click += (s, e) => deleteSelected();
+            actions.Controls.AddRange(new Control[] { btnAdd, btnEdit, btnDelete });
+
+            toolbar.Controls.AddRange(new Control[] { txtSearch, cboFilter, lblCount, actions });
 
             var card = new Panel { Dock = DockStyle.Fill, BackColor = Color.White, Padding = new Padding(1) };
             card.Paint += (s, e) =>
@@ -121,6 +142,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Kenteken", HeaderText = "Kenteken", DataPropertyName = "Kenteken", ReadOnly = true, FillWeight = 90 });
             grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Merk", HeaderText = "Merk", DataPropertyName = "Merk", ReadOnly = true, FillWeight = 90 });
             grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Model", HeaderText = "Model", DataPropertyName = "Model", ReadOnly = true, FillWeight = 90 });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Bouwjaar", HeaderText = "Bouwjaar", DataPropertyName = "Bouwjaar", ReadOnly = true, FillWeight = 55 });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Brandstof", HeaderText = "Brandstof", DataPropertyName = "Brandstof", ReadOnly = true, FillWeight = 70 });
             grid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "Prijs",
@@ -153,6 +176,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             };
             grid.DataError += (s, e) => { e.ThrowException = false; };
             grid.CellFormatting += grid_CellFormatting;
+            grid.CellDoubleClick += (s, e) =>
+            {
+                // Double-click anywhere except the status picker opens the edit form.
+                if (e.RowIndex >= 0 && grid.Columns[e.ColumnIndex].Name != "Status")
+                {
+                    openEditor(Convert.ToInt32(grid.Rows[e.RowIndex].Cells["ID"].Value));
+                }
+            };
 
             card.Controls.Add(grid);
 
@@ -168,6 +199,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             try
             {
                 var where = new List<string>();
+                where.Add("c.Archived = 0"); // archived (soft-deleted) cars are hidden
 
                 string search = realText(txtSearch).Trim();
                 if (search != "")
@@ -183,13 +215,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 }
 
                 string sql =
-                    "SELECT c.ID, c.License_Plate, c.Brand, c.Model, c.Daily_Price, c.Car_Status, " +
+                    "SELECT c.ID, c.License_Plate, c.Brand, c.Model, c.Build_Date, c.Fuel_Type, c.Daily_Price, c.Car_Status, " +
                     "(SELECT COUNT(*) FROM rental r WHERE r.CarID = c.ID AND r.Date_Ended IS NULL AND r.Status <> 'cancelled') AS ActiveRentals " +
                     "FROM car c";
-                if (where.Count > 0)
-                {
-                    sql += " WHERE " + string.Join(" AND ", where);
-                }
+                sql += " WHERE " + string.Join(" AND ", where);
                 sql += " ORDER BY c.License_Plate";
 
                 DataTable cars = DBHelper.getdataTable(sql);
@@ -199,6 +228,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 display.Columns.Add("Kenteken");
                 display.Columns.Add("Merk");
                 display.Columns.Add("Model");
+                display.Columns.Add("Bouwjaar");
+                display.Columns.Add("Brandstof");
                 display.Columns.Add("Prijs");
                 display.Columns.Add("Status");
                 display.Columns.Add("Active", typeof(int));
@@ -208,11 +239,15 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     string code = r["Car_Status"].ToString();
                     string label = CodeToLabel.ContainsKey(code) ? CodeToLabel[code] : "Beschikbaar";
                     double price = Convert.ToDouble(r["Daily_Price"], CultureInfo.InvariantCulture);
+                    string year = r["Build_Date"] == DBNull.Value ? "" : Convert.ToDateTime(r["Build_Date"]).Year.ToString();
+                    string fuel = r["Fuel_Type"] == DBNull.Value ? "" : r["Fuel_Type"].ToString();
                     display.Rows.Add(
                         Convert.ToInt32(r["ID"]),
                         r["License_Plate"].ToString(),
                         r["Brand"].ToString(),
                         r["Model"].ToString(),
+                        year,
+                        fuel,
                         "€ " + price.ToString("N2", NL),
                         label,
                         Convert.ToInt32(r["ActiveRentals"]));
@@ -229,6 +264,96 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 loading = false;
             }
+        }
+
+        private Button makeActionButton(string text, Color back, Color fore)
+        {
+            var b = new Button
+            {
+                Text = text,
+                Height = 30,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Padding = new Padding(12, 0, 12, 0),
+                Margin = new Padding(6, 0, 0, 0),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = back,
+                ForeColor = fore,
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
+                Cursor = Cursors.Hand
+            };
+            b.FlatAppearance.BorderSize = 0;
+            return b;
+        }
+
+        private void openEditor(int carId)
+        {
+            using (var dlg = new CarEditForm(carId))
+            {
+                if (PopupForm.show(FindForm(), dlg) == DialogResult.OK)
+                {
+                    loadCars();
+                }
+            }
+        }
+
+        private void editSelected()
+        {
+            if (grid.CurrentRow == null || grid.CurrentRow.Cells["ID"].Value == null)
+            {
+                MessageBox.Show("Selecteer eerst een auto.", "Bewerken", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            openEditor(Convert.ToInt32(grid.CurrentRow.Cells["ID"].Value));
+        }
+
+        private void deleteSelected()
+        {
+            if (grid.CurrentRow == null || grid.CurrentRow.Cells["ID"].Value == null)
+            {
+                MessageBox.Show("Selecteer eerst een auto.", "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int carId = Convert.ToInt32(grid.CurrentRow.Cells["ID"].Value);
+            string plate = grid.CurrentRow.Cells["Kenteken"].Value.ToString();
+
+            // An active or future reservation blocks deletion.
+            try
+            {
+                object cnt = DBHelper.getScalar(
+                    "SELECT COUNT(*) FROM rental WHERE CarID = " + carId +
+                    " AND Status IN ('reserved','active') AND Date_Planned_Ending >= NOW()");
+                if (Convert.ToInt32(cnt) > 0)
+                {
+                    MessageBox.Show(
+                        "Deze auto heeft een actieve of toekomstige reservering en kan niet verwijderd worden.",
+                        "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Kon de reserveringen niet controleren:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DialogResult ok = MessageBox.Show(
+                "Weet je het zeker? Auto " + plate + " wordt gearchiveerd.\n" +
+                "Oude verhuringen en facturen blijven bewaard.",
+                "Verwijderen", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (ok != DialogResult.Yes) return;
+
+            try
+            {
+                // Soft delete: keep the row (and its rentals/invoices), just hide it.
+                DBHelper.RunSql("UPDATE car SET Archived = 1 WHERE ID = " + carId);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Kon de auto niet verwijderen:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            loadCars();
         }
 
         private void grid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
