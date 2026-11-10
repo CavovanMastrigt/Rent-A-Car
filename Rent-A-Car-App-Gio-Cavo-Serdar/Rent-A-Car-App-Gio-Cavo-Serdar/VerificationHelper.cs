@@ -1,4 +1,6 @@
 using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
@@ -30,20 +32,24 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             return GetStatus(userId) == StatusVerified;
         }
 
-        // Keeps only the last two characters, e.g. "AB1234567" -> "*******67".
-        // The full document number is never stored.
-        public static string MaskDocument(string documentNumber)
+        // One-way SHA-256 hash of the document number (hex). The full number is
+        // never stored; a later number can still be re-hashed and compared.
+        public static string HashDocument(string documentNumber)
         {
             if (string.IsNullOrWhiteSpace(documentNumber))
             {
                 return "";
             }
-            string trimmed = documentNumber.Trim();
-            if (trimmed.Length <= 2)
+            using (var sha = SHA256.Create())
             {
-                return new string('*', trimmed.Length);
+                byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(documentNumber.Trim()));
+                var builder = new StringBuilder(hash.Length * 2);
+                foreach (byte b in hash)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
             }
-            return new string('*', trimmed.Length - 2) + trimmed.Substring(trimmed.Length - 2);
         }
 
         // Dutch label for a status.

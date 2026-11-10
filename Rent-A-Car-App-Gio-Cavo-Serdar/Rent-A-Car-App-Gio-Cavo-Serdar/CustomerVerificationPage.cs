@@ -334,7 +334,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 var p = new Dictionary<string, object>
                 {
                     { "@uid", selectedUserId },
-                    { "@doc", VerificationHelper.MaskDocument(txtDocument.Text) },
+                    { "@doc", VerificationHelper.HashDocument(txtDocument.Text) },
                     { "@rev", reviewerName() },
                 };
                 // Verified, reviewer + time recorded, document number stored masked, both scans wiped.
