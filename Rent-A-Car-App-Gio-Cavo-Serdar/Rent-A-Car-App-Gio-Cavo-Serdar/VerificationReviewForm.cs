@@ -21,7 +21,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private readonly string custName;
         private readonly string custEmail;
 
-        private Label lblAccount, lblIdData, lblBadge, lblReviewInfo;
+        private Label lblAccount, lblEmail, lblIdData, lblBadge, lblReviewInfo;
         private PictureBox photoFront, photoBack;
         private Label lblFrontNote, lblBackNote;
         private Button btnOpenFront, btnOpenBack, btnApprove, btnReject;
@@ -62,8 +62,18 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             lblAccount = new Label
             {
                 Location = new Point(24, 18),
-                Size = new Size(470, 44),
-                Font = new Font("Segoe UI", 13F, FontStyle.Bold)
+                Size = new Size(480, 26),
+                AutoEllipsis = true,
+                Font = new Font("Segoe UI", 14F, FontStyle.Bold)
+            };
+
+            lblEmail = new Label
+            {
+                Location = new Point(24, 45),
+                Size = new Size(480, 20),
+                AutoEllipsis = true,
+                ForeColor = Muted,
+                Font = new Font("Segoe UI", 9.5F)
             };
 
             lblBadge = new Label
@@ -76,7 +86,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             lblIdData = new Label
             {
-                Location = new Point(24, 66),
+                Location = new Point(24, 70),
                 Size = new Size(710, 24),
                 ForeColor = Muted,
                 Font = new Font("Segoe UI", 9.5F)
@@ -155,7 +165,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             Controls.AddRange(new Control[]
             {
-                btnClose, lblAccount, lblBadge, lblIdData, lblFront, lblBack,
+                btnClose, lblAccount, lblEmail, lblBadge, lblIdData, lblFront, lblBack,
                 photoFront, photoBack, lblFrontNote, lblBackNote, btnOpenFront, btnOpenBack,
                 lblSection, lblFn, txtFirstName, lblLn, txtLastName, lblBirth, dtpBirth, lblExp, dtpExpiry,
                 lblDoc, txtDocument, lblReason, txtReason, btnApprove, btnReject, lblReviewInfo
@@ -190,7 +200,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         private void loadDetail()
         {
-            lblAccount.Text = custName + "\r\n" + custEmail;
+            lblAccount.Text = custName;
+            lblEmail.Text = custEmail;
 
             DataTable t = DBHelper.getdataTable(
                 "SELECT Front_Photo, Back_Photo, File_Type, Back_File_Type, File_Name, Back_File_Name, " +

@@ -114,7 +114,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             entries.Add(new NavEntry { Text = "Extra's en prijzen", CreatePage = () => new ExtrasPricesControl() });
 
             // Customer management - admins and employees can both verify customers.
-            entries.Add(new NavEntry { Text = "Klanten", IsHeader = true });
+            entries.Add(new NavEntry { Text = "Verificatie", IsHeader = true });
             entries.Add(new NavEntry { Text = "Klantverificatie", CreatePage = () => new CustomerVerificationPage() });
 
             // Employees do not see admin-only pages.
