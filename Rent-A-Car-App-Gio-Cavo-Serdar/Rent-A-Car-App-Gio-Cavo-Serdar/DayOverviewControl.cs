@@ -1,3 +1,4 @@
+
 using System;
 using System.Data;
 using System.Drawing;
@@ -6,14 +7,8 @@ using System.Windows.Forms;
 
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
-    // Medewerkerscherm (user story 1): alle ophalingen en terugbrengingen van één dag, gesorteerd op tijd.
     public class DayOverviewControl : UserControl
     {
-        private static readonly Color AccentColor = Color.FromArgb(79, 70, 229);
-        private static readonly Color HeaderColor = Color.FromArgb(243, 244, 246);
-        private static readonly Color TextColor = Color.FromArgb(31, 41, 55);
-        private static readonly Color MutedColor = Color.FromArgb(107, 114, 128);
-
         private readonly DateTimePicker dtpDay;
         private readonly Label lblSummary;
         private readonly DataGridView grid;
@@ -21,10 +16,11 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         public DayOverviewControl()
         {
-            BackColor = Color.White;
-            Font = new Font("Segoe UI", 9.75F);
+            BackColor = UITheme.Surface;
+            Font = UITheme.Body;
+            Padding = new Padding(10);
 
-            // Tabel met de reserveringen. Eerst toegevoegd, zodat hij de ruimte vult die het bovenpaneel overlaat.
+            // Reserveringentabel
             grid = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -36,43 +32,86 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 MultiSelect = false,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                BackgroundColor = Color.White,
+                BackgroundColor = UITheme.Surface,
                 BorderStyle = BorderStyle.None,
                 EnableHeadersVisualStyles = false,
-                RowTemplate = { Height = 32 }
+                RowTemplate = { Height = 42 },
+                CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal,
+                GridColor = UITheme.Border
             };
-            grid.ColumnHeadersDefaultCellStyle.BackColor = HeaderColor;
-            grid.ColumnHeadersDefaultCellStyle.ForeColor = TextColor;
-            grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = HeaderColor;
-            grid.ColumnHeadersDefaultCellStyle.SelectionForeColor = TextColor;
-            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            grid.ColumnHeadersHeight = 36;
-            grid.DefaultCellStyle.ForeColor = TextColor;
-            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(224, 231, 255);
-            grid.DefaultCellStyle.SelectionForeColor = TextColor;
-            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(249, 250, 251);
 
-            // Bovenpaneel met de dagkiezer.
-            var top = new Panel { Dock = DockStyle.Top, Height = 56, BackColor = Color.White };
+            // Kolomkoppen
+            grid.ColumnHeadersDefaultCellStyle.BackColor =
+                UITheme.TableHeader;
 
-            Button btnPrev = makeButton("‹", 16, 36);
+            grid.ColumnHeadersDefaultCellStyle.ForeColor =
+                UITheme.Text;
+
+            grid.ColumnHeadersDefaultCellStyle.SelectionBackColor =
+                UITheme.TableHeader;
+
+            grid.ColumnHeadersDefaultCellStyle.SelectionForeColor =
+                UITheme.Text;
+
+            grid.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Segoe UI", 9.75F, FontStyle.Bold);
+
+            grid.ColumnHeadersHeight = 45;
+            grid.ColumnHeadersHeightSizeMode =
+                DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            // Cellen
+            grid.DefaultCellStyle.Font = UITheme.Body;
+            grid.DefaultCellStyle.ForeColor = UITheme.Text;
+            grid.DefaultCellStyle.BackColor = UITheme.Surface;
+            grid.DefaultCellStyle.SelectionBackColor =
+                UITheme.Selection;
+            grid.DefaultCellStyle.SelectionForeColor =
+                UITheme.Text;
+
+            grid.DefaultCellStyle.Padding =
+                new Padding(8, 4, 8, 4);
+
+            grid.AlternatingRowsDefaultCellStyle.BackColor =
+                UITheme.RowAlternate;
+
+            // Bovenpaneel
+            var top = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                Height = 65,
+                BackColor = UITheme.Surface,
+                Padding = new Padding(5, 12, 5, 8),
+                WrapContents = false,
+                FlowDirection = FlowDirection.LeftToRight
+            };
+
+            Button btnPrev = makeButton("‹", 38);
+            Button btnNext = makeButton("›", 38);
+
             dtpDay = new DateTimePicker
             {
                 Format = DateTimePickerFormat.Long,
-                Location = new Point(58, 15),
                 Width = 240,
-                Value = DateTime.Today
+                Height = 34,
+                Value = DateTime.Today,
+                Font = UITheme.Body,
+                Margin = new Padding(5, 2, 5, 2)
             };
-            Button btnNext = makeButton("›", 304, 36);
-            Button btnToday = makeButton("Vandaag", 346, 80);
-            btnToday.BackColor = AccentColor;
+
+            Button btnToday = makeButton("Vandaag", 90);
+            btnToday.BackColor = UITheme.Primary;
             btnToday.ForeColor = Color.White;
+
+            btnToday.FlatAppearance.MouseOverBackColor =
+                UITheme.PrimaryHover;
 
             lblSummary = new Label
             {
                 AutoSize = true,
-                Location = new Point(444, 19),
-                ForeColor = MutedColor
+                ForeColor = UITheme.Muted,
+                Font = UITheme.Body,
+                Margin = new Padding(15, 10, 5, 0)
             };
 
             top.Controls.Add(btnPrev);
@@ -84,59 +123,67 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             Controls.Add(grid);
             Controls.Add(top);
 
-            btnPrev.Click += (s, e) => dtpDay.Value = dtpDay.Value.AddDays(-1);
-            btnNext.Click += (s, e) => dtpDay.Value = dtpDay.Value.AddDays(1);
-            btnToday.Click += (s, e) => dtpDay.Value = DateTime.Today;
+            // Gebeurtenissen
+            btnPrev.Click += (s, e) =>
+                dtpDay.Value = dtpDay.Value.AddDays(-1);
+
+            btnNext.Click += (s, e) =>
+                dtpDay.Value = dtpDay.Value.AddDays(1);
+
+            btnToday.Click += (s, e) =>
+                dtpDay.Value = DateTime.Today;
+
             dtpDay.ValueChanged += (s, e) =>
             {
                 if (ready)
-                {
                     loadData();
-                }
             };
 
-            // Reserveringen kunnen op andere tabbladen veranderen, dus laad opnieuw zodra dit tabblad weer getoond wordt.
             VisibleChanged += (s, e) =>
             {
                 if (ready && Visible)
-                {
                     loadData();
-                }
             };
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+
             if (DesignMode)
-            {
                 return;
-            }
 
             ready = true;
             loadData();
         }
 
-        private static Button makeButton(string text, int left, int width)
+        private static Button makeButton(string text, int width)
         {
             var button = new Button
             {
                 Text = text,
-                Location = new Point(left, 12),
-                Size = new Size(width, 32),
+                Size = new Size(width, 34),
                 FlatStyle = FlatStyle.Flat,
                 Cursor = Cursors.Hand,
-                BackColor = HeaderColor,
-                ForeColor = TextColor
+                BackColor = UITheme.TableHeader,
+                ForeColor = UITheme.Text,
+                Font = UITheme.Button,
+                Margin = new Padding(5, 2, 5, 2)
             };
+
             button.FlatAppearance.BorderSize = 0;
+            button.FlatAppearance.MouseOverBackColor =
+                UITheme.Selection;
+
             return button;
         }
 
-        // Ophalingen gebruiken de geplande start van een reservering, terugbrengingen het geplande einde. Geannuleerde reserveringen blijven weg.
         private void loadData()
         {
-            string day = "'" + dtpDay.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + "'";
+            string day = "'" +
+                dtpDay.Value.ToString(
+                    "yyyy-MM-dd",
+                    CultureInfo.InvariantCulture) + "'";
 
             string sql =
                 "SELECT r.ID AS `Nr`, TIME_FORMAT(r.Date_Started, '%H:%i') AS `Tijd`, 'Ophalen' AS `Soort`, " +
@@ -156,47 +203,47 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 DataTable table = DBHelper.getdataTable(sql);
 
-                // De database bewaart de statussen in het Engels; op het scherm tonen we ze in het Nederlands.
                 foreach (DataRow row in table.Rows)
                 {
-                    row["Status"] = StatusText.Rental(Convert.ToString(row["Status"]));
+                    row["Status"] =
+                        StatusText.Rental(
+                            Convert.ToString(row["Status"]));
                 }
 
                 grid.DataSource = table;
 
                 if (grid.Columns.Contains("Nr"))
-                {
                     grid.Columns["Nr"].FillWeight = 30;
-                }
+
                 if (grid.Columns.Contains("Tijd"))
-                {
-                    grid.Columns["Tijd"].FillWeight = 40;
-                }
+                    grid.Columns["Tijd"].FillWeight = 45;
+
                 if (grid.Columns.Contains("Soort"))
-                {
-                    grid.Columns["Soort"].FillWeight = 60;
-                }
+                    grid.Columns["Soort"].FillWeight = 65;
 
                 int pickUps = 0;
                 int returns = 0;
+
                 foreach (DataRow row in table.Rows)
                 {
                     if (row["Soort"].ToString() == "Ophalen")
-                    {
                         pickUps++;
-                    }
                     else
-                    {
                         returns++;
-                    }
                 }
 
-                lblSummary.Text = pickUps + " ophaling(en), " + returns + " terugbrenging(en)";
+                lblSummary.Text =
+                    pickUps + " ophaling(en)  |  " +
+                    returns + " terugbrenging(en)";
             }
             catch (Exception ex)
             {
-                MessageBox.Show("De reserveringen konden niet worden geladen: " + ex.Message, "Dagoverzicht",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "De reserveringen konden niet worden geladen: " +
+                    ex.Message,
+                    "Dagoverzicht",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
         }
     }
