@@ -8,10 +8,11 @@ using System.Windows.Forms;
 
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
-    // User story 8 - admin reviews one customer's ID in a popup (like login/register).
-    // Shows the front and back scan, lets the admin fill in the document number and
-    // approve or reject (with a mandatory reason). Returns DialogResult.OK when the
-    // customer was approved or rejected, so the list behind it can refresh.
+    // User story 8 - admin or employee reviews one customer's ID in a popup.
+    // The reviewer compares the scan, takes over the key details from the ID
+    // (name, birth date, expiry date, document number) and approves or rejects
+    // (with a mandatory reason). Returns DialogResult.OK when a decision was made,
+    // so the list behind it can refresh.
     public class VerificationReviewForm : PopupForm
     {
         private static readonly Color Muted = Color.FromArgb(107, 114, 128);
@@ -24,7 +25,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private PictureBox photoFront, photoBack;
         private Label lblFrontNote, lblBackNote;
         private Button btnOpenFront, btnOpenBack, btnApprove, btnReject;
-        private TextBox txtDocument, txtReason;
+        private TextBox txtFirstName, txtLastName, txtDocument, txtReason;
+        private DateTimePicker dtpBirth, dtpExpiry;
 
         private string status = VerificationHelper.StatusNone;
 
@@ -34,7 +36,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             this.custName = name;
             this.custEmail = email;
 
-            ClientSize = new Size(760, 646);
+            ClientSize = new Size(760, 700);
             StartPosition = FormStartPosition.CenterParent;
             FormBorderStyle = FormBorderStyle.None;
             Text = "Klant beoordelen";
@@ -94,16 +96,37 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             btnOpenBack = makePdfButton(new Point(608, 320));
             btnOpenBack.Click += (s, e) => openPdf("Back_Photo");
 
-            var lblDoc = new Label { Text = "Documentnummer", Location = new Point(24, 350), AutoSize = true };
-            txtDocument = new TextBox { Location = new Point(24, 370), Width = 340, Font = new Font("Segoe UI", 10F) };
+            var lblSection = new Label
+            {
+                Text = "Gegevens overnemen van de ID",
+                Location = new Point(24, 346),
+                AutoSize = true,
+                ForeColor = Color.FromArgb(17, 24, 39),
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold)
+            };
 
-            var lblReason = new Label { Text = "Reden (verplicht bij afkeuren)", Location = new Point(24, 404), AutoSize = true };
-            txtReason = new TextBox { Location = new Point(24, 424), Width = 712, Height = 60, Multiline = true };
+            var lblFn = new Label { Text = "Voornaam", Location = new Point(24, 372), AutoSize = true, ForeColor = Muted };
+            txtFirstName = new TextBox { Location = new Point(24, 392), Width = 210, Font = new Font("Segoe UI", 10F) };
+
+            var lblLn = new Label { Text = "Achternaam", Location = new Point(248, 372), AutoSize = true, ForeColor = Muted };
+            txtLastName = new TextBox { Location = new Point(248, 392), Width = 210, Font = new Font("Segoe UI", 10F) };
+
+            var lblBirth = new Label { Text = "Geboortedatum", Location = new Point(472, 372), AutoSize = true, ForeColor = Muted };
+            dtpBirth = new DateTimePicker { Location = new Point(472, 392), Width = 120, Format = DateTimePickerFormat.Short, MaxDate = DateTime.Today };
+
+            var lblExp = new Label { Text = "Vervaldatum", Location = new Point(600, 372), AutoSize = true, ForeColor = Muted };
+            dtpExpiry = new DateTimePicker { Location = new Point(600, 392), Width = 120, Format = DateTimePickerFormat.Short };
+
+            var lblDoc = new Label { Text = "Documentnummer", Location = new Point(24, 428), AutoSize = true, ForeColor = Muted };
+            txtDocument = new TextBox { Location = new Point(24, 448), Width = 340, Font = new Font("Segoe UI", 10F) };
+
+            var lblReason = new Label { Text = "Reden (verplicht bij afkeuren)", Location = new Point(24, 484), AutoSize = true, ForeColor = Muted };
+            txtReason = new TextBox { Location = new Point(24, 504), Width = 712, Height = 48, Multiline = true };
 
             btnApprove = new Button
             {
                 Text = "Goedkeuren",
-                Location = new Point(24, 500),
+                Location = new Point(24, 566),
                 Size = new Size(180, 40),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.FromArgb(22, 163, 74),
@@ -117,7 +140,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             btnReject = new Button
             {
                 Text = "Afkeuren",
-                Location = new Point(216, 500),
+                Location = new Point(216, 566),
                 Size = new Size(180, 40),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.FromArgb(220, 38, 38),
@@ -128,12 +151,13 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             btnReject.FlatAppearance.BorderSize = 0;
             btnReject.Click += (s, e) => reject();
 
-            lblReviewInfo = new Label { Location = new Point(24, 552), Size = new Size(712, 70), ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
+            lblReviewInfo = new Label { Location = new Point(24, 616), Size = new Size(712, 70), ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
 
             Controls.AddRange(new Control[]
             {
                 btnClose, lblAccount, lblBadge, lblIdData, lblFront, lblBack,
                 photoFront, photoBack, lblFrontNote, lblBackNote, btnOpenFront, btnOpenBack,
+                lblSection, lblFn, txtFirstName, lblLn, txtLastName, lblBirth, dtpBirth, lblExp, dtpExpiry,
                 lblDoc, txtDocument, lblReason, txtReason, btnApprove, btnReject, lblReviewInfo
             });
             CancelButton = btnClose;
@@ -167,12 +191,11 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private void loadDetail()
         {
             lblAccount.Text = custName + "\r\n" + custEmail;
-            lblAccount.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
 
             DataTable t = DBHelper.getdataTable(
                 "SELECT Front_Photo, Back_Photo, File_Type, Back_File_Type, File_Name, Back_File_Name, " +
-                "Date_Of_Birth, Expiration_Date, Identity_Status, Reviewed_By, Reviewed_At, " +
-                "Document_Number, Reject_Reason FROM identity WHERE UserID = " + userId);
+                "ID_First_Name, ID_Last_Name, Date_Of_Birth, Expiration_Date, Identity_Status, " +
+                "Reviewed_By, Reviewed_At, Document_Number, Reject_Reason FROM identity WHERE UserID = " + userId);
 
             if (t.Rows.Count == 0)
             {
@@ -181,6 +204,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 lblIdData.Text = "Deze klant heeft nog geen ID-kaart geüpload.";
                 lblFrontNote.Text = "Geen scan";
                 lblBackNote.Text = "Geen scan";
+                setDefaultsDates();
                 setActionsEnabled(false);
                 lblReviewInfo.Text = "";
                 return;
@@ -190,16 +214,20 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             status = row["Identity_Status"].ToString();
             setBadge();
 
-            string dob = row["Date_Of_Birth"] == DBNull.Value ? "-" : Convert.ToDateTime(row["Date_Of_Birth"]).ToString("dd-MM-yyyy");
-            string exp = row["Expiration_Date"] == DBNull.Value ? "-" : Convert.ToDateTime(row["Expiration_Date"]).ToString("dd-MM-yyyy");
             string fname = row["File_Name"] == DBNull.Value ? "-" : row["File_Name"].ToString();
-            lblIdData.Text = "Geboortedatum (ID): " + dob + "      Vervaldatum ID: " + exp + "      Bestand: " + fname;
+            lblIdData.Text = "Bestand: " + fname;
 
             bool reviewed = status == VerificationHelper.StatusVerified || status == VerificationHelper.StatusFailed;
 
             showScan(photoFront, lblFrontNote, btnOpenFront, row, "Front_Photo", "File_Type", reviewed, true);
             showScan(photoBack, lblBackNote, btnOpenBack, row, "Back_Photo", "Back_File_Type", reviewed, false);
 
+            // Take over whatever was captured before; fall back to the customer's
+            // stated birth/expiry date from the upload so the reviewer can confirm.
+            txtFirstName.Text = row["ID_First_Name"] == DBNull.Value ? "" : row["ID_First_Name"].ToString();
+            txtLastName.Text = row["ID_Last_Name"] == DBNull.Value ? "" : row["ID_Last_Name"].ToString();
+            setDatePicker(dtpBirth, row["Date_Of_Birth"], new DateTime(2000, 1, 1));
+            setDatePicker(dtpExpiry, row["Expiration_Date"], DateTime.Today.AddYears(5));
             txtDocument.Text = row["Document_Number"] == DBNull.Value ? "" : row["Document_Number"].ToString();
             txtReason.Text = row["Reject_Reason"] == DBNull.Value ? "" : row["Reject_Reason"].ToString();
 
@@ -216,9 +244,23 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
             else
             {
-                lblReviewInfo.Text = "In behandeling - controleer de ID-kaart en keur goed of af.";
+                lblReviewInfo.Text = "In behandeling - neem de gegevens over van de ID en keur goed of af.";
                 lblReviewInfo.ForeColor = Muted;
             }
+        }
+
+        private void setDefaultsDates()
+        {
+            setDatePicker(dtpBirth, DBNull.Value, new DateTime(2000, 1, 1));
+            setDatePicker(dtpExpiry, DBNull.Value, DateTime.Today.AddYears(5));
+        }
+
+        private static void setDatePicker(DateTimePicker dtp, object value, DateTime fallback)
+        {
+            DateTime d = (value == null || value == DBNull.Value) ? fallback : Convert.ToDateTime(value);
+            if (d < dtp.MinDate) d = dtp.MinDate;
+            if (d > dtp.MaxDate) d = dtp.MaxDate;
+            dtp.Value = d;
         }
 
         private void showScan(PictureBox box, Label note, Button pdf, DataRow row,
@@ -256,24 +298,42 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         private void approve()
         {
+            if (txtFirstName.Text.Trim() == "" || txtLastName.Text.Trim() == "")
+            {
+                MessageBox.Show("Vul de voor- en achternaam van de ID in.", "Goedkeuren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtFirstName.Focus();
+                return;
+            }
             if (txtDocument.Text.Trim() == "")
             {
                 MessageBox.Show("Vul eerst het documentnummer in.", "Goedkeuren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDocument.Focus();
                 return;
             }
+            if (dtpExpiry.Value.Date < DateTime.Today)
+            {
+                var ok = MessageBox.Show("De vervaldatum ligt in het verleden. Toch goedkeuren?",
+                    "Goedkeuren", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (ok != DialogResult.Yes) return;
+            }
             try
             {
                 var p = new Dictionary<string, object>
                 {
                     { "@uid", userId },
+                    { "@fn", txtFirstName.Text.Trim() },
+                    { "@ln", txtLastName.Text.Trim() },
+                    { "@dob", dtpBirth.Value.Date },
+                    { "@exp", dtpExpiry.Value.Date },
                     { "@doc", VerificationHelper.MaskDocument(txtDocument.Text) },
                     { "@rev", reviewerName() },
                 };
-                // Verified, reviewer + time recorded, document number stored masked, scans wiped.
+                // Verified: ID details taken over, reviewer + time recorded,
+                // document number stored masked, scans wiped.
                 DBHelper.RunSql(
-                    "UPDATE identity SET Identity_Status = 'Verified', Document_Number = @doc, " +
-                    "Reviewed_By = @rev, Reviewed_At = NOW(), Reject_Reason = NULL, " +
+                    "UPDATE identity SET Identity_Status = 'Verified', " +
+                    "ID_First_Name = @fn, ID_Last_Name = @ln, Date_Of_Birth = @dob, Expiration_Date = @exp, " +
+                    "Document_Number = @doc, Reviewed_By = @rev, Reviewed_At = NOW(), Reject_Reason = NULL, " +
                     "Front_Photo = NULL, Back_Photo = NULL WHERE UserID = @uid", p);
                 DBHelper.RunSql("UPDATE user SET User_Status = 'active' WHERE ID = " + userId);
             }
@@ -329,7 +389,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 }
             }
             catch { }
-            return "Admin #" + DBHelper.loggedinuserid;
+            return "Medewerker #" + DBHelper.loggedinuserid;
         }
 
         private void openPdf(string column)
@@ -356,6 +416,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         {
             btnApprove.Enabled = enabled;
             btnReject.Enabled = enabled;
+            txtFirstName.Enabled = enabled;
+            txtLastName.Enabled = enabled;
+            dtpBirth.Enabled = enabled;
+            dtpExpiry.Enabled = enabled;
             txtDocument.Enabled = enabled;
             txtReason.Enabled = enabled;
         }
