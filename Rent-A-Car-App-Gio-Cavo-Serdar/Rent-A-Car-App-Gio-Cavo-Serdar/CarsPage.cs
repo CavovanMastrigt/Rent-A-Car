@@ -132,11 +132,18 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 RowTemplate = { Height = 32 }
             };
             grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(249, 250, 251);
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(75, 85, 99);
             grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            grid.ColumnHeadersDefaultCellStyle.Padding = new Padding(8, 0, 8, 0);
             grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            grid.ColumnHeadersHeight = 38;
+            grid.ColumnHeadersHeight = 40;
+            grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            grid.GridColor = Color.FromArgb(237, 239, 242);
+            grid.DefaultCellStyle.Padding = new Padding(8, 0, 8, 0);
             grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 234, 254);
             grid.DefaultCellStyle.SelectionForeColor = Color.Black;
+            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 251);
 
             grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "ID", DataPropertyName = "ID", Visible = false });
             grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Kenteken", HeaderText = "Kenteken", DataPropertyName = "Kenteken", ReadOnly = true, FillWeight = 90 });
@@ -159,7 +166,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 HeaderText = "Status",
                 DataPropertyName = "Status",
                 FillWeight = 110,
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
+                // Looks like a normal coloured cell; the dropdown only appears on click.
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
+                DisplayStyleForCurrentCellOnly = true
             };
             statusCol.Items.AddRange(StatusLabels);
             grid.Columns.Add(statusCol);
@@ -187,10 +197,19 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             card.Controls.Add(grid);
 
-            root.Controls.Add(card);
-            root.Controls.Add(toolbar);
-            root.Controls.Add(header);
-            header.BringToFront();
+            // Fixed 3-row layout so the title always sits above the toolbar and grid.
+            header.Dock = DockStyle.Fill;
+            toolbar.Dock = DockStyle.Fill;
+            card.Dock = DockStyle.Fill;
+
+            var layout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 3 };
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 46f));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 56f));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+            layout.Controls.Add(header, 0, 0);
+            layout.Controls.Add(toolbar, 0, 1);
+            layout.Controls.Add(card, 0, 2);
+            root.Controls.Add(layout);
         }
 
         private void loadCars()
@@ -239,8 +258,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     string code = r["Car_Status"].ToString();
                     string label = CodeToLabel.ContainsKey(code) ? CodeToLabel[code] : "Beschikbaar";
                     double price = Convert.ToDouble(r["Daily_Price"], CultureInfo.InvariantCulture);
-                    string year = r["Build_Date"] == DBNull.Value ? "" : Convert.ToDateTime(r["Build_Date"]).Year.ToString();
-                    string fuel = r["Fuel_Type"] == DBNull.Value ? "" : r["Fuel_Type"].ToString();
+                    string year = r["Build_Date"] == DBNull.Value ? "-" : Convert.ToDateTime(r["Build_Date"]).Year.ToString();
+                    string fuel = (r["Fuel_Type"] == DBNull.Value || r["Fuel_Type"].ToString().Trim() == "") ? "-" : r["Fuel_Type"].ToString();
                     display.Rows.Add(
                         Convert.ToInt32(r["ID"]),
                         r["License_Plate"].ToString(),
