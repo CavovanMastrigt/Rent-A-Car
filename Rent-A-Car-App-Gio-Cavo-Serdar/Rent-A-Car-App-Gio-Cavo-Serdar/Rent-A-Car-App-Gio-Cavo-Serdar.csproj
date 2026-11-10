@@ -57,6 +57,9 @@
     <Compile Include="AdminPage.Designer.cs">
       <DependentUpon>AdminPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChangeCancelControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CustomerPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -70,7 +73,16 @@
     <Compile Include="DashboardPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="DayOverviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="DBHelper.cs" />
+    <Compile Include="EmployeePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExtrasPricesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="HomeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +94,16 @@
     </Compile>
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewReservationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OpeningHours.cs" />
+    <Compile Include="PickupReturnControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PlanningControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ProfileForm.cs">
       <SubType>Form</SubType>
@@ -99,6 +121,7 @@
     <Compile Include="RegisterForm.Designer.cs">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="StatusText.cs" />
     <Compile Include="TopBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -106,6 +129,7 @@
       <DependentUpon>TopBar.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UITheme.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

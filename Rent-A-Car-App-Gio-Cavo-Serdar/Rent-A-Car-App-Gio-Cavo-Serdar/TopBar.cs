@@ -96,9 +96,18 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             btnProfile.Text = name + " " + lastName + "  ▾";
             lblInitials.Text = (name.Substring(0, 1) + lastName.Substring(0, 1)).ToUpper();
-            string roleSuffix = AuthHelper.loggedinroleid == AuthHelper.RoleAdmin ? "  (Admin)"
-                : (AuthHelper.loggedinroleid == AuthHelper.RoleEmployee ? "  (Employee)" : "");
-            lblMenuName.Text = name + " " + lastName + roleSuffix;
+            string roleName = "";
+
+            if (AuthHelper.loggedinroleid == AuthHelper.RoleAdmin)
+            {
+                roleName = " (Admin)";
+            }
+            else if (AuthHelper.loggedinroleid == AuthHelper.RoleEmployee)
+            {
+                roleName = " (Employee)";
+            }
+
+            lblMenuName.Text = name + " " + lastName + roleName;
             lblMenuEmail.Text = user.Rows[0]["Email"].ToString();
 
             positionProfileButton();
