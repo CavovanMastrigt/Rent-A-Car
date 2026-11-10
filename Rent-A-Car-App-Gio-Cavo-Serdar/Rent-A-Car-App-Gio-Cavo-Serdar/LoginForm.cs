@@ -46,7 +46,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
 
             int roleId = Convert.ToInt32(user.Rows[0]["RID"]);
-            if (roleId != AuthHelper.RoleCustomer && roleId != AuthHelper.RoleAdmin)
+            if (roleId != AuthHelper.RoleCustomer && roleId != AuthHelper.RoleAdmin && roleId != AuthHelper.RoleEmployee)
             {
                 MessageBox.Show("Your account has no valid role. Please contact an admin.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -58,6 +58,16 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             // The top bar shows the customer or admin page when this popup closes with OK.
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        // Toggles the password between hidden dots and readable text.
+        private void btnShowPassword_Click(object sender, EventArgs e)
+        {
+            bool show = txtPassword.UseSystemPasswordChar;
+            txtPassword.UseSystemPasswordChar = !show;
+            btnShowPassword.Text = show ? "🙈" : "👁";
+            txtPassword.Focus();
+            txtPassword.SelectionStart = txtPassword.TextLength;
         }
 
         private void btnRegister_Click(object sender, EventArgs e)

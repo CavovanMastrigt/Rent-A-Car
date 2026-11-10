@@ -36,9 +36,11 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 Text = "Rent A Car";
             }
-            else if (AuthHelper.loggedinroleid == AuthHelper.RoleAdmin)
+            else if (AuthHelper.isStaff(AuthHelper.loggedinroleid))
             {
-                Text = "Rent A Car - Admin";
+                Text = AuthHelper.loggedinroleid == AuthHelper.RoleAdmin
+                    ? "Rent A Car - Admin"
+                    : "Rent A Car - Employee";
                 page = new AdminPage();
             }
             else

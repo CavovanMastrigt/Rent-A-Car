@@ -9,10 +9,17 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
     internal class AuthHelper
     {
-        public static int loggedinroleid = 0; // 0 = customer, 1 = admin
+        public static int loggedinroleid = 0; // 0 = customer, 1 = admin, 2 = employee
 
         public const int RoleCustomer = 0;
         public const int RoleAdmin = 1;
+        public const int RoleEmployee = 2;
+
+        // Admin and employee both use the admin area (the manager dashboard stays admin-only).
+        public static bool isStaff(int roleId)
+        {
+            return roleId == RoleAdmin || roleId == RoleEmployee;
+        }
 
         // Puts user input in quotes for a DBHelper query, e.g. "WHERE Email = " + AuthHelper.sql(txtEmail.Text).
         // Quotes and backslashes are escaped, so the input can't break out of the string (SQL injection).
