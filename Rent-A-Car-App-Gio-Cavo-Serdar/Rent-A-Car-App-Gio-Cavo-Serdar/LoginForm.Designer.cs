@@ -36,6 +36,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnRegister = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
+            this.btnShowPassword = new System.Windows.Forms.Button();
             this.SuspendLayout();
             //
             // btnClose
@@ -94,9 +95,24 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             //
             this.txtPassword.Location = new System.Drawing.Point(63, 153);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(260, 20);
+            this.txtPassword.Size = new System.Drawing.Size(228, 20);
             this.txtPassword.TabIndex = 4;
             this.txtPassword.UseSystemPasswordChar = true;
+            //
+            // btnShowPassword
+            //
+            this.btnShowPassword.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnShowPassword.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(213)))), ((int)(((byte)(219)))));
+            this.btnShowPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShowPassword.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
+            this.btnShowPassword.Location = new System.Drawing.Point(295, 152);
+            this.btnShowPassword.Name = "btnShowPassword";
+            this.btnShowPassword.Size = new System.Drawing.Size(28, 22);
+            this.btnShowPassword.TabIndex = 8;
+            this.btnShowPassword.TabStop = false;
+            this.btnShowPassword.Text = "👁";
+            this.btnShowPassword.UseVisualStyleBackColor = true;
+            this.btnShowPassword.Click += new System.EventHandler(this.btnShowPassword_Click);
             //
             // btnLogin
             //
@@ -126,6 +142,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             this.ClientSize = new System.Drawing.Size(384, 295);
             this.CancelButton = this.btnClose;
             this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnShowPassword);
             this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPassword);
@@ -154,5 +171,6 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnShowPassword;
     }
 }

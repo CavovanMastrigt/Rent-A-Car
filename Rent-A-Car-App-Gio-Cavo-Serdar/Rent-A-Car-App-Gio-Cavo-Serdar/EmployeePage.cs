@@ -5,31 +5,75 @@ using System.Windows.Forms;
 namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
     // Pagina onder de topbalk voor rol 2 (medewerker).
-    // Elke functie is een eigen UserControl op een eigen tabblad, zodat functies los van elkaar toegevoegd kunnen worden.
     public class EmployeePage : UserControl
     {
-        private readonly TabControl tabs;
+        private readonly TabControl tabs = new TabControl
+        {
+            Dock = DockStyle.Fill,
+            Name = nameof(tabs)
+        };
 
         public EmployeePage()
         {
-            BackColor = Color.FromArgb(243, 244, 246);
+            BackColor = Color.White;
+            ForeColor = Color.FromArgb(31, 41, 55);
             Font = new Font("Segoe UI", 9.75F);
             Padding = new Padding(16);
 
-            tabs = new TabControl { Dock = DockStyle.Fill };
+            SuspendLayout();
+
+            AddCommonTabs();
+
+            if (AuthHelper.loggedinroleid == AuthHelper.RoleAdmin)
+            {
+                AddAdminTabs();
+            }
+
             Controls.Add(tabs);
 
-            addTab("Dagoverzicht", new DayOverviewControl());
-            addTab("Planning", new PlanningControl());
-            addTab("Nieuwe reservering", new NewReservationControl());
-            addTab("Ophalen / terugbrengen", new PickupReturnControl());
-            addTab("Wijzigen / annuleren", new ChangeCancelControl());
-            // Volgende tabbladen: Extra's en prijzen, Klanten.
+            if (tabs.TabPages.Count > 0)
+            {
+                tabs.SelectedIndex = 0;
+            }
+
+            ResumeLayout(false);
         }
 
-        private void addTab(string title, UserControl content)
+        private void AddCommonTabs()
         {
-            var page = new TabPage(title) { BackColor = Color.White };
+            AddTab("Dagoverzicht", new DayOverviewControl());
+            AddTab("Planning", new PlanningControl());
+            AddTab("Nieuwe reservering", new NewReservationControl());
+            AddTab("Ophalen / terugbrengen", new PickupReturnControl());
+            AddTab("Wijzigen / annuleren", new ChangeCancelControl());
+            AddTab("Klanten", new CustomersControl());
+        }
+
+        private void AddAdminTabs()
+        {
+            AddTab("Extra's en prijzen", new ExtrasPricesControl());
+            AddTab("Gebruikers en rollen", new UsersRolesControl());
+        }
+
+        // Voegt een UserControl toe als een nieuw tabblad.
+        public void AddTab(string title, Control content)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("Een tabblad moet een titel hebben.", nameof(title));
+            }
+
+            if (content == null)
+            {
+                throw new ArgumentNullException(nameof(content));
+            }
+
+            TabPage page = new TabPage(title)
+            {
+                BackColor = Color.White,
+                Padding = new Padding(4)
+            };
+
             content.Dock = DockStyle.Fill;
             page.Controls.Add(content);
             tabs.TabPages.Add(page);
