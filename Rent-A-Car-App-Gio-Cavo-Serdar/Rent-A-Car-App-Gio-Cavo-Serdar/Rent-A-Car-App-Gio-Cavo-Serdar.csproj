@@ -67,6 +67,13 @@
       <DependentUpon>CustomerPage.cs</DependentUpon>
     </Compile>
     <Compile Include="AuthHelper.cs" />
+    <Compile Include="CustomersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Ui.cs" />
+    <Compile Include="UsersRolesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="VerificationHelper.cs" />
     <Compile Include="IdentityVerificationForm.cs">
       <SubType>Form</SubType>
