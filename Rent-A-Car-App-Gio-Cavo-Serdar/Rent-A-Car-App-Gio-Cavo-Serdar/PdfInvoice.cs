@@ -32,6 +32,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             public int Days;
             public double PricePerDay;
             public double Total;
+            public string StatusLabel = "";
         }
 
         private static readonly Encoding Win = Encoding.GetEncoding(1252);
@@ -54,6 +55,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             text(body, 470, 112, 9, false, d.Date.ToString("dd-MM-yyyy", NL));
             text(body, 360, 128, 9, true, "Vervaldatum");
             text(body, 470, 128, 9, false, d.Expiration.ToString("dd-MM-yyyy", NL));
+            text(body, 360, 144, 9, true, "Status");
+            text(body, 470, 144, 9, false, d.StatusLabel);
 
             // Bill-to block
             text(body, 60, 180, 10, true, "Factuuradres");

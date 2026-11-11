@@ -172,9 +172,15 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             else if (e.ColumnIndex == verifCol)
             {
                 string code = Convert.ToString(grid.Rows[e.RowIndex].Cells["VerifCode"].Value);
-                e.CellStyle.ForeColor = VerificationHelper.StatusForeColor(code);
+                e.CellStyle.ForeColor = verifColor(code);
                 e.CellStyle.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             }
+        }
+
+        private static Color verifColor(string code)
+        {
+            if (code == "Expired") return Color.FromArgb(146, 64, 14); // amber
+            return VerificationHelper.StatusForeColor(code);
         }
 
         private static Color customerStatusColor(string code)
@@ -195,7 +201,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 DataTable t = DBHelper.getdataTable(
                     "SELECT u.ID, CONCAT(u.Name,' ',u.LastName) AS Naam, u.Email, u.Phone_Number, u.City, u.User_Status, " +
-                    "COALESCE(i.Identity_Status,'None') AS Verif " +
+                    "COALESCE(i.Identity_Status,'None') AS Verif, i.Expiration_Date AS VerifExp " +
                     "FROM user u LEFT JOIN identity i ON i.UserID = u.ID " +
                     "WHERE u.RID = " + AuthHelper.RoleCustomer + " ORDER BY u.Name, u.LastName");
 
@@ -213,11 +219,17 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 {
                     string stCode = r["User_Status"].ToString();
                     string verif = r["Verif"].ToString();
+                    // A verified ID whose expiry date has passed counts as expired.
+                    bool expired = verif == VerificationHelper.StatusVerified
+                        && r["VerifExp"] != DBNull.Value
+                        && Convert.ToDateTime(r["VerifExp"]).Date < DateTime.Today;
+                    string verifCode = expired ? "Expired" : verif;
+                    string verifLabel = expired ? "Verlopen" : VerificationHelper.StatusLabel(verif);
                     all.Rows.Add(
                         Convert.ToInt32(r["ID"]), r["Naam"].ToString(), r["Email"].ToString(),
                         r["Phone_Number"].ToString(), r["City"].ToString(),
                         stCode, StatusText.Customer(stCode),
-                        verif, VerificationHelper.StatusLabel(verif));
+                        verifCode, verifLabel);
                 }
                 applyFilter();
             }
@@ -274,7 +286,45 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             int id = selectedId();
             if (id < 0) { MessageBox.Show("Selecteer eerst een klant.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
             string name = grid.CurrentRow.Cells["Naam"].Value.ToString();
-            using (var dlg = new CustomerIdUploadForm(id, name))
+
+            // Decide whether a new ID may be uploaded, based on the current status.
+            string status = VerificationHelper.StatusNone;
+            string reject = null;
+            bool expired = false;
+            try
+            {
+                DataTable t = DBHelper.getdataTable(
+                    "SELECT Identity_Status, Expiration_Date, Reject_Reason FROM identity WHERE UserID = " + id);
+                if (t.Rows.Count > 0)
+                {
+                    status = t.Rows[0]["Identity_Status"].ToString();
+                    if (t.Rows[0]["Reject_Reason"] != DBNull.Value) reject = t.Rows[0]["Reject_Reason"].ToString();
+                    if (status == VerificationHelper.StatusVerified && t.Rows[0]["Expiration_Date"] != DBNull.Value)
+                    {
+                        expired = Convert.ToDateTime(t.Rows[0]["Expiration_Date"]).Date < DateTime.Today;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Kon de verificatiestatus niet controleren:\n" + ex.Message, "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (status == VerificationHelper.StatusVerified && !expired)
+            {
+                MessageBox.Show("Deze klant is al geverifieerd. Een nieuwe ID is niet nodig.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (status == VerificationHelper.StatusPending)
+            {
+                MessageBox.Show("Er staat al een ID in behandeling. Wacht tot die beoordeeld is.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Allowed: None, Afgekeurd (show the reason), or an expired verified ID.
+            string rejectLog = status == VerificationHelper.StatusFailed ? reject : null;
+            using (var dlg = new CustomerIdUploadForm(id, name, rejectLog))
             {
                 if (PopupForm.show(FindForm(), dlg) == DialogResult.OK) loadCustomers();
             }

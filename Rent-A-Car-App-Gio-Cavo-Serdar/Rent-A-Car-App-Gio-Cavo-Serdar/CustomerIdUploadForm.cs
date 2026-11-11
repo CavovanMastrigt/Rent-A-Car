@@ -23,13 +23,15 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         private readonly int userId;
         private readonly string customerName;
+        private readonly string previousRejectReason;
         private Slot front, back;
         private DateTimePicker dtpBirth, dtpExpiry;
 
-        public CustomerIdUploadForm(int userId, string customerName)
+        public CustomerIdUploadForm(int userId, string customerName, string previousRejectReason = null)
         {
             this.userId = userId;
             this.customerName = customerName;
+            this.previousRejectReason = previousRejectReason;
             ClientSize = new Size(720, 470);
             StartPosition = FormStartPosition.CenterParent;
             FormBorderStyle = FormBorderStyle.None;
@@ -94,6 +96,12 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 DialogResult = DialogResult.Cancel,
                 Cursor = Cursors.Hand
             };
+
+            if (!string.IsNullOrWhiteSpace(previousRejectReason))
+            {
+                Controls.Add(new Label { Text = "Vorige poging afgekeurd", Location = new Point(380, 320), AutoSize = true, Font = new Font("Segoe UI", 9.5F, FontStyle.Bold), ForeColor = Color.FromArgb(153, 27, 27) });
+                Controls.Add(new Label { Text = previousRejectReason, Location = new Point(380, 342), Size = new Size(310, 60), ForeColor = Color.FromArgb(55, 65, 81), Font = new Font("Segoe UI", 9F) });
+            }
 
             Controls.AddRange(new Control[] { title, btnClose, dtpBirth, dtpExpiry, btnSubmit, btnCancel });
             title.BringToFront();

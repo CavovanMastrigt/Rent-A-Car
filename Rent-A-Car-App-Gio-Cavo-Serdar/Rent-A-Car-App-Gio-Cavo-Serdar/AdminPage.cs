@@ -56,24 +56,15 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             sidebar = new Panel { Dock = DockStyle.Left, Width = 230, BackColor = SidebarColor };
 
-            var brand = new Label
-            {
-                Text = "  Rent A Car",
-                Dock = DockStyle.Top,
-                Height = 50,
-                ForeColor = Color.White,
-                Font = new Font("Segoe UI", 14F, FontStyle.Bold),
-                TextAlign = ContentAlignment.MiddleLeft
-            };
-
-            string roleName = AuthHelper.loggedinroleid == AuthHelper.RoleAdmin ? "Administrator" : "Employee";
+            // The brand sits in the (dark) top bar; the sidebar starts with the role.
+            string roleName = AuthHelper.loggedinroleid == AuthHelper.RoleAdmin ? "Administrator" : "Medewerker";
             var role = new Label
             {
                 Text = "  " + roleName,
                 Dock = DockStyle.Top,
-                Height = 22,
+                Height = 44,
                 ForeColor = NavText,
-                Font = new Font("Segoe UI", 9F),
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleLeft
             };
 
@@ -87,10 +78,9 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 Padding = new Padding(10, 4, 10, 8)
             };
 
-            // Fill control added first, Top controls after, so brand/role stay on top.
+            // Fill control added first, Top control after, so the role stays on top.
             sidebar.Controls.Add(navFlow);
             sidebar.Controls.Add(role);
-            sidebar.Controls.Add(brand);
 
             Controls.Add(content);
             Controls.Add(sidebar);
