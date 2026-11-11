@@ -11,6 +11,11 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
     // needed. Used by the invoices page to download / open an invoice.
     internal static class PdfInvoice
     {
+        // Example company payment details shown on every invoice.
+        public const string Iban = "NL00 RABO 0123 4567 89";
+        public const string Bic = "RABONL2U";
+        public const string Beneficiary = "Rent A Car B.V.";
+
         public class Data
         {
             public int InvoiceId;
@@ -82,7 +87,15 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             // Footer
             text(body, 60, 430, 9, false, "Gelieve het totaalbedrag voor de vervaldatum over te maken onder vermelding van het");
-            text(body, 60, 443, 9, false, "factuurnummer. Reservering " + d.RentalId + ".");
+            text(body, 60, 443, 9, false, "factuurnummer F-" + d.InvoiceId.ToString("D5") + " (reservering " + d.RentalId + ").");
+
+            // Payment details
+            line(body, 60, 475, 535, 475);
+            text(body, 60, 492, 10, true, "Betaalgegevens");
+            text(body, 60, 510, 9, false, "IBAN:   " + Iban);
+            text(body, 60, 524, 9, false, "T.n.v.: " + Beneficiary + ", Enschede");
+            text(body, 60, 538, 9, false, "BIC:    " + Bic);
+
             text(body, 60, 800, 8, false, "Rent A Car - automatisch gegenereerde factuur");
 
             byte[] content = Win.GetBytes(body.ToString());

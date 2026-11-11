@@ -116,7 +116,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             };
 
             lblDetailTitle = new Label { Dock = DockStyle.Top, Height = 32, Text = "Selecteer een factuur", Font = new Font("Segoe UI", 13F, FontStyle.Bold), ForeColor = Ink };
-            lblDetail = new Label { Dock = DockStyle.Top, Height = 300, Text = "", Font = new Font("Segoe UI", 10F), ForeColor = Color.FromArgb(55, 65, 81) };
+            lblDetail = new Label { Dock = DockStyle.Top, Height = 380, Text = "", Font = new Font("Segoe UI", 10F), ForeColor = Color.FromArgb(55, 65, 81) };
 
             var buttons = new Panel { Dock = DockStyle.Bottom, Height = 52 };
             btnOpen = new Button
@@ -274,7 +274,11 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 "Periode:        " + start.ToString("dd-MM-yyyy", NL) + " t/m " + end.ToString("dd-MM-yyyy", NL) + "\r\n" +
                 "Aantal dagen:   " + days + "\r\n" +
                 "Prijs per dag:  " + euro(pricePerDay) + "\r\n\r\n" +
-                "Totaal:         " + euro(total);
+                "Totaal:         " + euro(total) + "\r\n\r\n" +
+                "Betaling naar:\r\n" +
+                "IBAN:           " + PdfInvoice.Iban + "\r\n" +
+                "T.n.v.:         " + PdfInvoice.Beneficiary + "\r\n" +
+                "BIC:            " + PdfInvoice.Bic;
 
             btnOpen.Enabled = true;
             btnDownload.Enabled = true;

@@ -60,9 +60,9 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 Text = "  Rent A Car",
                 Dock = DockStyle.Top,
-                Height = 58,
+                Height = 50,
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 15F, FontStyle.Bold),
+                Font = new Font("Segoe UI", 14F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleLeft
             };
 
@@ -71,7 +71,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 Text = "  " + roleName,
                 Dock = DockStyle.Top,
-                Height = 26,
+                Height = 22,
                 ForeColor = NavText,
                 Font = new Font("Segoe UI", 9F),
                 TextAlign = ContentAlignment.MiddleLeft
@@ -84,7 +84,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 WrapContents = false,
                 AutoScroll = true,
                 BackColor = SidebarColor,
-                Padding = new Padding(10, 6, 10, 10)
+                Padding = new Padding(10, 4, 10, 8)
             };
 
             // Fill control added first, Top controls after, so brand/role stay on top.
@@ -135,8 +135,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     {
                         Text = entry.Text.ToUpper(),
                         Width = NavItemWidth,
-                        Height = 30,
-                        Margin = new Padding(6, 12, 0, 2),
+                        Height = 22,
+                        Margin = new Padding(6, 8, 0, 0),
                         ForeColor = HeaderText,
                         Font = new Font("Segoe UI", 8F, FontStyle.Bold),
                         TextAlign = ContentAlignment.BottomLeft
@@ -149,12 +149,12 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 {
                     Text = entry.Text,
                     Width = NavItemWidth,
-                    Height = 44,
+                    Height = 37,
                     Margin = new Padding(0, 1, 0, 1),
                     FlatStyle = FlatStyle.Flat,
                     ForeColor = NavText,
                     BackColor = SidebarColor,
-                    Font = new Font("Segoe UI", 10.5F),
+                    Font = new Font("Segoe UI", 10F),
                     TextAlign = ContentAlignment.MiddleLeft,
                     Padding = new Padding(14, 0, 0, 0),
                     Cursor = Cursors.Hand,
