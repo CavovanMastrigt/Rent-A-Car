@@ -40,7 +40,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             // 
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.lblTitle.ForeColor = System.Drawing.Color.White;
             this.lblTitle.Location = new System.Drawing.Point(21, 17);
             this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
@@ -68,10 +68,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             this.btnProfile.AutoSize = true;
             this.btnProfile.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnProfile.FlatAppearance.BorderSize = 0;
-            this.btnProfile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(246)))));
+            this.btnProfile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
             this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnProfile.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.btnProfile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(65)))), ((int)(((byte)(81)))));
+            this.btnProfile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(213)))), ((int)(((byte)(219)))));
             this.btnProfile.Location = new System.Drawing.Point(797, 15);
             this.btnProfile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnProfile.Name = "btnProfile";
@@ -107,7 +107,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(24)))), ((int)(((byte)(39)))));
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.btnProfile);
             this.Controls.Add(this.lblInitials);

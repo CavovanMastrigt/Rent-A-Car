@@ -63,7 +63,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            using (var pen = new Pen(BorderColor))
+            // Subtle dark seam so the (dark) top bar blends with the sidebar below it.
+            using (var pen = new Pen(Color.FromArgb(31, 41, 55)))
             {
                 e.Graphics.DrawLine(pen, 0, Height - 1, Width, Height - 1);
             }

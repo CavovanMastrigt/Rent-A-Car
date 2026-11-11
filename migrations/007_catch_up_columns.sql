@@ -40,4 +40,10 @@ CALL add_col_if_missing('car', 'Archived',  'tinyint(1) NOT NULL DEFAULT 0');
 -- openingtimes: opening hours management
 CALL add_col_if_missing('openingtimes', 'Is_Closed', 'tinyint(1) NOT NULL DEFAULT 0');
 
+-- invoice: payment status (open / paid)
+CALL add_col_if_missing('invoice', 'Status', 'varchar(20) NOT NULL DEFAULT ''open''');
+
+-- user: postal code
+CALL add_col_if_missing('user', 'Postal_Code', 'varchar(10) NOT NULL DEFAULT ''''');
+
 DROP PROCEDURE IF EXISTS add_col_if_missing;
