@@ -73,7 +73,6 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
 
             // Table header
-            line(body, 60, 285, 535, 285);
             text(body, 60, 278, 10, true, "Omschrijving");
             text(body, 330, 278, 10, true, "Aantal");
             text(body, 400, 278, 10, true, "Prijs/dag");
