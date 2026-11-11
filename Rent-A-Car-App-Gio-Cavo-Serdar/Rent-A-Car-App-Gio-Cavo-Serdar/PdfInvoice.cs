@@ -23,6 +23,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             public DateTime Expiration;
             public string CustomerName = "";
             public string CustomerAddress = "";
+            public string CustomerPostalCode = "";
             public string CustomerCity = "";
             public string CustomerEmail = "";
             public int RentalId;
@@ -61,11 +62,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             // Bill-to block
             text(body, 60, 180, 10, true, "Factuuradres");
             text(body, 60, 198, 10, false, d.CustomerName);
-            text(body, 60, 213, 10, false, d.CustomerAddress);
-            text(body, 60, 228, 10, false, d.CustomerCity);
+            text(body, 60, 213, 10, false, d.CustomerAddress + ", " + d.CustomerCity);
+            if (!string.IsNullOrWhiteSpace(d.CustomerPostalCode))
+            {
+                text(body, 60, 228, 10, false, d.CustomerPostalCode);
+            }
             if (!string.IsNullOrEmpty(d.CustomerEmail))
             {
-                text(body, 60, 243, 10, false, d.CustomerEmail);
+                text(body, 60, 246, 10, false, d.CustomerEmail);
             }
 
             // Table header

@@ -27,7 +27,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         private readonly int userId; // 0 = new
 
-        private TextBox txtFirst, txtLast, txtEmail, txtPhone, txtAddress, txtCity, txtPassword;
+        private TextBox txtFirst, txtLast, txtEmail, txtPhone, txtAddress, txtPostal, txtCity, txtPassword;
         private ComboBox cboStatus;
         private Label lblPwHint;
 
@@ -75,7 +75,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             Controls.Add(new Label { Text = "Status", Location = new Point(235, 186), AutoSize = true, ForeColor = Muted });
 
             txtAddress = field("Adres", 30, 244, 400);
-            txtCity = field("Woonplaats", 30, 302, 400);
+            txtPostal = field("Postcode", 30, 302, 110);
+            txtCity = field("Woonplaats", 150, 302, 280);
 
             txtPassword = field(userId == 0 ? "Wachtwoord" : "Nieuw wachtwoord", 30, 360, 400);
             txtPassword.UseSystemPasswordChar = true;
@@ -128,7 +129,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private void loadCustomer()
         {
             DataTable t = DBHelper.getdataTable(
-                "SELECT Name, LastName, Email, Phone_Number, Address, City, User_Status FROM user WHERE ID = " + userId);
+                "SELECT Name, LastName, Email, Phone_Number, Address, Postal_Code, City, User_Status FROM user WHERE ID = " + userId);
             if (t.Rows.Count == 0) return;
             DataRow r = t.Rows[0];
             txtFirst.Text = r["Name"].ToString();
@@ -136,6 +137,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             txtEmail.Text = r["Email"].ToString();
             txtPhone.Text = r["Phone_Number"].ToString();
             txtAddress.Text = r["Address"].ToString();
+            txtPostal.Text = r["Postal_Code"].ToString();
             txtCity.Text = r["City"].ToString();
             string code = r["User_Status"].ToString();
             cboStatus.SelectedItem = CodeToLabel.ContainsKey(code) ? CodeToLabel[code] : "Actief";
@@ -196,7 +198,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             var p = new Dictionary<string, object>
             {
                 { "@fn", first }, { "@ln", last }, { "@email", email }, { "@phone", phone },
-                { "@addr", address }, { "@city", city }, { "@status", status },
+                { "@addr", address }, { "@postal", txtPostal.Text.Trim() }, { "@city", city }, { "@status", status },
             };
 
             try
@@ -205,8 +207,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 {
                     p["@pw"] = AuthHelper.HashPassword(txtPassword.Text);
                     DBHelper.RunSql(
-                        "INSERT INTO user (RID, Created_At, Password, Name, LastName, Address, City, Email, Phone_Number, User_Status) " +
-                        "VALUES (0, CURDATE(), @pw, @fn, @ln, @addr, @city, @email, @phone, @status)", p);
+                        "INSERT INTO user (RID, Created_At, Password, Name, LastName, Address, Postal_Code, City, Email, Phone_Number, User_Status) " +
+                        "VALUES (0, CURDATE(), @pw, @fn, @ln, @addr, @postal, @city, @email, @phone, @status)", p);
                 }
                 else
                 {
@@ -219,7 +221,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     }
                     DBHelper.RunSql(
                         "UPDATE user SET Name=@fn, LastName=@ln, Email=@email, Phone_Number=@phone, " +
-                        "Address=@addr, City=@city, User_Status=@status" + pwSet + " WHERE ID=@id", p);
+                        "Address=@addr, Postal_Code=@postal, City=@city, User_Status=@status" + pwSet + " WHERE ID=@id", p);
                 }
             }
             catch (Exception ex)

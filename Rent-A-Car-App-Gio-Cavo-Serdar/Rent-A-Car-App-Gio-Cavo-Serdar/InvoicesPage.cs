@@ -193,7 +193,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 all = DBHelper.getdataTable(
                     "SELECT i.ID AS InvoiceId, i.Total_Price, i.Expiration_Date, i.Status, " +
                     "r.ID AS RentalId, r.Date_Started, r.Date_Planned_Ending, r.Price_Per_Day, r.Created_At, " +
-                    "CONCAT(u.Name,' ',u.LastName) AS Klant, u.Address, u.City, u.Email, " +
+                    "CONCAT(u.Name,' ',u.LastName) AS Klant, u.Address, u.Postal_Code AS Postcode, u.City, u.Email, " +
                     "c.Brand, c.Model, c.License_Plate " +
                     "FROM invoice i " +
                     "JOIN rental r ON r.ID = i.Rental_ID " +
@@ -320,6 +320,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 Expiration = exp,
                 CustomerName = r["Klant"].ToString(),
                 CustomerAddress = r["Address"].ToString(),
+                CustomerPostalCode = r["Postcode"].ToString(),
                 CustomerCity = r["City"].ToString(),
                 CustomerEmail = r["Email"].ToString(),
                 RentalId = Convert.ToInt32(r["RentalId"]),
@@ -339,6 +340,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 "Vervaldatum:    " + exp.ToString("dd-MM-yyyy", NL) + "\r\n\r\n" +
                 "Klant:          " + current.CustomerName + "\r\n" +
                 "Adres:          " + current.CustomerAddress + "\r\n" +
+                "Postcode:       " + current.CustomerPostalCode + "\r\n" +
                 "Woonplaats:     " + current.CustomerCity + "\r\n" +
                 "E-mail:         " + current.CustomerEmail + "\r\n\r\n" +
                 "Auto:           " + current.CarText + "\r\n" +
