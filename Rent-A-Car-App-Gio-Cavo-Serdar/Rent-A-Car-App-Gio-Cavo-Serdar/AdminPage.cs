@@ -60,9 +60,9 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 Text = "  Rent A Car",
                 Dock = DockStyle.Top,
-                Height = 58,
+                Height = 50,
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 15F, FontStyle.Bold),
+                Font = new Font("Segoe UI", 14F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleLeft
             };
 
@@ -71,7 +71,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 Text = "  " + roleName,
                 Dock = DockStyle.Top,
-                Height = 26,
+                Height = 22,
                 ForeColor = NavText,
                 Font = new Font("Segoe UI", 9F),
                 TextAlign = ContentAlignment.MiddleLeft
@@ -84,7 +84,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 WrapContents = false,
                 AutoScroll = true,
                 BackColor = SidebarColor,
-                Padding = new Padding(10, 6, 10, 10)
+                Padding = new Padding(10, 4, 10, 8)
             };
 
             // Fill control added first, Top controls after, so brand/role stay on top.
@@ -102,7 +102,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             // Admin pages
             entries.Add(new NavEntry { Text = "📊   Dashboard", AdminOnly = true, CreatePage = () => new DashboardPage() });
-            entries.Add(new NavEntry { Text = "🚗   Auto's", CreatePage = () => new CarsPage() });
+            entries.Add(new NavEntry { Text = "🚗   Auto's", AdminOnly = true, CreatePage = () => new CarsPage() });
 
             // Employee pages (Serdar)
             entries.Add(new NavEntry { Text = "Medewerker", IsHeader = true });
@@ -113,9 +113,16 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             entries.Add(new NavEntry { Text = "Wijzigen / annuleren", CreatePage = () => new ChangeCancelControl() });
             entries.Add(new NavEntry { Text = "Extra's en prijzen", CreatePage = () => new ExtrasPricesControl() });
 
-            // Customer management (admin only)
-            entries.Add(new NavEntry { Text = "Klanten", IsHeader = true, AdminOnly = true });
-            entries.Add(new NavEntry { Text = "Klantverificatie", AdminOnly = true, CreatePage = () => new CustomerVerificationPage() });
+            // Customers - admin manages customers; staff verify and view invoices.
+            entries.Add(new NavEntry { Text = "Klanten", IsHeader = true });
+            entries.Add(new NavEntry { Text = "Klantbeheer", AdminOnly = true, CreatePage = () => new CustomersPage() });
+            entries.Add(new NavEntry { Text = "Klantverificatie", CreatePage = () => new CustomerVerificationPage() });
+            entries.Add(new NavEntry { Text = "Facturen", CreatePage = () => new InvoicesPage() });
+
+            // Management (admin only)
+            entries.Add(new NavEntry { Text = "Beheer", IsHeader = true, AdminOnly = true });
+            entries.Add(new NavEntry { Text = "Medewerkers", AdminOnly = true, CreatePage = () => new EmployeesPage() });
+            entries.Add(new NavEntry { Text = "Openingstijden", AdminOnly = true, CreatePage = () => new OpeningHoursPage() });
 
             // Employees do not see admin-only pages.
             entries.RemoveAll(e => e.AdminOnly && !isAdmin);
@@ -128,8 +135,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     {
                         Text = entry.Text.ToUpper(),
                         Width = NavItemWidth,
-                        Height = 30,
-                        Margin = new Padding(6, 12, 0, 2),
+                        Height = 22,
+                        Margin = new Padding(6, 8, 0, 0),
                         ForeColor = HeaderText,
                         Font = new Font("Segoe UI", 8F, FontStyle.Bold),
                         TextAlign = ContentAlignment.BottomLeft
@@ -142,12 +149,12 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 {
                     Text = entry.Text,
                     Width = NavItemWidth,
-                    Height = 44,
+                    Height = 37,
                     Margin = new Padding(0, 1, 0, 1),
                     FlatStyle = FlatStyle.Flat,
                     ForeColor = NavText,
                     BackColor = SidebarColor,
-                    Font = new Font("Segoe UI", 10.5F),
+                    Font = new Font("Segoe UI", 10F),
                     TextAlign = ContentAlignment.MiddleLeft,
                     Padding = new Padding(14, 0, 0, 0),
                     Cursor = Cursors.Hand,
