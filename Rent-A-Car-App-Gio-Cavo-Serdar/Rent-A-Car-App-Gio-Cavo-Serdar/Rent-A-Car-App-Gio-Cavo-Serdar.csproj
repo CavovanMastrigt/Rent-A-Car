@@ -93,6 +93,25 @@
     <Compile Include="OpeningHoursPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="PdfInvoice.cs" />
+    <Compile Include="InvoicesPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomersPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomerEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerIdUploadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmployeesPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EmployeeEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DashboardPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
