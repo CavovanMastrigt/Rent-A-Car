@@ -113,12 +113,15 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             entries.Add(new NavEntry { Text = "Wijzigen / annuleren", CreatePage = () => new ChangeCancelControl() });
             entries.Add(new NavEntry { Text = "Extra's en prijzen", CreatePage = () => new ExtrasPricesControl() });
 
-            // Customer management - admins and employees can both verify customers.
-            entries.Add(new NavEntry { Text = "Verificatie", IsHeader = true });
+            // Customers - admin manages customers; staff verify and view invoices.
+            entries.Add(new NavEntry { Text = "Klanten", IsHeader = true });
+            entries.Add(new NavEntry { Text = "Klantbeheer", AdminOnly = true, CreatePage = () => new CustomersPage() });
             entries.Add(new NavEntry { Text = "Klantverificatie", CreatePage = () => new CustomerVerificationPage() });
+            entries.Add(new NavEntry { Text = "Facturen", CreatePage = () => new InvoicesPage() });
 
-            // Settings (admin only)
-            entries.Add(new NavEntry { Text = "Instellingen", IsHeader = true, AdminOnly = true });
+            // Management (admin only)
+            entries.Add(new NavEntry { Text = "Beheer", IsHeader = true, AdminOnly = true });
+            entries.Add(new NavEntry { Text = "Medewerkers", AdminOnly = true, CreatePage = () => new EmployeesPage() });
             entries.Add(new NavEntry { Text = "Openingstijden", AdminOnly = true, CreatePage = () => new OpeningHoursPage() });
 
             // Employees do not see admin-only pages.
