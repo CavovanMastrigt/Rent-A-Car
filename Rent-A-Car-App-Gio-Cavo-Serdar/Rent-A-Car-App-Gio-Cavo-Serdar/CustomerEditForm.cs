@@ -230,6 +230,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 return;
             }
 
+            LogHelper.Write(userId == 0 ? "Klant toegevoegd" : "Klant gewijzigd", first + " " + last);
             DialogResult = DialogResult.OK;
             Close();
         }

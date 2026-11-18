@@ -751,34 +751,21 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 new Font("Segoe UI", 11F),
                 mutedColor);
 
-            Button accountButton = createButton(
-                "Account",
-                new Size(120, 38),
-                new Point(720, 10),
-                Color.White,
-                darkColor);
+            // Buttons live in a right-docked panel so they always stay visible,
+            // whatever the window width. (Account is reached via the top-right menu.)
+            Button messagesButton = createButton("Berichten", new Size(150, 40), new Point(10, 36), Color.White, darkColor);
+            messagesButton.Click += (sender, e) => openMessages();
 
-            accountButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            accountButton.Left = 800;
-
-            accountButton.Click += (sender, e) => openAccount();
-
-            Button reservationsButton = createButton(
-                "Mijn reserveringen",
-                new Size(170, 38),
-                new Point(600, 58),
-                blueColor,
-                Color.White);
-
-            reservationsButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            reservationsButton.Left = 750;
-
+            Button reservationsButton = createButton("Mijn reserveringen", new Size(190, 40), new Point(180, 36), blueColor, Color.White);
             reservationsButton.Click += (sender, e) => showMyReservations();
+
+            Panel navPanel = new Panel { Dock = DockStyle.Right, Width = 390, BackColor = Color.Transparent };
+            navPanel.Controls.Add(messagesButton);
+            navPanel.Controls.Add(reservationsButton);
 
             headerPanel.Controls.Add(titleLabel);
             headerPanel.Controls.Add(subtitleLabel);
-            headerPanel.Controls.Add(accountButton);
-            headerPanel.Controls.Add(reservationsButton);
+            headerPanel.Controls.Add(navPanel);
 
             return headerPanel;
         }
@@ -791,6 +778,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 {
                     Invalidate();
                 }
+            }
+        }
+
+        private void openMessages()
+        {
+            using (CustomerMessagesForm messagesForm = new CustomerMessagesForm())
+            {
+                PopupForm.show(FindForm(), messagesForm);
             }
         }
 

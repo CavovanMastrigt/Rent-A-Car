@@ -191,10 +191,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             grid.CellFormatting += grid_CellFormatting;
             grid.CellDoubleClick += (s, e) =>
             {
-                // Double-click anywhere except the status picker opens the edit form.
+                // Double-click anywhere except the status picker opens the detail popup.
                 if (e.RowIndex >= 0 && grid.Columns[e.ColumnIndex].Name != "Status")
                 {
-                    openEditor(Convert.ToInt32(grid.Rows[e.RowIndex].Cells["ID"].Value));
+                    openDetail(Convert.ToInt32(grid.Rows[e.RowIndex].Cells["ID"].Value));
                 }
             };
 
@@ -317,6 +317,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
         }
 
+        private void openDetail(int carId)
+        {
+            using (var dlg = new CarDetailForm(carId))
+            {
+                PopupForm.show(FindForm(), dlg);
+            }
+        }
+
         private void editSelected()
         {
             if (grid.CurrentRow == null || grid.CurrentRow.Cells["ID"].Value == null)
@@ -373,6 +381,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 MessageBox.Show("Kon de auto niet verwijderen:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            LogHelper.Write("Auto gearchiveerd", plate);
             loadCars();
         }
 

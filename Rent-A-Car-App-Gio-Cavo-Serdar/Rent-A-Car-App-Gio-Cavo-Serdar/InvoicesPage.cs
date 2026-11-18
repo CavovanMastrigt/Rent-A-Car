@@ -23,7 +23,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private DataGridView grid;
         private Label lblCount;
         private Label lblDetailTitle, lblDetail;
-        private Button btnOpen, btnDownload, btnPaid;
+        private Button btnOpen, btnDownload, btnPaid, btnEmail;
         private int statusColIndex = -1;
 
         private DataTable all;
@@ -130,7 +130,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             lblDetailTitle = new Label { Dock = DockStyle.Top, Height = 32, Text = "Selecteer een factuur", Font = new Font("Segoe UI", 13F, FontStyle.Bold), ForeColor = Ink };
             lblDetail = new Label { Dock = DockStyle.Top, Height = 380, Text = "", Font = new Font("Segoe UI", 10F), ForeColor = Color.FromArgb(55, 65, 81) };
 
-            var buttons = new Panel { Dock = DockStyle.Bottom, Height = 96 };
+            var buttons = new Panel { Dock = DockStyle.Bottom, Height = 140 };
             btnOpen = new Button
             {
                 Text = "PDF openen",
@@ -162,11 +162,26 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             btnDownload.FlatAppearance.BorderSize = 1;
             btnDownload.Click += (s, e) => downloadPdf();
 
+            btnEmail = new Button
+            {
+                Text = "E-mail versturen",
+                Size = new Size(320, 36),
+                Location = new Point(0, 52),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.FromArgb(22, 163, 74),
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
+                Cursor = Cursors.Hand,
+                Enabled = false
+            };
+            btnEmail.FlatAppearance.BorderSize = 0;
+            btnEmail.Click += (s, e) => sendEmail();
+
             btnPaid = new Button
             {
                 Text = "Markeer als betaald",
                 Size = new Size(320, 36),
-                Location = new Point(0, 52),
+                Location = new Point(0, 96),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.White,
                 ForeColor = Color.FromArgb(22, 101, 52),
@@ -178,7 +193,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             btnPaid.FlatAppearance.BorderSize = 1;
             btnPaid.Click += (s, e) => togglePaid();
 
-            buttons.Controls.AddRange(new Control[] { btnOpen, btnDownload, btnPaid });
+            buttons.Controls.AddRange(new Control[] { btnOpen, btnDownload, btnEmail, btnPaid });
 
             card.Controls.Add(buttons);
             card.Controls.Add(lblDetail);
@@ -291,7 +306,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 lblDetailTitle.Text = "Selecteer een factuur";
                 lblDetail.Text = "";
-                btnOpen.Enabled = btnDownload.Enabled = btnPaid.Enabled = false;
+                btnOpen.Enabled = btnDownload.Enabled = btnPaid.Enabled = btnEmail.Enabled = false;
                 return;
             }
 
@@ -333,6 +348,25 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 StatusLabel = statusLabel(key),
             };
 
+            // Extra options booked on the rental become their own line items so the
+            // car price + options add up to the invoice total.
+            double carSubtotal = pricePerDay * days;
+            string optionsText = "";
+            try
+            {
+                DataTable opt = DBHelper.getdataTable(
+                    "SELECT eo.Name, ro.Option_Price FROM rental_option ro " +
+                    "LEFT JOIN extra_option eo ON eo.ID = ro.Option_ID WHERE ro.Rental_ID = " + current.RentalId);
+                foreach (DataRow o in opt.Rows)
+                {
+                    string name = o["Name"] == DBNull.Value ? "Optie" : o["Name"].ToString();
+                    double price = Convert.ToDouble(o["Option_Price"], CultureInfo.InvariantCulture);
+                    current.Options.Add(new PdfInvoice.Option { Name = name, Price = price });
+                    optionsText += "Extra " + name + ":  " + euro(price) + "\r\n";
+                }
+            }
+            catch { }
+
             lblDetailTitle.Text = "Factuur F-" + id.ToString("D5");
             lblDetail.Text =
                 "Status:         " + statusLabel(key) + "\r\n" +
@@ -347,10 +381,13 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 "Periode:        " + start.ToString("dd-MM-yyyy", NL) + " t/m " + end.ToString("dd-MM-yyyy", NL) + "\r\n" +
                 "Aantal dagen:   " + days + "\r\n" +
                 "Prijs per dag:  " + euro(pricePerDay) + "\r\n" +
+                "Huur subtotaal: " + euro(carSubtotal) + "\r\n" +
+                optionsText +
                 "Totaal:         " + euro(total) + "\r\n\r\n" +
                 "Betaling naar:  " + PdfInvoice.Iban + " (" + PdfInvoice.Beneficiary + ")";
 
             btnOpen.Enabled = btnDownload.Enabled = btnPaid.Enabled = true;
+            btnEmail.Enabled = !string.IsNullOrWhiteSpace(current.CustomerEmail);
             btnPaid.Text = currentRawStatus == "paid" ? "Markeer als openstaand" : "Markeer als betaald";
             btnPaid.ForeColor = currentRawStatus == "paid" ? Color.FromArgb(146, 64, 14) : Color.FromArgb(22, 101, 52);
             btnPaid.FlatAppearance.BorderColor = currentRawStatus == "paid" ? Color.FromArgb(250, 224, 180) : Color.FromArgb(187, 222, 196);
@@ -369,9 +406,50 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 MessageBox.Show("Kon de status niet opslaan:\n" + ex.Message, "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            LogHelper.Write("Factuur status", "F-" + current.InvoiceId.ToString("D5") + " -> " + (next == "paid" ? "Betaald" : "Openstaand"));
             int keepId = current.InvoiceId;
             loadInvoices();
             reselect(keepId);
+        }
+
+        private void sendEmail()
+        {
+            if (current == null) return;
+            if (string.IsNullOrWhiteSpace(current.CustomerEmail))
+            {
+                MessageBox.Show("Deze klant heeft geen e-mailadres.", "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (!EmailHelper.IsConfigured())
+            {
+                MessageBox.Show("De e-mailinstellingen (SMTP) zijn nog niet ingesteld.\nVraag een beheerder om deze in te stellen via 'E-mailinstellingen'.",
+                    "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string invNo = "F-" + current.InvoiceId.ToString("D5");
+            if (MessageBox.Show("Factuur " + invNo + " versturen naar " + current.CustomerEmail + "?",
+                "E-mail versturen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+
+            try
+            {
+                byte[] pdf = PdfInvoice.Build(current);
+                string body =
+                    "Beste " + current.CustomerName + ",\r\n\r\n" +
+                    "In de bijlage vindt u factuur " + invNo + " voor uw autohuur.\r\n" +
+                    "Het totaalbedrag is " + euro(current.Total) + ", te voldoen voor " +
+                    current.Expiration.ToString("dd-MM-yyyy", NL) + ".\r\n\r\n" +
+                    "Met vriendelijke groet,\r\nRent A Car";
+                EmailHelper.Send(current.CustomerEmail, current.CustomerName,
+                    "Factuur " + invNo + " - Rent A Car", body, pdf, "Factuur-" + invNo + ".pdf");
+                LogHelper.Write("Factuur gemaild", invNo + " naar " + current.CustomerEmail);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Kon de e-mail niet versturen:\n" + ex.Message, "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            MessageBox.Show("De factuur is verstuurd naar " + current.CustomerEmail + ".", "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void reselect(int invoiceId)

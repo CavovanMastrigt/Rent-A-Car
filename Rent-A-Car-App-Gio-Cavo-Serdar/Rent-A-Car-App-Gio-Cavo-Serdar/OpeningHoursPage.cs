@@ -235,6 +235,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 MessageBox.Show("Kon de openingstijden niet opslaan:\n" + ex.Message, "Openingstijden", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            LogHelper.Write("Openingstijden gewijzigd", "");
             MessageBox.Show("De openingstijden zijn opgeslagen.", "Openingstijden", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -257,6 +258,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 return;
             }
             loadTimes();
+            LogHelper.Write("Openingstijden verwijderd", "");
             MessageBox.Show("De openingstijden zijn verwijderd.", "Openingstijden", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

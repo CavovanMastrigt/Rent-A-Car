@@ -90,6 +90,9 @@
     <Compile Include="CarEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CarDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="OpeningHoursPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -110,6 +113,31 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="EmployeeEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PermissionHelper.cs" />
+    <Compile Include="LogHelper.cs" />
+    <Compile Include="AppSettings.cs" />
+    <Compile Include="EmailHelper.cs" />
+    <Compile Include="PermissionsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LogsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LogDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MessagesPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomerMessagesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmailSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DashboardPage.cs">

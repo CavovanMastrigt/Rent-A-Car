@@ -220,6 +220,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 return;
             }
 
+            LogHelper.Write("ID geüpload", customerName);
             MessageBox.Show("De ID is geüpload en staat klaar voor verificatie.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Information);
             DialogResult = DialogResult.OK;
             Close();
