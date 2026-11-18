@@ -97,6 +97,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             btnProfile.Text = name + " " + lastName + "  ▾";
             lblInitials.Text = (name.Substring(0, 1) + lastName.Substring(0, 1)).ToUpper();
+            showAvatar();
             string roleName = "";
 
             if (AuthHelper.loggedinroleid == AuthHelper.RoleAdmin)
@@ -112,6 +113,31 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             lblMenuEmail.Text = user.Rows[0]["Email"].ToString();
 
             positionProfileButton();
+        }
+
+        // Shows the user's profile photo in the round avatar, or their initials.
+        private void showAvatar()
+        {
+            try
+            {
+                if (lblInitials.Image != null) { lblInitials.Image.Dispose(); lblInitials.Image = null; }
+                object photo = DBHelper.getScalar("SELECT Profile_Photo FROM user WHERE ID = " + DBHelper.loggedinuserid);
+                if (photo == null || photo == System.DBNull.Value) return;
+
+                using (var ms = new System.IO.MemoryStream((byte[])photo))
+                using (var img = Image.FromStream(ms))
+                {
+                    var bmp = new Bitmap(lblInitials.Width, lblInitials.Height);
+                    using (var g = Graphics.FromImage(bmp))
+                    {
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        g.DrawImage(img, 0, 0, lblInitials.Width, lblInitials.Height);
+                    }
+                    lblInitials.Image = bmp;
+                    lblInitials.Text = "";
+                }
+            }
+            catch { }
         }
 
         private void positionProfileButton()

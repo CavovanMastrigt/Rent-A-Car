@@ -281,6 +281,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 MessageBox.Show("Kon de medewerker niet verwijderen:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            LogHelper.Write("Medewerker verwijderd", name);
             loadStaff();
         }
     }
