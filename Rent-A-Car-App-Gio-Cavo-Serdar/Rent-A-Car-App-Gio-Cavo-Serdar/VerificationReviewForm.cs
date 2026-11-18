@@ -353,6 +353,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 MessageBox.Show("Kon niet goedkeuren:\n" + ex.Message, "Goedkeuren", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            LogHelper.Write("Klant geverifieerd", custName);
             MessageBox.Show("De klant is geverifieerd.", "Goedkeuren", MessageBoxButtons.OK, MessageBoxIcon.Information);
             DialogResult = DialogResult.OK;
             Close();
@@ -384,6 +385,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 MessageBox.Show("Kon niet afkeuren:\n" + ex.Message, "Afkeuren", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            LogHelper.Write("Klant afgekeurd", custName + " - " + txtReason.Text.Trim());
             MessageBox.Show("De klant is afgekeurd.", "Afkeuren", MessageBoxButtons.OK, MessageBoxIcon.Information);
             DialogResult = DialogResult.OK;
             Close();

@@ -228,6 +228,20 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     DBHelper.RunSql(
                         "INSERT INTO user (RID, Created_At, Password, Name, LastName, Address, City, Email, Phone_Number, User_Status) " +
                         "VALUES (@rid, CURDATE(), @pw, @fn, @ln, @addr, @city, @email, @phone, @status)", p);
+
+                    // A new employee gets the default rights.
+                    if (role == AuthHelper.RoleEmployee)
+                    {
+                        try
+                        {
+                            object idObj = DBHelper.getScalar("SELECT ID FROM user WHERE Email = " + AuthHelper.sql(email));
+                            if (idObj != null && idObj != DBNull.Value)
+                            {
+                                PermissionHelper.SeedDefault(Convert.ToInt32(idObj));
+                            }
+                        }
+                        catch { }
+                    }
                 }
                 else
                 {
@@ -251,6 +265,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 return;
             }
 
+            LogHelper.Write(userId == 0 ? "Medewerker toegevoegd" : "Medewerker gewijzigd",
+                first + " " + last + " (" + (role == AuthHelper.RoleAdmin ? "Beheerder" : "Medewerker") + ")");
             DialogResult = DialogResult.OK;
             Close();
         }

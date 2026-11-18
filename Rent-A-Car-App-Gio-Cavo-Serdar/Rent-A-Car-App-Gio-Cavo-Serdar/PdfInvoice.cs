@@ -34,6 +34,13 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             public double PricePerDay;
             public double Total;
             public string StatusLabel = "";
+            public List<Option> Options = new List<Option>();
+        }
+
+        public class Option
+        {
+            public string Name = "";
+            public double Price;
         }
 
         private static readonly Encoding Win = Encoding.GetEncoding(1252);
@@ -79,28 +86,43 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             text(body, 500, 278, 10, true, "Totaal");
             line(body, 60, 292, 535, 292);
 
-            // Line item
-            text(body, 60, 312, 10, false, "Autohuur: " + d.CarText);
-            text(body, 60, 328, 9, false, "Periode: " + d.Start.ToString("dd-MM-yyyy", NL) + " t/m " + d.End.ToString("dd-MM-yyyy", NL));
-            text(body, 330, 312, 10, false, d.Days.ToString());
-            text(body, 400, 312, 10, false, euro(d.PricePerDay));
-            text(body, 500, 312, 10, false, euro(d.PricePerDay * d.Days));
+            // Line items (car + any extra options), flowing downward.
+            int y = 312;
+            text(body, 60, y, 10, false, "Autohuur: " + d.CarText);
+            text(body, 330, y, 10, false, d.Days.ToString());
+            text(body, 400, y, 10, false, euro(d.PricePerDay));
+            text(body, 500, y, 10, false, euro(d.PricePerDay * d.Days));
+            text(body, 60, y + 15, 9, false, "Periode: " + d.Start.ToString("dd-MM-yyyy", NL) + " t/m " + d.End.ToString("dd-MM-yyyy", NL));
+            y += 34;
+
+            foreach (Option opt in d.Options)
+            {
+                text(body, 60, y, 10, false, "Extra: " + opt.Name);
+                text(body, 330, y, 10, false, "1");
+                text(body, 400, y, 10, false, euro(opt.Price));
+                text(body, 500, y, 10, false, euro(opt.Price));
+                y += 20;
+            }
 
             // Totals
-            line(body, 60, 360, 535, 360);
-            text(body, 400, 376, 11, true, "Totaal");
-            text(body, 500, 376, 11, true, euro(d.Total));
+            y += 6;
+            line(body, 60, y, 535, y);
+            y += 16;
+            text(body, 400, y, 11, true, "Totaal");
+            text(body, 500, y, 11, true, euro(d.Total));
+            y += 34;
 
             // Footer
-            text(body, 60, 430, 9, false, "Gelieve het totaalbedrag voor de vervaldatum over te maken onder vermelding van het");
-            text(body, 60, 443, 9, false, "factuurnummer F-" + d.InvoiceId.ToString("D5") + " (reservering " + d.RentalId + ").");
+            text(body, 60, y, 9, false, "Gelieve het totaalbedrag voor de vervaldatum over te maken onder vermelding van het");
+            text(body, 60, y + 13, 9, false, "factuurnummer F-" + d.InvoiceId.ToString("D5") + " (reservering " + d.RentalId + ").");
+            y += 42;
 
             // Payment details
-            line(body, 60, 475, 535, 475);
-            text(body, 60, 492, 10, true, "Betaalgegevens");
-            text(body, 60, 510, 9, false, "IBAN:   " + Iban);
-            text(body, 60, 524, 9, false, "T.n.v.: " + Beneficiary + ", Enschede");
-            text(body, 60, 538, 9, false, "BIC:    " + Bic);
+            line(body, 60, y, 535, y);
+            text(body, 60, y + 17, 10, true, "Betaalgegevens");
+            text(body, 60, y + 35, 9, false, "IBAN:   " + Iban);
+            text(body, 60, y + 49, 9, false, "T.n.v.: " + Beneficiary + ", Enschede");
+            text(body, 60, y + 63, 9, false, "BIC:    " + Bic);
 
             text(body, 60, 800, 8, false, "Rent A Car - automatisch gegenereerde factuur");
 
