@@ -93,6 +93,15 @@
     <Compile Include="CarDetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CarReturnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RentalsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CancelRentalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="OpeningHoursPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,6 +122,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="EmployeeEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PromoteCustomerForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PermissionHelper.cs" />

@@ -23,6 +23,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private TextBox txtInput;
         private Button btnSend;
         private Label lblThreadTitle;
+        private TextBox txtConvSearch;
+        private DataTable allConv;
         private int selectedCustomer = -1;
 
         public MessagesPage()
@@ -115,9 +117,37 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             };
             grid.SelectionChanged += (s, e) => loadThread();
 
+            var searchPanel = new Panel { Dock = DockStyle.Top, Height = 36, Padding = new Padding(0, 8, 0, 0) };
+            txtConvSearch = new TextBox { Dock = DockStyle.Fill, Font = new Font("Segoe UI", 10F), ForeColor = Muted, Text = "Zoek op klant" };
+            txtConvSearch.GotFocus += (s, e) => { if (txtConvSearch.Text == "Zoek op klant") { txtConvSearch.Text = ""; txtConvSearch.ForeColor = Ink; } };
+            txtConvSearch.LostFocus += (s, e) => { if (txtConvSearch.Text.Trim() == "") { txtConvSearch.Text = "Zoek op klant"; txtConvSearch.ForeColor = Muted; } };
+            txtConvSearch.TextChanged += (s, e) => applyConvFilter();
+            searchPanel.Controls.Add(txtConvSearch);
+
             p.Controls.Add(grid);
+            p.Controls.Add(searchPanel);
             p.Controls.Add(btnNew);
             return p;
+        }
+
+        private string searchText()
+        {
+            return txtConvSearch.Text == "Zoek op klant" ? "" : txtConvSearch.Text.Trim();
+        }
+
+        private void applyConvFilter()
+        {
+            if (allConv == null) return;
+            string search = searchText().ToLowerInvariant();
+            DataTable view = allConv.Clone();
+            foreach (DataRow r in allConv.Rows)
+            {
+                if (search != "" && !r["Klant"].ToString().ToLowerInvariant().Contains(search)) continue;
+                view.ImportRow(r);
+            }
+            int keep = selectedCustomer;
+            grid.DataSource = view;
+            if (keep > 0) reselect(keep); else loadThread();
         }
 
         private Panel buildThread()
@@ -166,9 +196,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     string last = r["Laatste"] == DBNull.Value ? "" : Convert.ToDateTime(r["Laatste"]).ToString("dd-MM HH:mm", NL);
                     d.Rows.Add(Convert.ToInt32(r["Cid"]), unread, unread > 0 ? "●" : "", r["Klant"].ToString(), last);
                 }
-                int keep = selectedCustomer;
-                grid.DataSource = d;
-                if (keep > 0) reselect(keep); else loadThread();
+                allConv = d;
+                applyConvFilter();
             }
             catch (Exception ex)
             {

@@ -62,10 +62,13 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             var btnEdit = actionButton("Bewerken", Color.White, Color.FromArgb(31, 41, 55), 120);
             btnEdit.FlatAppearance.BorderColor = Border; btnEdit.FlatAppearance.BorderSize = 1;
             btnEdit.Click += (s, e) => editSelected();
+            var btnPromote = actionButton("Klant promoveren", Color.White, Color.FromArgb(31, 41, 55), 150);
+            btnPromote.FlatAppearance.BorderColor = Border; btnPromote.FlatAppearance.BorderSize = 1;
+            btnPromote.Click += (s, e) => promoteCustomer();
             var btnDelete = actionButton("Verwijderen", Color.White, Color.FromArgb(185, 28, 28), 120);
             btnDelete.FlatAppearance.BorderColor = Color.FromArgb(248, 180, 180); btnDelete.FlatAppearance.BorderSize = 1;
             btnDelete.Click += (s, e) => deleteSelected();
-            actions.Controls.AddRange(new Control[] { btnAdd, btnEdit, btnDelete });
+            actions.Controls.AddRange(new Control[] { btnAdd, btnEdit, btnPromote, btnDelete });
 
             bar.Controls.AddRange(new Control[] { lblSearch, txtSearch, lblCount, actions });
             return bar;
@@ -227,6 +230,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private void openEditor(int id)
         {
             using (var dlg = new EmployeeEditForm(id))
+            {
+                if (PopupForm.show(FindForm(), dlg) == DialogResult.OK) loadStaff();
+            }
+        }
+
+        private void promoteCustomer()
+        {
+            using (var dlg = new PromoteCustomerForm())
             {
                 if (PopupForm.show(FindForm(), dlg) == DialogResult.OK) loadStaff();
             }

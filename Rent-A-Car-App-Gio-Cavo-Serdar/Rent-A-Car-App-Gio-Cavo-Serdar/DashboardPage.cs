@@ -111,13 +111,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             chart = new SimpleBarChart { Dock = DockStyle.Fill };
             chartBody.Controls.Add(chart);
 
-            var topCard = makeCard("Top 5 meest verhuurde auto's", out Panel topBody);
+            var topCard = makeCard("Top 10 meest verhuurde auto's", out Panel topBody);
             gridTop = new DataGridView
             {
                 Dock = DockStyle.Fill,
                 BackgroundColor = Color.White,
                 BorderStyle = BorderStyle.None,
                 ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing,
+                ColumnHeadersHeight = 34,
                 RowHeadersVisible = false,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
@@ -125,10 +126,13 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 AllowUserToResizeRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                EnableHeadersVisualStyles = false
+                EnableHeadersVisualStyles = false,
+                RowTemplate = { Height = 34 }
             };
             gridTop.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(249, 250, 251);
             gridTop.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            gridTop.DefaultCellStyle.Padding = new Padding(4, 0, 4, 0);
+            gridTop.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 251);
             gridTop.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 234, 254);
             gridTop.DefaultCellStyle.SelectionForeColor = Color.Black;
             topBody.Controls.Add(gridTop);
@@ -282,7 +286,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     "FROM rental r JOIN car c ON c.ID = r.CarID " +
                     "LEFT JOIN invoice i ON i.Rental_ID = r.ID " +
                     "WHERE " + between + " GROUP BY r.CarID, c.Brand, c.Model, c.License_Plate " +
-                    "ORDER BY Verhuringen DESC, Omzet DESC LIMIT 5");
+                    "ORDER BY Verhuringen DESC, Omzet DESC LIMIT 10");
                 bindTop(top);
 
                 DataTable series = DBHelper.getdataTable(

@@ -402,7 +402,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             bool damage;
             string remark;
-            using (var dialog = new ReturnDialog(details, lateText))
+            int newOdo;
+            string newTire;
+            string condCode;
+            using (var dialog = new ReturnDialog(details, lateText, carId))
             {
                 if (dialog.ShowDialog(FindForm()) != DialogResult.OK)
                 {
@@ -410,6 +413,9 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 }
                 damage = dialog.Damage;
                 remark = dialog.Remark;
+                newOdo = dialog.Odometer;
+                newTire = dialog.TirePressure;
+                condCode = damage ? "damaged" : dialog.ConditionCode;
             }
 
             string notesSql = remark.Length == 0
@@ -446,6 +452,22 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                                    ? "\nLet op: deze auto heeft nog " + futureCount + " toekomstige reservering(en). Regel een andere auto."
                                    : "");
                 }
+
+                // Record the car's state on return (km, tyre pressure, condition).
+                var carStats = new System.Collections.Generic.Dictionary<string, object>
+                {
+                    { "@cid", carId },
+                    { "@by", staffName() },
+                    { "@note", remark.Length == 0 ? "Teruggebracht" : remark },
+                    { "@odo", newOdo },
+                    { "@tp", newTire },
+                    { "@cond", condCode },
+                };
+                DBHelper.RunSql(
+                    "INSERT INTO car_maintenance (CarID, By_Name, Note, Odometer, Tire_Pressure, Car_Condition) " +
+                    "VALUES (@cid, @by, @note, @odo, @tp, @cond)", carStats);
+                DBHelper.RunSql("UPDATE car SET Odometer = @odo, Tire_Pressure = @tp, Car_Condition = @cond WHERE ID = @cid", carStats);
+                LogHelper.Write("Auto teruggebracht", Convert.ToString(row["Auto"]) + " - " + condCode);
             }
             catch (Exception ex)
             {
@@ -467,23 +489,46 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
         }
 
-        // Klein venster waarin de medewerker bij het terugbrengen schade en een opmerking kan vastleggen.
+        private string staffName()
+        {
+            try
+            {
+                DataTable t = DBHelper.getdataTable("SELECT Name, LastName FROM user WHERE ID = " + DBHelper.loggedinuserid);
+                if (t.Rows.Count > 0) return (t.Rows[0]["Name"] + " " + t.Rows[0]["LastName"]).Trim();
+            }
+            catch { }
+            return "Medewerker";
+        }
+
+        // Venster voor het terugbrengen: schade, opmerking en de huidige staat van de
+        // auto (km-teller, bandenspanning en conditie) die verplicht geregistreerd worden.
         private class ReturnDialog : Form
         {
+            private static readonly string[] CondLabels = { "Goed", "Beschadigd", "Gerepareerd" };
+            private readonly System.Collections.Generic.Dictionary<string, string> labelToCond =
+                new System.Collections.Generic.Dictionary<string, string>
+                {
+                    { "Goed", "ok" }, { "Beschadigd", "damaged" }, { "Gerepareerd", "repaired" },
+                };
+            private readonly System.Collections.Generic.Dictionary<string, string> condToLabel =
+                new System.Collections.Generic.Dictionary<string, string>
+                {
+                    { "ok", "Goed" }, { "damaged", "Beschadigd" }, { "repaired", "Gerepareerd" },
+                };
+
             private readonly CheckBox chkDamage;
-            private readonly TextBox txtRemark;
+            private readonly TextBox txtRemark, txtTire;
+            private readonly NumericUpDown numOdo;
+            private readonly ComboBox cboCondition;
+            private int previousOdo;
 
-            public bool Damage
-            {
-                get { return chkDamage.Checked; }
-            }
+            public bool Damage { get { return chkDamage.Checked; } }
+            public string Remark { get { return txtRemark.Text.Trim(); } }
+            public int Odometer { get { return (int)numOdo.Value; } }
+            public string TirePressure { get { return txtTire.Text.Trim(); } }
+            public string ConditionCode { get { return labelToCond[cboCondition.SelectedItem.ToString()]; } }
 
-            public string Remark
-            {
-                get { return txtRemark.Text.Trim(); }
-            }
-
-            public ReturnDialog(string details, string lateText)
+            public ReturnDialog(string details, string lateText, int carId)
             {
                 Text = "Terugbrengen registreren";
                 FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -493,78 +538,82 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 ShowInTaskbar = false;
                 Font = new Font("Segoe UI", 9.75F);
                 BackColor = Color.White;
-                ClientSize = new Size(460, 360);
+                ClientSize = new Size(460, 470);
 
-                var lblDetails = new Label
-                {
-                    Location = new Point(20, 16),
-                    Size = new Size(420, 88),
-                    ForeColor = TextColor,
-                    Text = details
-                };
-                var lblLate = new Label
-                {
-                    Location = new Point(20, 108),
-                    Size = new Size(420, 24),
-                    ForeColor = ErrorColor,
-                    Text = lateText
-                };
-                chkDamage = new CheckBox
-                {
-                    Location = new Point(20, 142),
-                    Size = new Size(420, 24),
-                    Text = "Er is schade aan de auto (auto buiten gebruik zetten)"
-                };
-                var lblRemark = new Label
-                {
-                    Location = new Point(20, 180),
-                    AutoSize = true,
-                    ForeColor = MutedColor,
-                    Text = "Opmerking (optioneel)"
-                };
-                txtRemark = new TextBox
-                {
-                    Location = new Point(20, 204),
-                    Size = new Size(420, 84),
-                    Multiline = true,
-                    MaxLength = 200
-                };
+                var lblDetails = new Label { Location = new Point(20, 16), Size = new Size(420, 88), ForeColor = TextColor, Text = details };
+                var lblLate = new Label { Location = new Point(20, 104), Size = new Size(420, 24), ForeColor = ErrorColor, Text = lateText };
 
-                var btnOk = new Button
-                {
-                    Text = "Registreer terugbrengen",
-                    DialogResult = DialogResult.OK,
-                    Location = new Point(170, 308),
-                    Size = new Size(180, 36),
-                    FlatStyle = FlatStyle.Flat,
-                    BackColor = AccentColor,
-                    ForeColor = Color.White,
-                    Cursor = Cursors.Hand
-                };
+                var lblOdo = new Label { Location = new Point(20, 136), AutoSize = true, ForeColor = MutedColor, Text = "Km-teller" };
+                numOdo = new NumericUpDown { Location = new Point(20, 156), Width = 150, Minimum = 0, Maximum = 5000000, Increment = 100, ThousandsSeparator = true };
+                var lblTire = new Label { Location = new Point(190, 136), AutoSize = true, ForeColor = MutedColor, Text = "Bandenspanning" };
+                txtTire = new TextBox { Location = new Point(190, 156), Width = 250 };
+
+                var lblCond = new Label { Location = new Point(20, 194), AutoSize = true, ForeColor = MutedColor, Text = "Conditie" };
+                cboCondition = new ComboBox { Location = new Point(20, 214), Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
+                cboCondition.Items.AddRange(CondLabels);
+                cboCondition.SelectedIndex = 0;
+
+                chkDamage = new CheckBox { Location = new Point(20, 252), Size = new Size(420, 24), Text = "Er is schade aan de auto (auto buiten gebruik zetten)" };
+                chkDamage.CheckedChanged += (s, e) => { if (chkDamage.Checked) cboCondition.SelectedItem = "Beschadigd"; };
+
+                var lblRemark = new Label { Location = new Point(20, 288), AutoSize = true, ForeColor = MutedColor, Text = "Opmerking (optioneel)" };
+                txtRemark = new TextBox { Location = new Point(20, 308), Size = new Size(420, 64), Multiline = true, MaxLength = 200 };
+
+                var btnOk = new Button { Text = "Registreer terugbrengen", Location = new Point(170, 418), Size = new Size(180, 36), FlatStyle = FlatStyle.Flat, BackColor = AccentColor, ForeColor = Color.White, Cursor = Cursors.Hand };
                 btnOk.FlatAppearance.BorderSize = 0;
-                var btnCancel = new Button
-                {
-                    Text = "Annuleren",
-                    DialogResult = DialogResult.Cancel,
-                    Location = new Point(360, 308),
-                    Size = new Size(80, 36),
-                    FlatStyle = FlatStyle.Flat,
-                    BackColor = HeaderColor,
-                    ForeColor = TextColor,
-                    Cursor = Cursors.Hand
-                };
+                btnOk.Click += (s, e) => confirm();
+                var btnCancel = new Button { Text = "Annuleren", DialogResult = DialogResult.Cancel, Location = new Point(360, 418), Size = new Size(80, 36), FlatStyle = FlatStyle.Flat, BackColor = HeaderColor, ForeColor = TextColor, Cursor = Cursors.Hand };
                 btnCancel.FlatAppearance.BorderSize = 0;
 
-                Controls.Add(lblDetails);
-                Controls.Add(lblLate);
-                Controls.Add(chkDamage);
-                Controls.Add(lblRemark);
-                Controls.Add(txtRemark);
-                Controls.Add(btnOk);
-                Controls.Add(btnCancel);
-
+                Controls.AddRange(new Control[] { lblDetails, lblLate, lblOdo, numOdo, lblTire, txtTire, lblCond, cboCondition, chkDamage, lblRemark, txtRemark, btnOk, btnCancel });
                 AcceptButton = btnOk;
                 CancelButton = btnCancel;
+
+                loadCurrent(carId);
+            }
+
+            private void loadCurrent(int carId)
+            {
+                try
+                {
+                    DataTable t = DBHelper.getdataTable("SELECT Odometer, Tire_Pressure, Car_Condition FROM car WHERE ID = " + carId);
+                    if (t.Rows.Count == 0) return;
+                    DataRow r = t.Rows[0];
+                    if (r["Odometer"] != DBNull.Value)
+                    {
+                        previousOdo = Convert.ToInt32(r["Odometer"]);
+                        numOdo.Value = Math.Min(Math.Max(previousOdo, numOdo.Minimum), numOdo.Maximum);
+                    }
+                    txtTire.Text = r["Tire_Pressure"] == DBNull.Value ? "" : r["Tire_Pressure"].ToString();
+                    string cond = r["Car_Condition"] == DBNull.Value ? "ok" : r["Car_Condition"].ToString();
+                    cboCondition.SelectedItem = condToLabel.ContainsKey(cond) ? condToLabel[cond] : "Goed";
+                }
+                catch { }
+            }
+
+            private void confirm()
+            {
+                if ((int)numOdo.Value <= 0)
+                {
+                    MessageBox.Show("Vul de km-teller in.", "Terugbrengen registreren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    numOdo.Focus();
+                    return;
+                }
+                if ((int)numOdo.Value < previousOdo)
+                {
+                    MessageBox.Show("De km-stand kan niet lager zijn dan de vorige stand (" + previousOdo.ToString("N0") + " km).",
+                        "Terugbrengen registreren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    numOdo.Focus();
+                    return;
+                }
+                if (txtTire.Text.Trim() == "")
+                {
+                    MessageBox.Show("Vul de bandenspanning in.", "Terugbrengen registreren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTire.Focus();
+                    return;
+                }
+                DialogResult = DialogResult.OK;
+                Close();
             }
         }
     }

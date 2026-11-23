@@ -103,6 +103,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             entries.Add(new NavEntry { Text = "Ophalen / terugbrengen", Perm = PermissionHelper.Reservations, CreatePage = () => new PickupReturnControl() });
             entries.Add(new NavEntry { Text = "Wijzigen / annuleren", Perm = PermissionHelper.Reservations, CreatePage = () => new ChangeCancelControl() });
             entries.Add(new NavEntry { Text = "Extra's en prijzen", Perm = PermissionHelper.Reservations, CreatePage = () => new ExtrasPricesControl() });
+            entries.Add(new NavEntry { Text = "Reserveringen", Perm = PermissionHelper.Reservations, CreatePage = () => new RentalsPage() });
 
             // Customers - admin manages customers; staff verify and view invoices.
             entries.Add(new NavEntry { Text = "Klanten", IsHeader = true });

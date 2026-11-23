@@ -412,6 +412,20 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 return;
             }
 
+            // Setting a car back to "Beschikbaar" means it was returned: the staff
+            // member must first record its current state (km, tyre pressure, condition).
+            // The popup saves the state and sets the status to active itself.
+            if (newCode == "active")
+            {
+                string plate = row.Cells["Kenteken"].Value.ToString();
+                using (var dlg = new CarReturnForm(carId, plate))
+                {
+                    PopupForm.show(FindForm(), dlg);
+                }
+                loadCars();
+                return;
+            }
+
             try
             {
                 DBHelper.RunSql("UPDATE car SET Car_Status = '" + newCode + "' WHERE ID = " + carId);

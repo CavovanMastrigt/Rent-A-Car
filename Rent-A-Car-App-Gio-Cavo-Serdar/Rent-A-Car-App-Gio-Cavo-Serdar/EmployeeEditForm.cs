@@ -14,11 +14,16 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private static readonly Color Muted = Color.FromArgb(107, 114, 128);
         private static readonly Color Accent = Color.FromArgb(37, 99, 235);
 
-        private static readonly string[] RoleLabels = { "Beheerder", "Medewerker" };
+        private static readonly string[] RoleLabels = { "Beheerder", "Medewerker", "Klant" };
         private static readonly Dictionary<string, int> LabelToRole = new Dictionary<string, int>
         {
-            { "Beheerder", AuthHelper.RoleAdmin }, { "Medewerker", AuthHelper.RoleEmployee },
+            { "Beheerder", AuthHelper.RoleAdmin }, { "Medewerker", AuthHelper.RoleEmployee }, { "Klant", AuthHelper.RoleCustomer },
         };
+
+        private static string roleLabel(int rid)
+        {
+            return rid == AuthHelper.RoleAdmin ? "Beheerder" : (rid == AuthHelper.RoleEmployee ? "Medewerker" : "Klant");
+        }
 
         private static readonly string[] StatusLabels = { "Actief", "Gepauzeerd", "Uitgeschakeld", "Beëindigd" };
         private static readonly Dictionary<string, string> LabelToCode = new Dictionary<string, string>
@@ -157,7 +162,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             txtPhone.Text = r["Phone_Number"].ToString();
             txtAddress.Text = r["Address"].ToString();
             txtCity.Text = r["City"].ToString();
-            cboRole.SelectedItem = Convert.ToInt32(r["RID"]) == AuthHelper.RoleAdmin ? "Beheerder" : "Medewerker";
+            cboRole.SelectedItem = roleLabel(Convert.ToInt32(r["RID"]));
             string code = r["User_Status"].ToString();
             cboStatus.SelectedItem = CodeToLabel.ContainsKey(code) ? CodeToLabel[code] : "Actief";
         }
@@ -257,6 +262,12 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     DBHelper.RunSql(
                         "UPDATE user SET " + roleSet + "Name=@fn, LastName=@ln, Email=@email, Phone_Number=@phone, " +
                         "Address=@addr, City=@city, User_Status=@status" + pwSet + " WHERE ID=@id", p);
+
+                    // Set back to customer -> remove the staff rights.
+                    if (!isSelf && role == AuthHelper.RoleCustomer)
+                    {
+                        DBHelper.RunSql("DELETE FROM user_permission WHERE UserID = " + userId);
+                    }
                 }
             }
             catch (Exception ex)
@@ -266,7 +277,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
 
             LogHelper.Write(userId == 0 ? "Medewerker toegevoegd" : "Medewerker gewijzigd",
-                first + " " + last + " (" + (role == AuthHelper.RoleAdmin ? "Beheerder" : "Medewerker") + ")");
+                first + " " + last + " (" + roleLabel(role) + ")");
             DialogResult = DialogResult.OK;
             Close();
         }
