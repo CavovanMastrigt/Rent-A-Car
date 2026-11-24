@@ -10,7 +10,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
     // User story 2 - Overzicht auto's en status aanpassen.
     // Shows all cars (plate, brand, model, status), lets staff change the status inline,
     // and supports filtering by status and searching on plate/brand/model.
-    public class CarsPage : UserControl
+    public class CarsPage : UserControl, INavTarget
     {
         private static readonly Color Border = Color.FromArgb(229, 231, 235);
         private static readonly Color Accent = Color.FromArgb(37, 99, 235);
@@ -306,6 +306,39 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             return b;
         }
 
+        // Called by AdminNav (e.g. double-clicking a car in the dashboard top list):
+        // filter the list down to just that car (by kenteken) and select it.
+        public void ApplyNavArg(object arg)
+        {
+            string plate = arg as string;
+            if (string.IsNullOrEmpty(plate)) return;
+
+            loading = true;
+            if (cboFilter.SelectedIndex != 0) cboFilter.SelectedIndex = 0; // show all statuses
+            txtSearch.ForeColor = Color.Black;                              // leave placeholder mode
+            txtSearch.Text = plate;                                         // filter to this car
+            loading = false;
+
+            loadCars();
+            selectByPlate(plate);
+        }
+
+        private void selectByPlate(string plate)
+        {
+            foreach (DataGridViewRow row in grid.Rows)
+            {
+                if (row.Cells["Kenteken"].Value != null &&
+                    string.Equals(Convert.ToString(row.Cells["Kenteken"].Value), plate, StringComparison.OrdinalIgnoreCase))
+                {
+                    grid.ClearSelection();
+                    grid.CurrentCell = row.Cells["Kenteken"];
+                    row.Selected = true;
+                    try { grid.FirstDisplayedScrollingRowIndex = row.Index; } catch { }
+                    return;
+                }
+            }
+        }
+
         private void openEditor(int carId)
         {
             using (var dlg = new CarEditForm(carId))
@@ -319,10 +352,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         private void openDetail(int carId)
         {
+            int navToRental = -1;
             using (var dlg = new CarDetailForm(carId))
             {
                 PopupForm.show(FindForm(), dlg);
+                navToRental = dlg.NavigateToRentalId;
             }
+            // Done after the popup closed: jump to the double-clicked reservation.
+            if (navToRental > 0) AdminNav.Open(PermissionHelper.Rentals, navToRental);
         }
 
         private void editSelected()

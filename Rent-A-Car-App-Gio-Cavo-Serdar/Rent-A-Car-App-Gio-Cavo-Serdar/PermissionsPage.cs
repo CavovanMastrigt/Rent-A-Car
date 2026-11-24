@@ -8,7 +8,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
     // User story - admin controls what an employee may do, by granting or revoking
     // rights per employee. Admin-only page.
-    public class PermissionsPage : UserControl
+    public class PermissionsPage : UserControl, INavTarget
     {
         private static readonly Color Ink = Color.FromArgb(17, 24, 39);
         private static readonly Color Muted = Color.FromArgb(107, 114, 128);
@@ -16,10 +16,13 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private static readonly Color Accent = Color.FromArgb(37, 99, 235);
 
         private DataGridView grid;
+        private TextBox txtSearch;
+        private DataTable allEmployees;
         private Label lblTitle, lblHint;
         private readonly Dictionary<string, CheckBox> boxes = new Dictionary<string, CheckBox>();
         private Button btnSave;
         private int selectedUserId = -1;
+        private int pendingUserId = -1; // employee to auto-select after a jump from Medewerkers
 
         public PermissionsPage()
         {
@@ -44,11 +47,30 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             var split = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1, Margin = new Padding(0, 6, 0, 0) };
             split.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
             split.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
-            split.Controls.Add(buildGrid(), 0, 0);
+            split.Controls.Add(buildEmployeeList(), 0, 0);
             split.Controls.Add(buildDetail(), 1, 0);
 
             layout.Controls.Add(header, 0, 0);
             layout.Controls.Add(split, 0, 1);
+        }
+
+        // The employee list with a search box above it.
+        private Control buildEmployeeList()
+        {
+            var panel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2, Margin = new Padding(0, 0, 12, 0) };
+            panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 48f));
+            panel.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+
+            var searchPanel = new Panel { Dock = DockStyle.Fill };
+            var lbl = new Label { Text = "Zoek medewerker", Location = new Point(0, 0), AutoSize = true, ForeColor = Muted, Font = new Font("Segoe UI", 8.5F) };
+            txtSearch = new TextBox { Location = new Point(0, 18), Width = 260, Font = new Font("Segoe UI", 10F) };
+            txtSearch.TextChanged += (s, e) => applyEmployeeFilter();
+            searchPanel.Controls.Add(lbl);
+            searchPanel.Controls.Add(txtSearch);
+
+            panel.Controls.Add(searchPanel, 0, 0);
+            panel.Controls.Add(buildGrid(), 0, 1);
+            return panel;
         }
 
         private DataGridView buildGrid()
@@ -56,7 +78,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             grid = new DataGridView
             {
                 Dock = DockStyle.Fill,
-                Margin = new Padding(0, 0, 12, 0),
+                Margin = new Padding(0),
                 BackgroundColor = Color.White,
                 BorderStyle = BorderStyle.FixedSingle,
                 AutoGenerateColumns = false,
@@ -91,30 +113,29 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             var card = new Panel { Dock = DockStyle.Fill, BackColor = Color.White, Padding = new Padding(20) };
             card.Paint += (s, e) => { using (var pen = new Pen(Border)) e.Graphics.DrawRectangle(pen, 0, 0, card.Width - 1, card.Height - 1); };
 
-            lblTitle = new Label { Location = new Point(20, 18), Size = new Size(430, 26), Text = "Selecteer een medewerker", Font = new Font("Segoe UI", 13F, FontStyle.Bold), ForeColor = Ink };
-            lblHint = new Label { Location = new Point(20, 48), Size = new Size(430, 20), Text = "Vink aan wat deze medewerker mag gebruiken.", ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
+            var inner = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 4 };
+            inner.RowStyles.Add(new RowStyle(SizeType.Absolute, 30f));  // title
+            inner.RowStyles.Add(new RowStyle(SizeType.Absolute, 24f));  // hint
+            inner.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));  // scrollable rights
+            inner.RowStyles.Add(new RowStyle(SizeType.Absolute, 56f));  // save
+            card.Controls.Add(inner);
 
-            int y = 82;
-            foreach (string key in PermissionHelper.Keys)
-            {
-                var box = new CheckBox
-                {
-                    Text = PermissionHelper.Label(key),
-                    Location = new Point(22, y),
-                    AutoSize = true,
-                    Font = new Font("Segoe UI", 10F),
-                    Enabled = false
-                };
-                boxes[key] = box;
-                card.Controls.Add(box);
-                y += 34;
-            }
+            lblTitle = new Label { Dock = DockStyle.Fill, Text = "Selecteer een medewerker", Font = new Font("Segoe UI", 13F, FontStyle.Bold), ForeColor = Ink };
+            lblHint = new Label { Dock = DockStyle.Fill, Text = "Vink aan wat deze medewerker mag zien en gebruiken.", ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
+
+            // Two columns so every right fits on one screen without scrolling.
+            var content = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1 };
+            content.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
+            content.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
+            content.Controls.Add(buildColumn(new[] { PermissionHelper.Groups[0], PermissionHelper.Groups[1] }), 0, 0);
+            content.Controls.Add(buildColumn(new[] { PermissionHelper.Groups[2], PermissionHelper.Groups[3] }), 1, 0);
 
             btnSave = new Button
             {
                 Text = "Opslaan",
-                Location = new Point(22, y + 10),
                 Size = new Size(170, 38),
+                Margin = new Padding(2, 10, 0, 0),
+                Anchor = AnchorStyles.Left,
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Accent,
                 ForeColor = Color.White,
@@ -125,10 +146,42 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             btnSave.FlatAppearance.BorderSize = 0;
             btnSave.Click += (s, e) => save();
 
-            card.Controls.Add(btnSave);
-            card.Controls.Add(lblHint);
-            card.Controls.Add(lblTitle);
+            inner.Controls.Add(lblTitle, 0, 0);
+            inner.Controls.Add(lblHint, 0, 1);
+            inner.Controls.Add(content, 0, 2);
+            inner.Controls.Add(btnSave, 0, 3);
             return card;
+        }
+
+        // One vertical column of section headers and their checkboxes.
+        private FlowLayoutPanel buildColumn(PermissionHelper.Group[] groups)
+        {
+            var flow = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown, WrapContents = false };
+            foreach (PermissionHelper.Group g in groups)
+            {
+                flow.Controls.Add(new Label
+                {
+                    Text = g.Title.ToUpper(),
+                    AutoSize = true,
+                    Margin = new Padding(2, 12, 0, 4),
+                    ForeColor = Muted,
+                    Font = new Font("Segoe UI", 8F, FontStyle.Bold)
+                });
+                foreach (string key in g.Keys)
+                {
+                    var box = new CheckBox
+                    {
+                        Text = PermissionHelper.Label(key),
+                        AutoSize = true,
+                        Margin = new Padding(4, 2, 0, 2),
+                        Font = new Font("Segoe UI", 10F),
+                        Enabled = false
+                    };
+                    boxes[key] = box;
+                    flow.Controls.Add(box);
+                }
+            }
+            return flow;
         }
 
         private void loadEmployees()
@@ -147,13 +200,76 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 {
                     display.Rows.Add(Convert.ToInt32(r["ID"]), r["Naam"].ToString(), r["Email"].ToString());
                 }
-                grid.DataSource = display;
-                loadSelected();
+                allEmployees = display;
+                applyEmployeeFilter();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Kon de medewerkers niet laden:\n" + ex.Message, "Rechten", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        // Filters the employee list on name / e-mail and keeps the selection logic.
+        private void applyEmployeeFilter()
+        {
+            if (allEmployees == null) return;
+            string search = (txtSearch.Text ?? "").Trim().ToLowerInvariant();
+
+            var view = allEmployees.Clone();
+            foreach (DataRow r in allEmployees.Rows)
+            {
+                if (search != "")
+                {
+                    string hay = (r["Naam"] + " " + r["Email"]).ToString().ToLowerInvariant();
+                    if (!hay.Contains(search)) continue;
+                }
+                view.ImportRow(r);
+            }
+            grid.DataSource = view;
+            if (!trySelectPending()) loadSelected();
+        }
+
+        // Called by AdminNav when the admin jumps here from the Medewerkers page.
+        public void ApplyNavArg(object arg)
+        {
+            if (!(arg is int)) return;
+            pendingUserId = (int)arg;
+            if (allEmployees == null) loadEmployees();
+            // Filter the list down to just this employee (by e-mail), then select them.
+            // Clearing the search box shows the whole list again.
+            string token = emailFor(pendingUserId);
+            if (string.IsNullOrEmpty(token)) { trySelectPending(); return; }
+            if (txtSearch.Text != token) txtSearch.Text = token; // triggers applyEmployeeFilter -> trySelectPending
+            else applyEmployeeFilter();
+        }
+
+        private string emailFor(int uid)
+        {
+            if (allEmployees == null) return null;
+            foreach (DataRow r in allEmployees.Rows)
+                if (Convert.ToInt32(r["ID"]) == uid) return r["Email"].ToString();
+            return null;
+        }
+
+        // Selects the pending employee's row (which loads their rights). Returns
+        // true when it found and selected the row.
+        private bool trySelectPending()
+        {
+            if (pendingUserId < 0) return false;
+            foreach (DataGridViewRow row in grid.Rows)
+            {
+                if (row.Cells["ID"].Value != null && Convert.ToInt32(row.Cells["ID"].Value) == pendingUserId)
+                {
+                    pendingUserId = -1;
+                    grid.ClearSelection();
+                    grid.CurrentCell = row.Cells["Naam"];
+                    row.Selected = true;
+                    loadSelected();
+                    return true;
+                }
+            }
+            pendingUserId = -1;
+            return false;
         }
 
         private void loadSelected()

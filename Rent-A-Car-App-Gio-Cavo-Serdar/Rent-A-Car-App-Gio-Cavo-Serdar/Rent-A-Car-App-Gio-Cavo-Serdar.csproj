@@ -51,6 +51,17 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminNav.cs" />
+    <Compile Include="ReminderHelper.cs" />
+    <Compile Include="InvoiceDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VerificationExpiryPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InvoiceExpiryPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="AdminPage.cs">
       <SubType>UserControl</SubType>
     </Compile>

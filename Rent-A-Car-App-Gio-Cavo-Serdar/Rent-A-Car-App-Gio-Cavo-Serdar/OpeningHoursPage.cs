@@ -110,22 +110,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             btnSave.FlatAppearance.BorderSize = 0;
             btnSave.Click += (s, e) => save();
 
-            var btnClear = new Button
-            {
-                Text = "Alles verwijderen",
-                Size = new Size(170, 36),
-                Location = new Point(172, 14),
-                FlatStyle = FlatStyle.Flat,
-                BackColor = Color.White,
-                ForeColor = Color.FromArgb(185, 28, 28),
-                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
-                Cursor = Cursors.Hand
-            };
-            btnClear.FlatAppearance.BorderColor = Color.FromArgb(248, 180, 180);
-            btnClear.FlatAppearance.BorderSize = 1;
-            btnClear.Click += (s, e) => clearAll();
-
-            buttons.Controls.AddRange(new Control[] { btnSave, btnClear });
+            buttons.Controls.Add(btnSave);
 
             card.Controls.Add(buttons);
             card.Controls.Add(tbl);
@@ -237,29 +222,6 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
             LogHelper.Write("Openingstijden gewijzigd", "");
             MessageBox.Show("De openingstijden zijn opgeslagen.", "Openingstijden", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void clearAll()
-        {
-            DialogResult ok = MessageBox.Show(
-                "Weet je het zeker? Alle openingstijden worden verwijderd.\n" +
-                "Er wordt dan niet meer op openingstijden gecontroleerd.",
-                "Openingstijden", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (ok != DialogResult.Yes) return;
-
-            try
-            {
-                DBHelper.RunSql("DELETE FROM openingtimes");
-                OpeningHours.Load();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Kon de openingstijden niet verwijderen:\n" + ex.Message, "Openingstijden", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            loadTimes();
-            LogHelper.Write("Openingstijden verwijderd", "");
-            MessageBox.Show("De openingstijden zijn verwijderd.", "Openingstijden", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         // Maps a stored weekday (various spellings) to 0=Monday .. 6=Sunday, or -1.

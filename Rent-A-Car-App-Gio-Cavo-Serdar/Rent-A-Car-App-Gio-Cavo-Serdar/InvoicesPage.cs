@@ -10,7 +10,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 {
     // Invoices overview for admin and employee. Shows every invoice with its
     // payment status, the details as labels, and generates a PDF on the fly.
-    public class InvoicesPage : UserControl
+    public class InvoicesPage : UserControl, INavTarget
     {
         private static readonly Color Ink = Color.FromArgb(17, 24, 39);
         private static readonly Color Muted = Color.FromArgb(107, 114, 128);
@@ -450,6 +450,22 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 return;
             }
             MessageBox.Show("De factuur is verstuurd naar " + current.CustomerEmail + ".", "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        // Called by AdminNav when the user double-clicks an invoice on the
+        // "Bijna verlopen facturen" page: show it here, selected.
+        public void ApplyNavArg(object arg)
+        {
+            if (!(arg is int)) return;
+            int id = (int)arg;
+            if (all == null) loadInvoices();
+            // Filter the list down to just this invoice (by its F-number), so you
+            // land straight on it. Clearing the search box shows everything again.
+            if (cboStatus.SelectedIndex != 0) cboStatus.SelectedIndex = 0; // show all statuses
+            string token = "F-" + id.ToString("D5");
+            if (txtSearch.Text != token) txtSearch.Text = token; // triggers applyFilter
+            else applyFilter();
+            reselect(id);
         }
 
         private void reselect(int invoiceId)

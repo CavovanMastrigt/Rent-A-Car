@@ -31,6 +31,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private readonly int carId;
         private string plate = "";
 
+        // Set when the user double-clicks a rental row: the caller then navigates
+        // to that reservation on the Reserveringen page.
+        public int NavigateToRentalId = -1;
+
         private Label lblPlate, lblBrandModel, lblInfo, lblBadge, lblLast;
         private NumericUpDown numOdo;
         private TextBox txtTire, txtNote;
@@ -127,6 +131,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             var tabRent = new TabPage("Verhuringen");
             gridRentals = makeGrid();
+            gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Rid", DataPropertyName = "Rid", Visible = false });
             gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Klant", HeaderText = "Klant", DataPropertyName = "Klant", FillWeight = 85 });
             gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Periode", HeaderText = "Periode", DataPropertyName = "Periode", FillWeight = 105 });
             gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", FillWeight = 65 });
@@ -135,6 +140,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Conditie", HeaderText = "Conditie (toen)", DataPropertyName = "Conditie", FillWeight = 75 });
             gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Bedrag", HeaderText = "Bedrag", DataPropertyName = "Bedrag", FillWeight = 55, DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleRight } });
             gridRentals.CellFormatting += gridRentals_CellFormatting;
+            // Double-click a reservation to jump straight to it on the Reserveringen page.
+            gridRentals.CellDoubleClick += gridRentals_CellDoubleClick;
+            var tipRent = new ToolTip();
+            tipRent.SetToolTip(gridRentals, "Dubbelklik op een verhuring om naar die reservering te gaan.");
             tabRent.Controls.Add(gridRentals);
 
             var tabMaint = new TabPage("Onderhoud / schade");
@@ -220,11 +229,12 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 // Condition the car was in at the time of each rental: the most recent
                 // maintenance entry logged on or before the rental's start date.
                 DataTable t = DBHelper.getdataTable(
-                    "SELECT CONCAT(u.Name,' ',u.LastName) AS Klant, r.Date_Started, r.Date_Planned_Ending, r.Status, r.Total_Price, " +
+                    "SELECT r.ID AS Rid, CONCAT(u.Name,' ',u.LastName) AS Klant, r.Date_Started, r.Date_Planned_Ending, r.Status, r.Total_Price, " +
                     "(SELECT cm.Car_Condition FROM car_maintenance cm WHERE cm.CarID = r.CarID AND cm.Created_At <= r.Date_Started ORDER BY cm.ID DESC LIMIT 1) AS CondAtTime " +
                     "FROM rental r JOIN user u ON u.ID = r.UserID WHERE r.CarID = " + carId + " ORDER BY r.Date_Started DESC");
 
                 var d = new DataTable();
+                d.Columns.Add("Rid", typeof(int));
                 d.Columns.Add("Klant"); d.Columns.Add("Periode"); d.Columns.Add("Status");
                 d.Columns.Add("CondCode"); d.Columns.Add("Conditie"); d.Columns.Add("Bedrag");
                 foreach (DataRow r in t.Rows)
@@ -234,7 +244,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     double total = Convert.ToDouble(r["Total_Price"], CultureInfo.InvariantCulture);
                     string condCode = r["CondAtTime"] == DBNull.Value ? "ok" : r["CondAtTime"].ToString();
                     string condLabel = CondToLabel.ContainsKey(condCode) ? CondToLabel[condCode] : "Goed";
-                    d.Rows.Add(r["Klant"].ToString(), periode, StatusText.Rental(r["Status"].ToString()),
+                    d.Rows.Add(Convert.ToInt32(r["Rid"]), r["Klant"].ToString(), periode, StatusText.Rental(r["Status"].ToString()),
                         condCode, condLabel, "€ " + total.ToString("N2", NL));
                 }
                 gridRentals.DataSource = d;
@@ -314,6 +324,17 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
             catch { }
             return "";
+        }
+
+        // Close this popup and signal the caller to open the clicked reservation.
+        private void gridRentals_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            object v = gridRentals.Rows[e.RowIndex].Cells["Rid"].Value;
+            if (v == null || v == DBNull.Value) return;
+            NavigateToRentalId = Convert.ToInt32(v);
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void gridRentals_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

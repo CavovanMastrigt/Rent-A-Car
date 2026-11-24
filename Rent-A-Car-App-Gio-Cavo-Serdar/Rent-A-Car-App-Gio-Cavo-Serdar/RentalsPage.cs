@@ -10,7 +10,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
     // Staff view of all reservations. A reservation can be cancelled (e.g. the car
     // went into maintenance); the customer is then notified by message and e-mail
     // with the reason, and any invoice for it is removed.
-    public class RentalsPage : UserControl
+    public class RentalsPage : UserControl, INavTarget
     {
         private static readonly Color Ink = Color.FromArgb(17, 24, 39);
         private static readonly Color Muted = Color.FromArgb(107, 114, 128);
@@ -22,6 +22,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private Label lblCount;
         private int statusCol = -1;
         private DataTable all;
+        private int pendingRid = -1; // reservation to auto-select after a jump from the auto-view
 
         public RentalsPage()
         {
@@ -51,11 +52,14 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             lblCount = new Label { Location = new Point(320, 24), AutoSize = true, ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
 
             var actions = new FlowLayoutPanel { Dock = DockStyle.Right, WrapContents = false, AutoSize = true, AutoSizeMode = AutoSizeMode.GrowAndShrink, Padding = new Padding(0, 13, 0, 0) };
+            var btnInvoice = new Button { Text = "Factuur bekijken", Size = new Size(150, 34), Margin = new Padding(8, 0, 0, 0), FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(37, 99, 235), ForeColor = Color.White, Font = new Font("Segoe UI", 9.5F, FontStyle.Bold), Cursor = Cursors.Hand };
+            btnInvoice.FlatAppearance.BorderSize = 0;
+            btnInvoice.Click += (s, e) => showInvoice();
             var btnCancel = new Button { Text = "Annuleren", Size = new Size(140, 34), Margin = new Padding(8, 0, 0, 0), FlatStyle = FlatStyle.Flat, BackColor = Color.White, ForeColor = Color.FromArgb(185, 28, 28), Font = new Font("Segoe UI", 9.5F, FontStyle.Bold), Cursor = Cursors.Hand };
             btnCancel.FlatAppearance.BorderColor = Color.FromArgb(248, 180, 180);
             btnCancel.FlatAppearance.BorderSize = 1;
             btnCancel.Click += (s, e) => cancelSelected();
-            actions.Controls.Add(btnCancel);
+            actions.Controls.AddRange(new Control[] { btnInvoice, btnCancel });
 
             toolbar.Controls.AddRange(new Control[] { lblSearch, txtSearch, lblCount, actions });
 
@@ -97,6 +101,13 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Factuur", HeaderText = "Factuur", DataPropertyName = "Factuur", FillWeight = 50, DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter } });
 
             grid.CellFormatting += grid_CellFormatting;
+            // Double-click a reservation to pop up just its invoice.
+            grid.CellDoubleClick += (s, e) =>
+            {
+                if (e.RowIndex < 0) return;
+                object v = grid.Rows[e.RowIndex].Cells["Rid"].Value;
+                if (v != null && v != DBNull.Value) openInvoice(Convert.ToInt32(v));
+            };
             card.Controls.Add(grid);
 
             layout.Controls.Add(header, 0, 0);
@@ -163,7 +174,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 string klant = r["Klant"].ToString();
                 if (search != "")
                 {
-                    string hay = (klant + " " + r["License_Plate"]).ToLowerInvariant();
+                    string hay = ("#" + r["Rid"] + " " + klant + " " + r["License_Plate"]).ToLowerInvariant();
                     if (!hay.Contains(search)) continue;
                 }
                 string periode = Convert.ToDateTime(r["Date_Started"]).ToString("dd-MM-yyyy", NL) + " - " +
@@ -175,6 +186,64 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             grid.DataSource = d;
             lblCount.Text = d.Rows.Count + (d.Rows.Count == 1 ? " reservering" : " reserveringen");
+            trySelectPending();
+        }
+
+        // Called by AdminNav when the user double-clicks a reservation in the auto-view.
+        public void ApplyNavArg(object arg)
+        {
+            if (!(arg is int)) return;
+            pendingRid = (int)arg;
+            if (all == null) loadRentals();
+            // Filter the list down to just this reservation (by its #number), then
+            // select it. Clearing the search box shows everything again.
+            string token = "#" + pendingRid;
+            if (txtSearch.Text != token) txtSearch.Text = token; // triggers applyFilter -> trySelectPending
+            else applyFilter();
+        }
+
+        // Selects and scrolls to the pending reservation within the current view.
+        private void trySelectPending()
+        {
+            if (pendingRid < 0) return;
+            foreach (DataGridViewRow row in grid.Rows)
+            {
+                if (row.Cells["Rid"].Value != null && Convert.ToInt32(row.Cells["Rid"].Value) == pendingRid)
+                {
+                    pendingRid = -1;
+                    grid.ClearSelection();
+                    grid.CurrentCell = row.Cells["Klant"];
+                    row.Selected = true;
+                    try { grid.FirstDisplayedScrollingRowIndex = row.Index; } catch { }
+                    return;
+                }
+            }
+            pendingRid = -1;
+        }
+
+        // Opens the invoice popup for the selected reservation (toolbar button).
+        private void showInvoice()
+        {
+            if (grid.CurrentRow == null || grid.CurrentRow.Cells["Rid"].Value == null)
+            {
+                MessageBox.Show("Selecteer eerst een reservering.", "Factuur", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            openInvoice(Convert.ToInt32(grid.CurrentRow.Cells["Rid"].Value));
+        }
+
+        private void openInvoice(int rentalId)
+        {
+            bool goToInvoices = false;
+            int invoiceId = -1;
+            using (var dlg = new InvoiceDetailForm(rentalId))
+            {
+                PopupForm.show(FindForm(), dlg);
+                goToInvoices = dlg.GoToInvoices;
+                invoiceId = dlg.GoToInvoiceId;
+            }
+            // "Factuur maken": go to the Facturen page (selecting the invoice if any).
+            if (goToInvoices) AdminNav.Open(PermissionHelper.Invoices, invoiceId > 0 ? (object)invoiceId : null);
         }
 
         private void cancelSelected()
@@ -211,12 +280,27 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 reason = dlg.Reason;
             }
 
+            // Was the invoice for this reservation already paid? Then the customer
+            // gets a refund instead of the invoice simply being dropped.
+            bool invoicePaid = false;
+            try
+            {
+                object paid = DBHelper.getScalar(
+                    "SELECT COUNT(*) FROM invoice WHERE Rental_ID = " + rid + " AND LOWER(Status) = 'paid'");
+                invoicePaid = Convert.ToInt32(paid) > 0;
+            }
+            catch { }
+
+            string invoiceLine = invoicePaid
+                ? "De factuur voor deze reservering was al betaald. Het betaalde bedrag wordt uiteraard volledig aan je terugbetaald."
+                : "Een eventueel aangemaakte factuur komt hiermee te vervallen.";
+
             // Identical body for the in-app message and the e-mail.
             string body =
                 "Beste " + name + ",\r\n\r\n" +
                 "Je reservering #" + rid + " voor " + carText + " (" + periode + ") is geannuleerd.\r\n\r\n" +
                 "Reden: " + reason + "\r\n\r\n" +
-                "Een eventueel aangemaakte factuur komt hiermee te vervallen. Onze excuses voor het ongemak.\r\n\r\n" +
+                invoiceLine + " Onze excuses voor het ongemak.\r\n\r\n" +
                 "Met vriendelijke groet,\r\nRent A Car";
 
             try

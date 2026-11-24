@@ -62,13 +62,16 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             var btnEdit = actionButton("Bewerken", Color.White, Color.FromArgb(31, 41, 55), 120);
             btnEdit.FlatAppearance.BorderColor = Border; btnEdit.FlatAppearance.BorderSize = 1;
             btnEdit.Click += (s, e) => editSelected();
+            var btnRights = actionButton("Rechten", Color.White, Color.FromArgb(31, 41, 55), 120);
+            btnRights.FlatAppearance.BorderColor = Border; btnRights.FlatAppearance.BorderSize = 1;
+            btnRights.Click += (s, e) => openRights();
             var btnPromote = actionButton("Klant promoveren", Color.White, Color.FromArgb(31, 41, 55), 150);
             btnPromote.FlatAppearance.BorderColor = Border; btnPromote.FlatAppearance.BorderSize = 1;
             btnPromote.Click += (s, e) => promoteCustomer();
             var btnDelete = actionButton("Verwijderen", Color.White, Color.FromArgb(185, 28, 28), 120);
             btnDelete.FlatAppearance.BorderColor = Color.FromArgb(248, 180, 180); btnDelete.FlatAppearance.BorderSize = 1;
             btnDelete.Click += (s, e) => deleteSelected();
-            actions.Controls.AddRange(new Control[] { btnAdd, btnEdit, btnPromote, btnDelete });
+            actions.Controls.AddRange(new Control[] { btnAdd, btnEdit, btnRights, btnPromote, btnDelete });
 
             bar.Controls.AddRange(new Control[] { lblSearch, txtSearch, lblCount, actions });
             return bar;
@@ -248,6 +251,22 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             int id = selectedId();
             if (id < 0) { MessageBox.Show("Selecteer eerst een medewerker.", "Bewerken", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
             openEditor(id);
+        }
+
+        // Jump to the Rechten page with this employee pre-selected. Admins have
+        // every right automatically, so there is nothing to set for them.
+        private void openRights()
+        {
+            int id = selectedId();
+            if (id < 0) { MessageBox.Show("Selecteer eerst een medewerker.", "Rechten", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
+            string role = Convert.ToString(grid.CurrentRow.Cells["Rol"].Value);
+            if (role == "Beheerder")
+            {
+                MessageBox.Show("Beheerders hebben automatisch alle rechten. Rechten instellen kan alleen voor medewerkers.",
+                    "Rechten", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            AdminNav.Open(PermissionHelper.Permissions, id);
         }
 
         private void deleteSelected()

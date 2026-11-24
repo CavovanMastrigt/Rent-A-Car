@@ -202,6 +202,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     { "@dob", dtpBirth.Value.Date }, { "@exp", dtpExpiry.Value.Date },
                 };
 
+                ReminderHelper.EnsureSchema();
                 DBHelper.RunSql(
                     "INSERT INTO identity " +
                     "(UserID, Front_Photo, File_Type, File_Name, Back_Photo, Back_File_Type, Back_File_Name, Date_Of_Birth, Expiration_Date, Identity_Status) " +
@@ -211,7 +212,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     "Back_Photo=@back, Back_File_Type=@btype, Back_File_Name=@bname, " +
                     "Date_Of_Birth=@dob, Expiration_Date=@exp, Identity_Status='Pending', " +
                     "Reviewed_By=NULL, Reviewed_At=NULL, Document_Number=NULL, Reject_Reason=NULL, " +
-                    "ID_First_Name=NULL, ID_Last_Name=NULL",
+                    "ID_First_Name=NULL, ID_Last_Name=NULL, ID_Reminder_Sent=NULL",
                     p);
             }
             catch (Exception ex)

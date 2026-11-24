@@ -270,7 +270,9 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 };
 
                 // One identity row per user (UserID is unique); a re-upload replaces it
-                // and resets the review.
+                // and resets the review (and the expiry reminder flag, so a renewed
+                // card can be reminded about again).
+                ReminderHelper.EnsureSchema();
                 DBHelper.RunSql(
                     "INSERT INTO identity " +
                     "(UserID, Front_Photo, File_Type, File_Name, Back_Photo, Back_File_Type, Back_File_Name, " +
@@ -280,7 +282,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     "Front_Photo = @front, File_Type = @ftype, File_Name = @fname, " +
                     "Back_Photo = @back, Back_File_Type = @btype, Back_File_Name = @bname, " +
                     "Date_Of_Birth = @dob, Expiration_Date = @exp, Identity_Status = 'Pending', " +
-                    "Reviewed_By = NULL, Reviewed_At = NULL, Document_Number = NULL, Reject_Reason = NULL",
+                    "Reviewed_By = NULL, Reviewed_At = NULL, Document_Number = NULL, Reject_Reason = NULL, " +
+                    "ID_Reminder_Sent = NULL",
                     parameters);
             }
             catch (Exception ex)
