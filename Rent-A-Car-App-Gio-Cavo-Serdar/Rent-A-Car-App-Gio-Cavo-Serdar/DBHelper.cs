@@ -64,12 +64,68 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
         }
 
+        public static DataTable getdataTable(
+            string sql,
+            IDictionary<string, object> parameters)
+        {
+            using (var connection = createConnection())
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = sql;
+
+                if (parameters != null)
+                {
+                    foreach (KeyValuePair<string, object> pair in parameters)
+                    {
+                        var parameter = command.CreateParameter();
+                        parameter.ParameterName = pair.Key;
+                        parameter.Value = pair.Value ?? DBNull.Value;
+                        command.Parameters.Add(parameter);
+                    }
+                }
+
+                connection.Open();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    var table = new DataTable();
+                    table.Load(reader);
+                    return table;
+                }
+            }
+        }
+
         public static object getScalar(string sql)
         {
             using (var connection = createConnection())
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = sql;
+                connection.Open();
+                return command.ExecuteScalar();
+            }
+        }
+
+        public static object getScalar(
+            string sql,
+            IDictionary<string, object> parameters)
+        {
+            using (var connection = createConnection())
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = sql;
+
+                if (parameters != null)
+                {
+                    foreach (KeyValuePair<string, object> pair in parameters)
+                    {
+                        var parameter = command.CreateParameter();
+                        parameter.ParameterName = pair.Key;
+                        parameter.Value = pair.Value ?? DBNull.Value;
+                        command.Parameters.Add(parameter);
+                    }
+                }
+
                 connection.Open();
                 return command.ExecuteScalar();
             }

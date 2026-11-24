@@ -42,7 +42,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             // 
             // topBar
             // 
-            this.topBar.BackColor = System.Drawing.Color.White;
+            this.topBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(24)))), ((int)(((byte)(39)))));
             this.topBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.topBar.Location = new System.Drawing.Point(0, 0);
             this.topBar.Name = "topBar";

@@ -20,7 +20,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private static readonly Color ActiveColor = Color.FromArgb(37, 99, 235);
         private static readonly Color NavText = Color.FromArgb(209, 213, 219);
         private static readonly Color HeaderText = Color.FromArgb(107, 114, 128);
-        private const int NavItemWidth = 206;
+        private const int NavItemWidth = 184;
 
         private Panel sidebar;
         private FlowLayoutPanel navFlow;
@@ -34,7 +34,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         {
             public string Text;
             public bool IsHeader;
-            public bool AdminOnly;
+            public bool AdminOnly;       // only an admin ever sees it
+            public string Perm;          // or: an employee sees it only with this right
             public Func<UserControl> CreatePage;
             public Button Button;
         }
@@ -54,26 +55,17 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         {
             content = new Panel { Dock = DockStyle.Fill, BackColor = Color.FromArgb(243, 244, 246) };
 
-            sidebar = new Panel { Dock = DockStyle.Left, Width = 230, BackColor = SidebarColor };
+            sidebar = new Panel { Dock = DockStyle.Left, Width = 208, BackColor = SidebarColor };
 
-            var brand = new Label
-            {
-                Text = "  Rent A Car",
-                Dock = DockStyle.Top,
-                Height = 58,
-                ForeColor = Color.White,
-                Font = new Font("Segoe UI", 15F, FontStyle.Bold),
-                TextAlign = ContentAlignment.MiddleLeft
-            };
-
-            string roleName = AuthHelper.loggedinroleid == AuthHelper.RoleAdmin ? "Administrator" : "Employee";
+            // The brand sits in the (dark) top bar; the sidebar starts with the role.
+            string roleName = AuthHelper.loggedinroleid == AuthHelper.RoleAdmin ? "Administrator" : "Medewerker";
             var role = new Label
             {
                 Text = "  " + roleName,
                 Dock = DockStyle.Top,
-                Height = 26,
+                Height = 34,
                 ForeColor = NavText,
-                Font = new Font("Segoe UI", 9F),
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleLeft
             };
 
@@ -84,13 +76,12 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 WrapContents = false,
                 AutoScroll = true,
                 BackColor = SidebarColor,
-                Padding = new Padding(10, 6, 10, 10)
+                Padding = new Padding(10, 2, 10, 4)
             };
 
-            // Fill control added first, Top controls after, so brand/role stay on top.
+            // Fill control added first, Top control after, so the role stays on top.
             sidebar.Controls.Add(navFlow);
             sidebar.Controls.Add(role);
-            sidebar.Controls.Add(brand);
 
             Controls.Add(content);
             Controls.Add(sidebar);
@@ -102,23 +93,54 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             // Admin pages
             entries.Add(new NavEntry { Text = "📊   Dashboard", AdminOnly = true, CreatePage = () => new DashboardPage() });
-            entries.Add(new NavEntry { Text = "🚗   Auto's", CreatePage = () => new CarsPage() });
+            entries.Add(new NavEntry { Text = "🚗   Auto's", Perm = PermissionHelper.Cars, CreatePage = () => new CarsPage() });
 
             // Employee pages (Serdar)
             entries.Add(new NavEntry { Text = "Medewerker", IsHeader = true });
-            entries.Add(new NavEntry { Text = "Dagoverzicht", CreatePage = () => new DayOverviewControl() });
-            entries.Add(new NavEntry { Text = "Planning", CreatePage = () => new PlanningControl() });
-            entries.Add(new NavEntry { Text = "Nieuwe reservering", CreatePage = () => new NewReservationControl() });
-            entries.Add(new NavEntry { Text = "Ophalen / terugbrengen", CreatePage = () => new PickupReturnControl() });
-            entries.Add(new NavEntry { Text = "Wijzigen / annuleren", CreatePage = () => new ChangeCancelControl() });
-            entries.Add(new NavEntry { Text = "Extra's en prijzen", CreatePage = () => new ExtrasPricesControl() });
+            entries.Add(new NavEntry { Text = "Dagoverzicht", Perm = PermissionHelper.Reservations, CreatePage = () => new DayOverviewControl() });
+            entries.Add(new NavEntry { Text = "Planning", Perm = PermissionHelper.Reservations, CreatePage = () => new PlanningControl() });
+            entries.Add(new NavEntry { Text = "Nieuwe reservering", Perm = PermissionHelper.Reservations, CreatePage = () => new NewReservationControl() });
+            entries.Add(new NavEntry { Text = "Ophalen / terugbrengen", Perm = PermissionHelper.Reservations, CreatePage = () => new PickupReturnControl() });
+            entries.Add(new NavEntry { Text = "Wijzigen / annuleren", Perm = PermissionHelper.Reservations, CreatePage = () => new ChangeCancelControl() });
+            entries.Add(new NavEntry { Text = "Extra's en prijzen", Perm = PermissionHelper.Reservations, CreatePage = () => new ExtrasPricesControl() });
 
-            // Customer management (admin only)
-            entries.Add(new NavEntry { Text = "Klanten", IsHeader = true, AdminOnly = true });
-            entries.Add(new NavEntry { Text = "Klantverificatie", AdminOnly = true, CreatePage = () => new CustomerVerificationPage() });
+            // Customers - admin manages customers; staff verify and view invoices.
+            entries.Add(new NavEntry { Text = "Klanten", IsHeader = true });
+            entries.Add(new NavEntry { Text = "Klantbeheer", Perm = PermissionHelper.Customers, CreatePage = () => new CustomersPage() });
+            entries.Add(new NavEntry { Text = "Klantverificatie", Perm = PermissionHelper.Verification, CreatePage = () => new CustomerVerificationPage() });
+            entries.Add(new NavEntry { Text = "Facturen", Perm = PermissionHelper.Invoices, CreatePage = () => new InvoicesPage() });
+            // Shared inbox: every staff member can handle customer messages.
+            entries.Add(new NavEntry { Text = "Berichten", CreatePage = () => new MessagesPage() });
 
-            // Employees do not see admin-only pages.
-            entries.RemoveAll(e => e.AdminOnly && !isAdmin);
+            // Management
+            entries.Add(new NavEntry { Text = "Beheer", IsHeader = true });
+            entries.Add(new NavEntry { Text = "Medewerkers", AdminOnly = true, CreatePage = () => new EmployeesPage() });
+            entries.Add(new NavEntry { Text = "Rechten", AdminOnly = true, CreatePage = () => new PermissionsPage() });
+            entries.Add(new NavEntry { Text = "Openingstijden", Perm = PermissionHelper.OpeningHours, CreatePage = () => new OpeningHoursPage() });
+            entries.Add(new NavEntry { Text = "Logboek", AdminOnly = true, CreatePage = () => new LogsPage() });
+
+            // Keep only what this user may see: admins see everything, employees see
+            // the pages they have the right for. Then drop empty section headers.
+            if (!isAdmin) PermissionHelper.LoadCurrent();
+            var visible = new List<NavEntry>();
+            foreach (NavEntry e in entries)
+            {
+                if (e.IsHeader) { visible.Add(e); continue; }
+                bool ok = isAdmin || (!e.AdminOnly && (e.Perm == null || PermissionHelper.Has(e.Perm)));
+                if (ok) visible.Add(e);
+            }
+            var shown = new List<NavEntry>();
+            for (int i = 0; i < visible.Count; i++)
+            {
+                if (visible[i].IsHeader)
+                {
+                    bool hasChild = i + 1 < visible.Count && !visible[i + 1].IsHeader;
+                    if (hasChild) shown.Add(visible[i]);
+                }
+                else shown.Add(visible[i]);
+            }
+            entries.Clear();
+            entries.AddRange(shown);
 
             foreach (NavEntry entry in entries)
             {
@@ -128,8 +150,8 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     {
                         Text = entry.Text.ToUpper(),
                         Width = NavItemWidth,
-                        Height = 30,
-                        Margin = new Padding(6, 12, 0, 2),
+                        Height = 19,
+                        Margin = new Padding(6, 6, 0, 0),
                         ForeColor = HeaderText,
                         Font = new Font("Segoe UI", 8F, FontStyle.Bold),
                         TextAlign = ContentAlignment.BottomLeft
@@ -142,12 +164,12 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 {
                     Text = entry.Text,
                     Width = NavItemWidth,
-                    Height = 44,
+                    Height = 33,
                     Margin = new Padding(0, 1, 0, 1),
                     FlatStyle = FlatStyle.Flat,
                     ForeColor = NavText,
                     BackColor = SidebarColor,
-                    Font = new Font("Segoe UI", 10.5F),
+                    Font = new Font("Segoe UI", 10F),
                     TextAlign = ContentAlignment.MiddleLeft,
                     Padding = new Padding(14, 0, 0, 0),
                     Cursor = Cursors.Hand,
