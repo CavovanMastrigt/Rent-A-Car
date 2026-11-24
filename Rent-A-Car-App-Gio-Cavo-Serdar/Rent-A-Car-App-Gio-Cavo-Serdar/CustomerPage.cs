@@ -24,6 +24,19 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         public CustomerPage()
         {
             InitializeComponent();
+
+            if (DBHelper.loggedinuserid <= 0 ||
+                AuthHelper.loggedinroleid != AuthHelper.RoleCustomer)
+            {
+                MessageBox.Show(
+                    "Deze pagina is alleen beschikbaar voor ingelogde klanten.",
+                    "Geen toegang",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
             showOverview();
         }
 
@@ -289,7 +302,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             Panel pagePanel = createPagePanel();
 
             Button backButton = createButton(
-                "? Terug naar auto's",
+                "Terug naar auto's",
                 new Size(170, 38),
                 new Point(40, 30),
                 Color.White,
@@ -367,7 +380,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             Panel pagePanel = createPagePanel();
 
             Button backButton = createButton(
-                "? Terug naar auto",
+                "Terug naar auto",
                 new Size(160, 38),
                 new Point(40, 25),
                 Color.White,
@@ -621,11 +634,22 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         private bool isCarAvailable(int carId, DateTime start, DateTime end)
         {
             object result = DBHelper.getScalar(
-                "SELECT COUNT(*) FROM rental " +
-                "WHERE CarID = " + carId +
-                " AND Rental_Status IN ('reserved', 'confirmed', 'ongoing') " +
-                " AND Date_Started < " + AuthHelper.sql(end.ToString("yyyy-MM-dd HH:mm:ss")) +
-                " AND Date_Planned_Ending > " + AuthHelper.sql(start.ToString("yyyy-MM-dd HH:mm:ss")));
+                @"
+                SELECT COUNT(*)
+                FROM rental
+                INNER JOIN car ON car.ID = rental.CarID
+                WHERE rental.CarID = @CarID
+                  AND rental.Status IN ('reserved', 'active')
+                  AND rental.Date_Started < @EndDate
+                  AND rental.Date_Planned_Ending > @StartDate
+                  AND car.Car_Status = 'active'
+                  AND car.Archived = 0",
+                new Dictionary<string, object>
+                {
+                    { "@CarID", carId },
+                    { "@EndDate", end },
+                    { "@StartDate", start }
+                });
 
             return Convert.ToInt32(result) == 0;
         }
@@ -670,6 +694,18 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         {
             clearPage();
 
+            if (DBHelper.loggedinuserid <= 0 ||
+                AuthHelper.loggedinroleid != AuthHelper.RoleCustomer)
+            {
+                MessageBox.Show(
+                    "Deze pagina is alleen beschikbaar voor klanten.",
+                    "Geen toegang",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
             Panel pagePanel = createPagePanel();
 
             Button backButton = createButton(
@@ -691,43 +727,305 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             {
                 Location = new Point(40, 145),
                 Width = 900,
-                Height = 400,
+                Height = 350,
                 ReadOnly = true,
                 AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                 BackgroundColor = Color.White,
-                BorderStyle = BorderStyle.FixedSingle
+                BorderStyle = BorderStyle.FixedSingle,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                MultiSelect = false
             };
+
+            DataTable reservations;
 
             try
             {
-                reservationsGrid.DataSource = DBHelper.getdataTable(@"
+                reservations = DBHelper.getdataTable(
+                    @"
                     SELECT
-                        rental.ID AS Reservering,
-                        CONCAT(car.Brand, ' ', car.Model) AS Auto,
-                        rental.Date_Started AS Ophalen,
-                        rental.Date_Planned_Ending AS Terugbrengen,
-                        rental.Price_Per_Day AS Prijs_Per_Dag,
-                        rental.Rental_Status AS Status
-                    FROM rental
-                    INNER JOIN car ON car.ID = rental.CarID
-                    WHERE rental.UserID = " + DBHelper.loggedinuserid + @"
-                    ORDER BY rental.Date_Started DESC");
+                        r.ID AS Reservering,
+                        CONCAT(c.Brand, ' ', c.Model) AS Auto,
+                        c.License_Plate AS Kenteken,
+                        r.Date_Started AS Ophalen,
+                        r.Date_Planned_Ending AS Terugbrengen,
+                        r.Status AS Status,
+                        r.Total_Price AS Totaalprijs
+                    FROM rental AS r
+                    INNER JOIN car AS c ON c.ID = r.CarID
+                    WHERE r.UserID = @UserID
+                    ORDER BY r.Date_Started DESC",
+                    new Dictionary<string, object>
+                    {
+                        { "@UserID", DBHelper.loggedinuserid }
+                    });
+
+                reservationsGrid.DataSource = reservations;
             }
             catch (Exception exception)
             {
                 MessageBox.Show(
-                    "De reserveringen konden niet worden geladen.\n\n" + exception.Message,
+                    "De reserveringen konden niet worden geladen.\n\n" +
+                    exception.Message,
                     "Databasefout",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+
+                return;
             }
+
+            Button detailsButton = createButton(
+                "Bekijken",
+                new Size(140, 42),
+                new Point(40, 520),
+                blueColor,
+                Color.White);
+
+            Button priceButton = createButton(
+                "Prijsopbouw",
+                new Size(140, 42),
+                new Point(190, 520),
+                Color.White,
+                darkColor);
+
+            Button editButton = createButton(
+                "Wijzigen",
+                new Size(140, 42),
+                new Point(340, 520),
+                Color.White,
+                darkColor);
+
+            Button cancelButton = createButton(
+                "Annuleren",
+                new Size(140, 42),
+                new Point(490, 520),
+                Color.FromArgb(220, 38, 38),
+                Color.White);
+
+            detailsButton.Click += (sender, e) =>
+            {
+                int? rentalId = getSelectedRentalId(reservationsGrid);
+
+                if (rentalId.HasValue)
+                {
+                    showReservationDetails(rentalId.Value);
+                }
+            };
+
+            priceButton.Click += (sender, e) =>
+            {
+                int? rentalId = getSelectedRentalId(reservationsGrid);
+
+                if (rentalId.HasValue)
+                {
+                    showReservationPrice(rentalId.Value);
+                }
+            };
+
+            editButton.Click += (sender, e) =>
+            {
+                int? rentalId = getSelectedRentalId(reservationsGrid);
+
+                if (rentalId.HasValue)
+                {
+                    showEditReservationMessage(rentalId.Value);
+                }
+            };
+
+            cancelButton.Click += (sender, e) =>
+            {
+                int? rentalId = getSelectedRentalId(reservationsGrid);
+
+                if (rentalId.HasValue)
+                {
+                    cancelReservation(rentalId.Value);
+                }
+            };
 
             pagePanel.Controls.Add(backButton);
             pagePanel.Controls.Add(titleLabel);
             pagePanel.Controls.Add(reservationsGrid);
+            pagePanel.Controls.Add(detailsButton);
+            pagePanel.Controls.Add(priceButton);
+            pagePanel.Controls.Add(editButton);
+            pagePanel.Controls.Add(cancelButton);
 
             Controls.Add(pagePanel);
+        }
+
+        private int? getSelectedRentalId(DataGridView reservationsGrid)
+        {
+            if (reservationsGrid.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(
+                    "Selecteer eerst een reservering.",
+                    "Geen reservering geselecteerd",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return null;
+            }
+
+            return Convert.ToInt32(
+                reservationsGrid.SelectedRows[0].Cells["Reservering"].Value);
+        }
+
+        private void showReservationDetails(int rentalId)
+        {
+            try
+            {
+                DataTable table = DBHelper.getdataTable(
+                    @"
+                    SELECT
+                        r.ID,
+                        r.Status,
+                        r.Date_Started,
+                        r.Date_Planned_Ending,
+                        r.Price_Per_Day,
+                        r.Total_Price,
+                        c.Brand,
+                        c.Model,
+                        c.License_Plate
+                    FROM rental AS r
+                    INNER JOIN car AS c ON c.ID = r.CarID
+                    WHERE r.ID = @RentalID
+                      AND r.UserID = @UserID",
+                    new Dictionary<string, object>
+                    {
+                        { "@RentalID", rentalId },
+                        { "@UserID", DBHelper.loggedinuserid }
+                    });
+
+                if (table.Rows.Count == 0)
+                {
+                    MessageBox.Show(
+                        "Deze reservering bestaat niet of hoort niet bij jouw account.",
+                        "Geen toegang",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                DataRow row = table.Rows[0];
+
+                MessageBox.Show(
+                    "Reservering: " + row["ID"] + Environment.NewLine +
+                    "Auto: " + row["Brand"] + " " + row["Model"] + Environment.NewLine +
+                    "Kenteken: " + row["License_Plate"] + Environment.NewLine +
+                    "Ophalen: " + row["Date_Started"] + Environment.NewLine +
+                    "Terugbrengen: " + row["Date_Planned_Ending"] + Environment.NewLine +
+                    "Status: " + row["Status"] + Environment.NewLine +
+                    "Totaalprijs: " + formatPrice(Convert.ToDecimal(row["Total_Price"])),
+                    "Reserveringsdetails",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    "De reservering kon niet worden geladen.\n\n" + exception.Message,
+                    "Databasefout",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void showReservationPrice(int rentalId)
+        {
+            try
+            {
+                DataTable table = DBHelper.getdataTable(
+                    @"
+                    SELECT
+                        r.Date_Started,
+                        r.Date_Planned_Ending,
+                        r.Price_Per_Day,
+                        GREATEST(
+                            1,
+                            CEIL(
+                                TIMESTAMPDIFF(
+                                    MINUTE,
+                                    r.Date_Started,
+                                    r.Date_Planned_Ending
+                                ) / 1440
+                            )
+                        ) AS Days,
+                        GREATEST(
+                            1,
+                            CEIL(
+                                TIMESTAMPDIFF(
+                                    MINUTE,
+                                    r.Date_Started,
+                                    r.Date_Planned_Ending
+                                ) / 1440
+                            )
+                        ) * r.Price_Per_Day AS Car_Total,
+                        COALESCE(
+                            (
+                                SELECT SUM(ro.Option_Price)
+                                FROM rental_option AS ro
+                                WHERE ro.Rental_ID = r.ID
+                            ),
+                            0
+                        ) AS Options_Total,
+                        r.Total_Price AS Stored_Total
+                    FROM rental AS r
+                    WHERE r.ID = @RentalID
+                      AND r.UserID = @UserID",
+                    new Dictionary<string, object>
+                    {
+                        { "@RentalID", rentalId },
+                        { "@UserID", DBHelper.loggedinuserid }
+                    });
+
+                if (table.Rows.Count == 0)
+                {
+                    MessageBox.Show(
+                        "Deze reservering bestaat niet of hoort niet bij jouw account.",
+                        "Geen toegang",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                DataRow row = table.Rows[0];
+
+                decimal carTotal = Convert.ToDecimal(row["Car_Total"]);
+                decimal optionsTotal = Convert.ToDecimal(row["Options_Total"]);
+                decimal storedTotal = Convert.ToDecimal(row["Stored_Total"]);
+
+                MessageBox.Show(
+                    "Aantal dagen: " + row["Days"] + Environment.NewLine +
+                    "Dagprijs: " + formatPrice(Convert.ToDecimal(row["Price_Per_Day"])) + Environment.NewLine +
+                    "Subtotaal auto: " + formatPrice(carTotal) + Environment.NewLine +
+                    "Extra opties: " + formatPrice(optionsTotal) + Environment.NewLine +
+                    "Totaalprijs: " + formatPrice(carTotal + optionsTotal) + Environment.NewLine +
+                    "Opgeslagen totaal: " + formatPrice(storedTotal),
+                    "Prijsopbouw",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    "De prijs kon niet worden berekend.\n\n" + exception.Message,
+                    "Databasefout",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void showEditReservationMessage(int rentalId)
+        {
+            MessageBox.Show(
+                "Reservering #" + rentalId +
+                " is geselecteerd om te wijzigen.",
+                "Reservering wijzigen",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
 
         private Panel createHeader(string title, string subtitle)
@@ -945,6 +1243,29 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                     "C2",
                     CultureInfo.GetCultureInfo("nl-NL"));
             }
+        }
+
+        private bool isCustomerReservation(int rentalId)
+        {
+            if (DBHelper.loggedinuserid <= 0 ||
+                AuthHelper.loggedinroleid != AuthHelper.RoleCustomer)
+            {
+                return false;
+            }
+
+            object result = DBHelper.getScalar(
+                @"
+                SELECT COUNT(*)
+                FROM rental
+                WHERE ID = @RentalID
+                  AND UserID = @UserID",
+                new Dictionary<string, object>
+                {
+                    { "@RentalID", rentalId },
+                    { "@UserID", DBHelper.loggedinuserid }
+                });
+
+            return Convert.ToInt32(result) == 1;
         }
     }
 }
