@@ -17,6 +17,7 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
         public static readonly Color Accent = Color.FromArgb(37, 99, 235);
         public static readonly Color LineColor = Color.FromArgb(209, 213, 219);
         public static readonly CultureInfo Dutch = new CultureInfo("nl-NL");
+        internal static Color Light;
 
         // Applies the standard page background and padding to a staff screen.
         public static void Style(Control control)
