@@ -24,8 +24,6 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
             }
         }
 
-        // Same as RunSql, but with @-parameters. Use this for binary data (photos)
-        // and anywhere user input would otherwise be concatenated into the SQL.
         public static int RunSql(string sql, IDictionary<string, object> parameters)
         {
             using (var connection = createConnection())
