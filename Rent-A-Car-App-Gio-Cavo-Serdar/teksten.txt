@@ -1,0 +1,555 @@
+﻿Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:64: Text = "  " + roleName,
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:95: entries.Add(new NavEntry { Text = "ðŸ“Š   Dashboard", AdminOnly = true, CreatePage = () => new DashboardPage() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:96: entries.Add(new NavEntry { Text = "ðŸš—   Auto's", Perm = PermissionHelper.Cars, CreatePage = () => new CarsPage() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:99: entries.Add(new NavEntry { Text = "Medewerker", IsHeader = true });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:100: entries.Add(new NavEntry { Text = "Dagoverzicht", Perm = PermissionHelper.Reservations, CreatePage = () => new DayOverviewControl() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:101: entries.Add(new NavEntry { Text = "Planning", Perm = PermissionHelper.Reservations, CreatePage = () => new PlanningControl() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:102: entries.Add(new NavEntry { Text = "Nieuwe reservering", Perm = PermissionHelper.Reservations, CreatePage = () => new NewReservationControl() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:103: entries.Add(new NavEntry { Text = "Ophalen / terugbrengen", Perm = PermissionHelper.Reservations, CreatePage = () => new PickupReturnControl() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:104: entries.Add(new NavEntry { Text = "Wijzigen / annuleren", Perm = PermissionHelper.Reservations, CreatePage = () => new ChangeCancelControl() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:105: entries.Add(new NavEntry { Text = "Extra's en prijzen", Perm = PermissionHelper.Reservations, CreatePage = () => new ExtrasPricesControl() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:108: entries.Add(new NavEntry { Text = "Klanten", IsHeader = true });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:109: entries.Add(new NavEntry { Text = "Klantbeheer", Perm = PermissionHelper.Customers, CreatePage = () => new CustomersPage() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:110: entries.Add(new NavEntry { Text = "Klantverificatie", Perm = PermissionHelper.Verification, CreatePage = () => new CustomerVerificationPage() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:111: entries.Add(new NavEntry { Text = "Facturen", Perm = PermissionHelper.Invoices, CreatePage = () => new InvoicesPage() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:113: entries.Add(new NavEntry { Text = "Berichten", CreatePage = () => new MessagesPage() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:116: entries.Add(new NavEntry { Text = "Beheer", IsHeader = true });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:117: entries.Add(new NavEntry { Text = "Medewerkers", AdminOnly = true, CreatePage = () => new EmployeesPage() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:118: entries.Add(new NavEntry { Text = "Rechten", AdminOnly = true, CreatePage = () => new PermissionsPage() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:119: entries.Add(new NavEntry { Text = "Openingstijden", Perm = PermissionHelper.OpeningHours, CreatePage = () => new OpeningHoursPage() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:120: entries.Add(new NavEntry { Text = "Logboek", AdminOnly = true, CreatePage = () => new LogsPage() });
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:207: MessageBox.Show("Deze pagina kon niet geopend worden:\n" + ex.Message,
+Rent-A-Car-App-Gio-Cavo-Serdar\AdminPage.cs:208: "Pagina", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:46: Text = "Auto-details";
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:65: var btnClose = new Button { Text = "âœ•", Location = new Point(864, 6), Size = new Size(30, 30), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, ForeColor = Muted, TabStop = false, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:88: var hdr = new Label { Text = "Toestand bijwerken", Location = new Point(0, 102), AutoSize = true, Font = new Font("Segoe UI", 11F, FontStyle.Bold), ForeColor = Ink };
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:90: p.Controls.Add(new Label { Text = "Km-teller", Location = new Point(0, 134), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:93: p.Controls.Add(new Label { Text = "Bandenspanning", Location = new Point(170, 134), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:96: p.Controls.Add(new Label { Text = "Conditie", Location = new Point(0, 192), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:101: p.Controls.Add(new Label { Text = "Schade / opmerking", Location = new Point(0, 250), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:106: Text = "Opslaan",
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:130: gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Klant", HeaderText = "Klant", DataPropertyName = "Klant", FillWeight = 85 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:131: gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Periode", HeaderText = "Periode", DataPropertyName = "Periode", FillWeight = 105 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:132: gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", FillWeight = 65 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:135: gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Conditie", HeaderText = "Conditie (toen)", DataPropertyName = "Conditie", FillWeight = 75 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:136: gridRentals.Columns.Add(new DataGridViewTextBoxColumn { Name = "Bedrag", HeaderText = "Bedrag", DataPropertyName = "Bedrag", FillWeight = 55, DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleRight } });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:142: gridMaint.Columns.Add(new DataGridViewTextBoxColumn { Name = "Datum", HeaderText = "Datum", DataPropertyName = "Datum", FillWeight = 85 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:143: gridMaint.Columns.Add(new DataGridViewTextBoxColumn { Name = "Door", HeaderText = "Door", DataPropertyName = "Door", FillWeight = 85 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:144: gridMaint.Columns.Add(new DataGridViewTextBoxColumn { Name = "Conditie", HeaderText = "Conditie", DataPropertyName = "Conditie", FillWeight = 75 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:145: gridMaint.Columns.Add(new DataGridViewTextBoxColumn { Name = "Km", HeaderText = "Km", DataPropertyName = "Km", FillWeight = 55 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:146: gridMaint.Columns.Add(new DataGridViewTextBoxColumn { Name = "Band", HeaderText = "Band", DataPropertyName = "Band", FillWeight = 55 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:147: gridMaint.Columns.Add(new DataGridViewTextBoxColumn { Name = "Opmerking", HeaderText = "Opmerking", DataPropertyName = "Opmerking", FillWeight = 150 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:191: lblBrandModel.Text = r["Brand"] + " " + r["Model"];
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:203: lblBadge.Text = CondToLabel.ContainsKey(cond) ? CondToLabel[cond] : "Goed";
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:213: txtTire.Text = r["Tire_Pressure"] == DBNull.Value ? "" : r["Tire_Pressure"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:228: d.Columns.Add("Klant"); d.Columns.Add("Periode"); d.Columns.Add("Status");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:229: d.Columns.Add("CondCode"); d.Columns.Add("Conditie"); d.Columns.Add("Bedrag");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:254: d.Columns.Add("Datum"); d.Columns.Add("Door"); d.Columns.Add("Conditie");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:255: d.Columns.Add("Km"); d.Columns.Add("Band"); d.Columns.Add("Opmerking");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:298: MessageBox.Show("Kon de toestand niet opslaan:\n" + ex.Message, "Auto-details", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:302: txtNote.Text = "";
+Rent-A-Car-App-Gio-Cavo-Serdar\CarDetailForm.cs:305: lblLast.Text = "Laatst bijgewerkt: zojuist.";
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:52: Text = carId == 0 ? "Nieuwe auto" : "Auto bewerken";
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:61: Text = carId == 0 ? "Nieuwe auto" : "Auto bewerken",
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:70: Text = "âœ•",
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:85: Controls.Add(new Label { Text = "Status", Location = new Point(250, 70), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:90: Controls.Add(new Label { Text = "Bouwjaar", Location = new Point(30, 244), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:101: Controls.Add(new Label { Text = "Brandstof", Location = new Point(170, 244), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:103: cboFuel.Items.AddRange(new object[] { "Benzine", "Diesel", "Elektrisch", "Hybride", "LPG" });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:106: Controls.Add(new Label { Text = "Prijs per dag (â‚¬)", Location = new Point(30, 302), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:118: Controls.Add(new Label { Text = "Foto (optioneel)", Location = new Point(30, 360), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:121: Text = "Kies foto...",
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:131: Text = "Verwijder",
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:144: lblPhoto = new Label { Text = "Geen foto gekozen", Location = new Point(280, 388), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:157: Text = "Opslaan",
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:171: Text = "Annuleren",
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:202: txtPlate.Text = r["License_Plate"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:203: txtBrand.Text = r["Brand"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:204: txtModel.Text = r["Model"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:238: MessageBox.Show("De foto is groter dan 5 MB.", "Foto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:248: MessageBox.Show("Kon de foto niet laden:\n" + ex.Message, "Foto", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:260: lblPhoto.Text = "Foto gekozen";
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:265: lblPhoto.Text = "Geen foto gekozen";
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:278: MessageBox.Show("Kenteken, merk en model zijn verplicht.", "Auto opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:283: MessageBox.Show("Vul een prijs per dag in die groter is dan 0.", "Auto opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:296: MessageBox.Show("Kenteken bestaat al", "Auto opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:303: MessageBox.Show("Kon het kenteken niet controleren:\n" + ex.Message, "Auto opslaan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarEditForm.cs:341: MessageBox.Show("Kon de auto niet opslaan:\n" + ex.Message, "Auto opslaan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:57: Text = "Auto's",
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:66: setPlaceholder(txtSearch, "Zoek op kenteken, merk of model");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:75: cboFilter.Items.Add("Alle statussen");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:151: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "ID", DataPropertyName = "ID", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:152: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Kenteken", HeaderText = "Kenteken", DataPropertyName = "Kenteken", ReadOnly = true, FillWeight = 90 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:153: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Merk", HeaderText = "Merk", DataPropertyName = "Merk", ReadOnly = true, FillWeight = 90 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:154: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Model", HeaderText = "Model", DataPropertyName = "Model", ReadOnly = true, FillWeight = 90 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:155: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Bouwjaar", HeaderText = "Bouwjaar", DataPropertyName = "Bouwjaar", ReadOnly = true, FillWeight = 55 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:156: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Brandstof", HeaderText = "Brandstof", DataPropertyName = "Brandstof", ReadOnly = true, FillWeight = 70 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:160: HeaderText = "Prijs/dag",
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:169: HeaderText = "Status",
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:179: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Active", DataPropertyName = "Active", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:249: display.Columns.Add("ID", typeof(int));
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:250: display.Columns.Add("Kenteken");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:251: display.Columns.Add("Merk");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:252: display.Columns.Add("Model");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:253: display.Columns.Add("Bouwjaar");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:254: display.Columns.Add("Brandstof");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:255: display.Columns.Add("Prijs");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:256: display.Columns.Add("Status");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:257: display.Columns.Add("Active", typeof(int));
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:279: lblCount.Text = display.Rows.Count + (display.Rows.Count == 1 ? " auto" : " auto's");
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:283: MessageBox.Show("Kon de auto's niet laden:\n" + ex.Message, "Auto's", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:332: MessageBox.Show("Selecteer eerst een auto.", "Bewerken", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:342: MessageBox.Show("Selecteer eerst een auto.", "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:358: "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:364: MessageBox.Show("Kon de reserveringen niet controleren:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:371: "Verwijderen", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:381: MessageBox.Show("Kon de auto niet verwijderen:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:410: "Status aanpassen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:421: MessageBox.Show("Kon de status niet opslaan:\n" + ex.Message, "Status aanpassen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:452: box.Text = "";
+Rent-A-Car-App-Gio-Cavo-Serdar\CarsPage.cs:468: return (box.Tag != null && box.Text == box.Tag.ToString()) ? "" : box.Text;
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:40: Text = userId == 0 ? "Nieuwe klant" : "Klant bewerken";
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:49: Text = userId == 0 ? "Nieuwe klant" : "Klant bewerken",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:57: Text = "âœ•",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:75: Controls.Add(new Label { Text = "Status", Location = new Point(235, 186), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:85: Text = userId == 0 ? "Minimaal 6 tekens." : "Laat leeg om het wachtwoord niet te wijzigen.",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:94: Text = "Opslaan",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:108: Text = "Annuleren",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:135: txtFirst.Text = r["Name"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:136: txtLast.Text = r["LastName"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:137: txtEmail.Text = r["Email"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:138: txtPhone.Text = r["Phone_Number"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:139: txtAddress.Text = r["Address"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:140: txtPostal.Text = r["Postal_Code"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:141: txtCity.Text = r["City"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:157: MessageBox.Show("Vul voornaam, achternaam, e-mail, adres en woonplaats in.", "Klant opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:162: MessageBox.Show("Vul een geldig e-mailadres in.", "Klant opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:168: MessageBox.Show("Vul een wachtwoord van minimaal 6 tekens in.", "Klant opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:174: MessageBox.Show("Een nieuw wachtwoord moet minimaal 6 tekens zijn.", "Klant opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:186: MessageBox.Show("Er bestaat al een account met dit e-mailadres.", "Klant opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:193: MessageBox.Show("Kon het e-mailadres niet controleren:\n" + ex.Message, "Klant opslaan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerEditForm.cs:229: MessageBox.Show("Kon de klant niet opslaan:\n" + ex.Message, "Klant opslaan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:38: Text = "ID uploaden";
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:46: Text = "ID uploaden voor " + customerName,
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:54: Text = "âœ•",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:68: Controls.Add(new Label { Text = "Geboortedatum", Location = new Point(30, 320), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:72: Controls.Add(new Label { Text = "Vervaldatum", Location = new Point(200, 320), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:78: Text = "Uploaden",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:92: Text = "Annuleren",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:102: Controls.Add(new Label { Text = "Vorige poging afgekeurd", Location = new Point(380, 320), AutoSize = true, Font = new Font("Segoe UI", 9.5F, FontStyle.Bold), ForeColor = Color.FromArgb(153, 27, 27) });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:103: Controls.Add(new Label { Text = previousRejectReason, Location = new Point(380, 342), Size = new Size(310, 60), ForeColor = Color.FromArgb(55, 65, 81), Font = new Font("Segoe UI", 9F) });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:118: Text = "Kies bestand...",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:126: slot.FileLabel = new Label { Text = "Geen bestand gekozen", Location = new Point(x + 150, 86), Size = new Size(150, 20), ForeColor = Muted, AutoEllipsis = true };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:151: MessageBox.Show("Het bestand is groter dan 5 MB.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:168: slot.FileLabel.Text = file.Name + "  (PDF)";
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:178: MessageBox.Show("Kies zowel een voorkant als een achterkant.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:183: MessageBox.Show("Vul een geldige geboortedatum in.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:193: MessageBox.Show("Een bestand is groter dan 5 MB.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:219: MessageBox.Show("Kon de ID niet opslaan:\n" + ex.Message, "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerIdUploadForm.cs:224: MessageBox.Show("De ID is geÃ¼pload en staat klaar voor verificatie.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerMessagesForm.cs:26: Text = "Berichten";
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerMessagesForm.cs:33: var title = new Label { Text = "Berichten", Dock = DockStyle.Top, Height = 48, Font = new Font("Segoe UI", 15F, FontStyle.Bold), TextAlign = ContentAlignment.MiddleCenter };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerMessagesForm.cs:34: var sub = new Label { Text = "Stel je vraag; een medewerker reageert zo snel mogelijk.", Dock = DockStyle.Top, Height = 24, ForeColor = Muted, TextAlign = ContentAlignment.MiddleCenter };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerMessagesForm.cs:35: var btnClose = new Button { Text = "âœ•", Location = new Point(464, 6), Size = new Size(30, 30), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, ForeColor = Muted, TabStop = false, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerMessagesForm.cs:42: var btnSend = new Button { Text = "Verzenden", Dock = DockStyle.Right, Width = 110, FlatStyle = FlatStyle.Flat, BackColor = Mine, ForeColor = Color.White, Font = new Font("Segoe UI", 9.5F, FontStyle.Bold), Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerMessagesForm.cs:69: thread.Controls.Add(new Label { Text = "Nog geen berichten. Stuur gerust je vraag!", AutoSize = true, ForeColor = Muted, Margin = new Padding(6, 20, 0, 0) });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerMessagesForm.cs:82: MessageBox.Show("Kon de berichten niet laden:\n" + ex.Message, "Berichten", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerMessagesForm.cs:92: Text = (mine ? "Jij" : who) + "  Â·  " + when.ToString("dd-MM HH:mm"),
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerMessagesForm.cs:139: MessageBox.Show("Kon het bericht niet versturen:\n" + ex.Message, "Berichten", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerPage.cs:122: Text = "Verifieer nu",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerPage.cs:215: Text = "AFBEELDING",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerPage.cs:311: Text = "AFBEELDING",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerPage.cs:522: totalPriceLabel.Text = "Totaalprijs: " + formatPrice(totalPrice);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:50: var header = new Label { Text = "Klanten", Dock = DockStyle.Fill, Font = new Font("Segoe UI", 18F, FontStyle.Bold), ForeColor = Ink };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:63: var lblSearch = new Label { Text = "Zoek op naam, e-mail of stad", Location = new Point(2, 0), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:66: cboStatus.Items.Add("Alle statussen");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:70: var lblFilter = new Label { Text = "Status", Location = new Point(280, 0), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:144: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "ID", DataPropertyName = "ID", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:145: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "StCode", DataPropertyName = "StCode", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:146: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "VerifCode", DataPropertyName = "VerifCode", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:147: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Naam", HeaderText = "Naam", DataPropertyName = "Naam", FillWeight = 90 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:148: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Email", HeaderText = "E-mail", DataPropertyName = "Email", FillWeight = 120 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:149: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Telefoon", HeaderText = "Telefoon", DataPropertyName = "Telefoon", FillWeight = 80 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:150: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Stad", HeaderText = "Woonplaats", DataPropertyName = "Stad", FillWeight = 80 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:151: var sc = new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", FillWeight = 80 };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:153: var vc = new DataGridViewTextBoxColumn { Name = "Verificatie", HeaderText = "Verificatie", DataPropertyName = "Verificatie", FillWeight = 90 };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:209: all.Columns.Add("ID", typeof(int));
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:210: all.Columns.Add("Naam");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:211: all.Columns.Add("Email");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:212: all.Columns.Add("Telefoon");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:213: all.Columns.Add("Stad");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:214: all.Columns.Add("StCode");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:215: all.Columns.Add("Status");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:216: all.Columns.Add("VerifCode");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:217: all.Columns.Add("Verificatie");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:238: MessageBox.Show("Kon de klanten niet laden:\n" + ex.Message, "Klanten", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:260: lblCount.Text = view.Rows.Count + (view.Rows.Count == 1 ? " klant" : " klanten");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:280: if (id < 0) { MessageBox.Show("Selecteer eerst een klant.", "Bewerken", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:287: if (id < 0) { MessageBox.Show("Selecteer eerst een klant.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:310: MessageBox.Show("Kon de verificatiestatus niet controleren:\n" + ex.Message, "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:316: MessageBox.Show("Deze klant is al geverifieerd. Een nieuwe ID is niet nodig.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:321: MessageBox.Show("Er staat al een ID in behandeling. Wacht tot die beoordeeld is.", "ID uploaden", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:336: if (id < 0) { MessageBox.Show("Selecteer eerst een klant.", "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:347: "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:353: MessageBox.Show("Kon de reserveringen niet controleren:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:357: if (MessageBox.Show("Weet je het zeker? Klant " + name + " wordt definitief verwijderd.",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:358: "Verwijderen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomersPage.cs:367: MessageBox.Show("Kon de klant niet verwijderen:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:46: Text = "Klantverificatie",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:61: var lblSearch = new Label { Text = "Zoek op naam of e-mail", Location = new Point(0, 2), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:65: var lblFilter = new Label { Text = "Status", Location = new Point(300, 2), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:67: cboStatus.Items.AddRange(new object[] { "Alle statussen", "In behandeling", "Geverifieerd", "Afgekeurd", "Niet geverifieerd" });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:73: Text = "Beoordelen",
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:88: var lblLegend = new Label { Text = "Kleuren:", Location = new Point(0, 70), AutoSize = true, ForeColor = Muted, Font = new Font("Segoe UI", 9F, FontStyle.Bold) };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:95: var hint = new Label { Text = "Dubbelklik op een klant om te beoordelen.", Location = new Point(0, 100), AutoSize = true, ForeColor = Muted, Font = new Font("Segoe UI", 9F, FontStyle.Italic) };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:141: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "UserID", DataPropertyName = "UserID", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:142: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "St", DataPropertyName = "St", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:143: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Naam", HeaderText = "Naam", DataPropertyName = "Naam", FillWeight = 90 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:144: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Email", HeaderText = "E-mail", DataPropertyName = "Email", FillWeight = 130 });
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:145: var statusCol = new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", FillWeight = 85 };
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:181: allRows.Columns.Add("UserID", typeof(int));
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:182: allRows.Columns.Add("St");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:183: allRows.Columns.Add("Naam");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:184: allRows.Columns.Add("Email");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:185: allRows.Columns.Add("Status");
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:200: MessageBox.Show("Kon de klanten niet laden:\n" + ex.Message, "Klantverificatie", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\CustomerVerificationPage.cs:224: lblCount.Text = view.Rows.Count + (view.Rows.Count == 1 ? " klant" : " klanten");
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:46: Text = "Dashboard",
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:70: var lblPeriod = new Label { Text = "Periode:", Location = new Point(2, 20), AutoSize = true, Font = new Font("Segoe UI", 10F) };
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:72: var lblTo = new Label { Text = "t/m", Location = new Point(210, 20), AutoSize = true, Font = new Font("Segoe UI", 10F) };
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:78: Text = "Toepassen",
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:141: Text = "Geen gegevens voor deze periode",
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:168: Text = "-",
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:216: valDay.Text = euro(revenueWhere("DATE(r.Date_Started) = CURDATE()"));
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:217: valWeek.Text = euro(revenueWhere("YEARWEEK(r.Date_Started, 3) = YEARWEEK(CURDATE(), 3)"));
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:218: valMonth.Text = euro(revenueWhere("YEAR(r.Date_Started) = YEAR(CURDATE()) AND MONTH(r.Date_Started) = MONTH(CURDATE())"));
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:219: valYear.Text = euro(revenueWhere("YEAR(r.Date_Started) = YEAR(CURDATE())"));
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:223: MessageBox.Show("Kon de omzetcijfers niet laden:\n" + ex.Message, "Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:241: MessageBox.Show("De begindatum ligt na de einddatum.", "Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:256: valRentals.Text = "0";
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:257: valOccupancy.Text = "0%";
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:277: valOccupancy.Text = occ.ToString("0.#", NL) + "%  (" + rentedCars + "/" + totalCars + ")";
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:309: MessageBox.Show("Kon de periode niet laden:\n" + ex.Message, "Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:317: display.Columns.Add("Kenteken");
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:318: display.Columns.Add("Auto");
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:319: display.Columns.Add("Verhuringen");
+Rent-A-Car-App-Gio-Cavo-Serdar\DashboardPage.cs:320: display.Columns.Add("Omzet");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:21: Text = "E-mailinstellingen";
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:28: var title = new Label { Text = "E-mailinstellingen", Dock = DockStyle.Top, Height = 54, Font = new Font("Segoe UI", 16F, FontStyle.Bold), TextAlign = ContentAlignment.MiddleCenter };
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:29: var btnClose = new Button { Text = "âœ•", Location = new Point(404, 6), Size = new Size(30, 30), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, ForeColor = Muted, TabStop = false, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:32: var info = new Label { Text = "SMTP-server waarmee facturen verstuurd worden.", Location = new Point(30, 62), Size = new Size(380, 20), ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:36: chkSsl = new CheckBox { Text = "SSL/TLS gebruiken", Location = new Point(160, 172), AutoSize = true, Font = new Font("Segoe UI", 10F) };
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:44: var btnSave = new Button { Text = "Opslaan", Location = new Point(220, 410), Size = new Size(190, 40), FlatStyle = FlatStyle.Flat, BackColor = Accent, ForeColor = Color.White, Font = new Font("Segoe UI", 10F, FontStyle.Bold), Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:48: var btnCancel = new Button { Text = "Annuleren", Location = new Point(30, 410), Size = new Size(150, 40), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:65: txtHost.Text = AppSettings.Get("smtp_host", "smtp.gmail.com");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:66: txtPort.Text = AppSettings.Get("smtp_port", "587");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:67: txtFrom.Text = AppSettings.Get("smtp_from");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:68: txtUser.Text = AppSettings.Get("smtp_user");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:69: txtPass.Text = AppSettings.Get("smtp_pass");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:78: MessageBox.Show("Vul een geldig poortnummer in.", "E-mailinstellingen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmailSettingsForm.cs:93: MessageBox.Show("Kon de instellingen niet opslaan:\n" + ex.Message, "E-mailinstellingen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:46: Text = userId == 0 ? "Nieuwe medewerker" : "Medewerker bewerken";
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:55: Text = userId == 0 ? "Nieuwe medewerker" : "Medewerker bewerken",
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:63: Text = "âœ•",
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:79: Controls.Add(new Label { Text = "Rol", Location = new Point(30, 244), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:88: Controls.Add(new Label { Text = "Status", Location = new Point(235, 244), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:100: Text = userId == 0 ? "Min. 6 tekens." : "Leeg = ongewijzigd.",
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:108: Controls.Add(new Label { Text = "Dit is je eigen account; je rol kun je hier niet wijzigen.", Location = new Point(30, 430), AutoSize = true, ForeColor = Muted, Font = new Font("Segoe UI", 8.5F) });
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:113: Text = "Opslaan",
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:127: Text = "Annuleren",
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:154: txtFirst.Text = r["Name"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:155: txtLast.Text = r["LastName"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:156: txtEmail.Text = r["Email"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:157: txtPhone.Text = r["Phone_Number"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:158: txtAddress.Text = r["Address"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:159: txtCity.Text = r["City"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:176: MessageBox.Show("Vul voornaam, achternaam, e-mail, adres en woonplaats in.", "Medewerker opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:181: MessageBox.Show("Vul een geldig e-mailadres in.", "Medewerker opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:187: MessageBox.Show("Vul een wachtwoord van minimaal 6 tekens in.", "Medewerker opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:193: MessageBox.Show("Een nieuw wachtwoord moet minimaal 6 tekens zijn.", "Medewerker opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:204: MessageBox.Show("Er bestaat al een account met dit e-mailadres.", "Medewerker opslaan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:211: MessageBox.Show("Kon het e-mailadres niet controleren:\n" + ex.Message, "Medewerker opslaan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeeEditForm.cs:264: MessageBox.Show("Kon de medewerker niet opslaan:\n" + ex.Message, "Medewerker opslaan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:42: var header = new Label { Text = "Medewerkers", Dock = DockStyle.Fill, Font = new Font("Segoe UI", 18F, FontStyle.Bold), ForeColor = Ink };
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:55: var lblSearch = new Label { Text = "Zoek op naam of e-mail", Location = new Point(2, 0), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:126: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "ID", DataPropertyName = "ID", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:127: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "StCode", DataPropertyName = "StCode", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:128: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Naam", HeaderText = "Naam", DataPropertyName = "Naam", FillWeight = 100 });
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:129: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Email", HeaderText = "E-mail", DataPropertyName = "Email", FillWeight = 130 });
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:130: var rc = new DataGridViewTextBoxColumn { Name = "Rol", HeaderText = "Rol", DataPropertyName = "Rol", FillWeight = 80 };
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:132: var scStatus = new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", FillWeight = 80 };
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:181: all.Columns.Add("ID", typeof(int));
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:182: all.Columns.Add("Naam");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:183: all.Columns.Add("Email");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:184: all.Columns.Add("Rol");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:185: all.Columns.Add("StCode");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:186: all.Columns.Add("Status");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:198: MessageBox.Show("Kon de medewerkers niet laden:\n" + ex.Message, "Medewerkers", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:218: lblCount.Text = view.Rows.Count + (view.Rows.Count == 1 ? " medewerker" : " medewerkers");
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:238: if (id < 0) { MessageBox.Show("Selecteer eerst een medewerker.", "Bewerken", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:245: if (id < 0) { MessageBox.Show("Selecteer eerst een medewerker.", "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:248: MessageBox.Show("Je kunt je eigen account niet verwijderen.", "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:261: "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:267: MessageBox.Show("Kon de reserveringen niet controleren:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:271: if (MessageBox.Show("Weet je het zeker? Medewerker " + name + " wordt definitief verwijderd.",
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:272: "Verwijderen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+Rent-A-Car-App-Gio-Cavo-Serdar\EmployeesPage.cs:281: MessageBox.Show("Kon de medewerker niet verwijderen:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\HomeForm.cs:31: Text = "Rent A Car";
+Rent-A-Car-App-Gio-Cavo-Serdar\HomeForm.cs:46: Text = "Rent A Car";
+Rent-A-Car-App-Gio-Cavo-Serdar\HomeForm.Designer.cs:64: this.Text = "Rent A Car";
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:36: Text = "Rent A Car - ID-verificatie";
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:45: Text = "ID-verificatie",
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:54: Text = "Upload een foto of scan van de VOORKANT en de ACHTERKANT van je ID-kaart (JPG, PNG of PDF, max 5 MB per bestand). Een medewerker controleert deze daarna.",
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:62: Text = "âœ•",
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:76: var lblBirth = new Label { Text = "Geboortedatum (zoals op ID)", Location = new Point(30, 366), AutoSize = true };
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:86: var lblExpiry = new Label { Text = "Vervaldatum ID", Location = new Point(360, 366), AutoSize = true };
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:97: Text = "Versturen",
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:110: Text = "Annuleren",
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:140: Text = "Kies bestand...",
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:149: Text = "Geen bestand gekozen",
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:177: front.FileLabel.Text = "Je account is al geverifieerd.";
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:182: front.FileLabel.Text = "Vorige poging afgekeurd - upload opnieuw.";
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:203: MessageBox.Show("Het bestand is groter dan 5 MB.", "ID-verificatie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:225: slot.FileLabel.Text = file.Name + "  (PDF)";
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:235: MessageBox.Show("Kies een bestand voor de voorkant van je ID.", "ID-verificatie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:240: MessageBox.Show("Kies een bestand voor de achterkant van je ID.", "ID-verificatie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:245: MessageBox.Show("Vul een geldige geboortedatum in.", "ID-verificatie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:255: MessageBox.Show("Een van de bestanden is groter dan 5 MB.", "ID-verificatie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:288: MessageBox.Show("Kon de ID-kaart niet opslaan:\n" + ex.Message, "ID-verificatie", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\IdentityVerificationForm.cs:294: "ID-verificatie", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:52: var header = new Label { Text = "Facturen", Dock = DockStyle.Fill, Font = new Font("Segoe UI", 18F, FontStyle.Bold), ForeColor = Ink };
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:58: cboStatus.Items.AddRange(new object[] { "Alle statussen", "Openstaand", "Betaald", "Verlopen" });
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:102: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "InvoiceId", DataPropertyName = "InvoiceId", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:103: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "StatusKey", DataPropertyName = "StatusKey", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:104: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Factuur", HeaderText = "Factuur", DataPropertyName = "Factuur", FillWeight = 65 });
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:105: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Klant", HeaderText = "Klant", DataPropertyName = "Klant", FillWeight = 100 });
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:106: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Auto", HeaderText = "Auto", DataPropertyName = "Auto", FillWeight = 100 });
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:107: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Bedrag", HeaderText = "Bedrag", DataPropertyName = "Bedrag", FillWeight = 65, DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleRight } });
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:108: var stc = new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", FillWeight = 75 };
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:130: lblDetailTitle = new Label { Dock = DockStyle.Top, Height = 32, Text = "Selecteer een factuur", Font = new Font("Segoe UI", 13F, FontStyle.Bold), ForeColor = Ink };
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:131: lblDetail = new Label { Dock = DockStyle.Top, Height = 380, Text = "", Font = new Font("Segoe UI", 10F), ForeColor = Color.FromArgb(55, 65, 81) };
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:136: Text = "PDF openen",
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:151: Text = "PDF downloaden",
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:167: Text = "E-mail versturen",
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:182: Text = "Markeer als betaald",
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:222: MessageBox.Show("Kon de facturen niet laden:\n" + ex.Message, "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:233: display.Columns.Add("InvoiceId", typeof(int));
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:234: display.Columns.Add("StatusKey");
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:235: display.Columns.Add("Factuur");
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:236: display.Columns.Add("Klant");
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:237: display.Columns.Add("Auto");
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:238: display.Columns.Add("Bedrag");
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:239: display.Columns.Add("Status");
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:259: lblCount.Text = display.Rows.Count + (display.Rows.Count == 1 ? " factuur" : " facturen");
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:307: lblDetailTitle.Text = "Selecteer een factuur";
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:308: lblDetail.Text = "";
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:342: CarText = r["Brand"] + " " + r["Model"] + " (" + r["License_Plate"] + ")",
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:354: string optionsText = "";
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:370: lblDetailTitle.Text = "Factuur F-" + id.ToString("D5");
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:391: btnPaid.Text = currentRawStatus == "paid" ? "Markeer als openstaand" : "Markeer als betaald";
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:406: MessageBox.Show("Kon de status niet opslaan:\n" + ex.Message, "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:420: MessageBox.Show("Deze klant heeft geen e-mailadres.", "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:425: MessageBox.Show("De e-mailinstellingen (SMTP) zijn nog niet ingesteld.\nVraag een beheerder om deze in te stellen via 'E-mailinstellingen'.",
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:426: "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:431: if (MessageBox.Show("Factuur " + invNo + " versturen naar " + current.CustomerEmail + "?",
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:432: "E-mail versturen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:449: MessageBox.Show("Kon de e-mail niet versturen:\n" + ex.Message, "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:452: MessageBox.Show("De factuur is verstuurd naar " + current.CustomerEmail + ".", "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:479: MessageBox.Show("Kon de PDF niet openen:\n" + ex.Message, "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:494: MessageBox.Show("De factuur is opgeslagen.", "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\InvoicesPage.cs:498: MessageBox.Show("Kon de PDF niet opslaan:\n" + ex.Message, "Facturen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:24: Text = "Logregel";
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:30: var title = new Label { Text = "Logregel", Dock = DockStyle.Top, Height = 52, Font = new Font("Segoe UI", 16F, FontStyle.Bold), TextAlign = ContentAlignment.MiddleCenter };
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:31: var btnClose = new Button { Text = "âœ•", Location = new Point(404, 6), Size = new Size(30, 30), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, ForeColor = Muted, TabStop = false, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:38: Controls.Add(new Label { Text = "Details", Location = new Point(30, 214), AutoSize = true, ForeColor = Muted, Font = new Font("Segoe UI", 8.5F, FontStyle.Bold) });
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:39: Controls.Add(new Label { Text = string.IsNullOrEmpty(details) ? "-" : details, Location = new Point(30, 232), Size = new Size(380, 44), ForeColor = Ink, Font = new Font("Segoe UI", 10F) });
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:44: Controls.Add(new Label { Text = "Bevestig met je wachtwoord om te verwijderen", Location = new Point(30, 302), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:50: Text = "Verwijderen",
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:62: var btnCancel = new Button { Text = "Sluiten", Location = new Point(30, 380), Size = new Size(150, 40), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:71: Controls.Add(new Label { Text = label, Location = new Point(30, y), AutoSize = true, ForeColor = Muted, Font = new Font("Segoe UI", 8.5F, FontStyle.Bold) });
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:72: Controls.Add(new Label { Text = string.IsNullOrEmpty(value) ? "-" : value, Location = new Point(30, y + 18), Size = new Size(380, 22), ForeColor = Ink, Font = new Font("Segoe UI", 10F) });
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:79: MessageBox.Show("Vul je wachtwoord in om te bevestigen.", "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:90: MessageBox.Show("Onjuist wachtwoord.", "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:98: MessageBox.Show("Kon het wachtwoord niet controleren:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\LogDetailForm.cs:108: MessageBox.Show("Kon de logregel niet verwijderen:\n" + ex.Message, "Verwijderen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:23: Text = "Inloggen";
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:29: Controls.Add(new Label { Text = "Inloggen", Location = new Point(0, 34), Size = new Size(380, 36), Font = new Font("Segoe UI", 20F, FontStyle.Bold), ForeColor = Ink, TextAlign = ContentAlignment.MiddleCenter });
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:30: Controls.Add(new Label { Text = "Welkom terug bij Rent A Car", Location = new Point(0, 72), Size = new Size(380, 20), ForeColor = Muted, TextAlign = ContentAlignment.MiddleCenter });
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:32: var btnClose = new Button { Text = "âœ•", Location = new Point(344, 8), Size = new Size(30, 30), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, ForeColor = Muted, TabStop = false, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:35: Controls.Add(new Label { Text = "E-mail", Location = new Point(40, 118), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:38: Controls.Add(new Label { Text = "Wachtwoord", Location = new Point(40, 186), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:40: btnShowPassword = new Button { Text = "ðŸ‘", Location = new Point(300, 205), Size = new Size(40, 27), FlatStyle = FlatStyle.Flat, BackColor = Color.White, Cursor = Cursors.Hand, TabStop = false };
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:46: Text = "Inloggen",
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:60: Text = "Nog geen account?  Registreren",
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:80: if (txtEmail.Text.Trim() == "" || txtPassword.Text == "")
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:82: MessageBox.Show("Vul je e-mail en wachtwoord in.", "Inloggen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:94: MessageBox.Show("Kan geen verbinding maken met de database:\n" + ex.Message, "Inloggen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:100: MessageBox.Show("Onjuist e-mailadres of wachtwoord.", "Inloggen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:109: MessageBox.Show("Je account heeft geen geldige rol. Neem contact op met een beheerder.", "Inloggen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\LoginForm.cs:124: btnShowPassword.Text = show ? "ðŸ™ˆ" : "ðŸ‘";
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:45: var header = new Label { Text = "Logboek", Dock = DockStyle.Fill, Font = new Font("Segoe UI", 18F, FontStyle.Bold), ForeColor = Ink };
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:56: var btnRefresh = new Button { Text = "Vernieuwen", Location = new Point(594, 8), Size = new Size(110, 28), FlatStyle = FlatStyle.Flat, BackColor = Color.White, ForeColor = Color.FromArgb(31, 41, 55), Font = new Font("Segoe UI", 9F, FontStyle.Bold), Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:89: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Id", DataPropertyName = "Id", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:90: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Tijd", HeaderText = "Tijdstip", DataPropertyName = "Tijd", FillWeight = 80 });
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:91: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Wie", HeaderText = "Door", DataPropertyName = "Wie", FillWeight = 90 });
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:92: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Actie", HeaderText = "Actie", DataPropertyName = "Actie", FillWeight = 90 });
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:93: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Details", HeaderText = "Details", DataPropertyName = "Details", FillWeight = 160 });
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:115: MessageBox.Show("Kon het logboek niet laden:\n" + ex.Message, "Logboek", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:138: cboAction.Items.Add("Alle acties");
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:143: cboUser.Items.Add("Alle gebruikers");
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:161: display.Columns.Add("Id", typeof(int));
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:162: display.Columns.Add("Tijd");
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:163: display.Columns.Add("Wie");
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:164: display.Columns.Add("Actie");
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:165: display.Columns.Add("Details");
+Rent-A-Car-App-Gio-Cavo-Serdar\LogsPage.cs:184: lblCount.Text = display.Rows.Count + (display.Rows.Count == 1 ? " regel" : " regels");
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:46: var header = new Label { Text = "Berichten", Dock = DockStyle.Fill, Font = new Font("Segoe UI", 18F, FontStyle.Bold), ForeColor = Ink };
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:64: Text = "Nieuw bericht",
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:100: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Cid", DataPropertyName = "Cid", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:101: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Unread", DataPropertyName = "Unread", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:102: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Nieuw", HeaderText = "", DataPropertyName = "Nieuw", FillWeight = 12, DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter, ForeColor = Accent, Font = new Font("Segoe UI", 12F, FontStyle.Bold) } });
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:103: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Klant", HeaderText = "Klant", DataPropertyName = "Klant", FillWeight = 100 });
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:104: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Laatste", HeaderText = "Laatste", DataPropertyName = "Laatste", FillWeight = 70 });
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:128: lblThreadTitle = new Label { Dock = DockStyle.Top, Height = 38, Text = "Selecteer een gesprek", Font = new Font("Segoe UI", 12F, FontStyle.Bold), ForeColor = Ink, Padding = new Padding(12, 8, 0, 0) };
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:134: btnSend = new Button { Text = "Verzenden", Dock = DockStyle.Right, Width = 110, FlatStyle = FlatStyle.Flat, BackColor = Accent, ForeColor = Color.White, Font = new Font("Segoe UI", 9.5F, FontStyle.Bold), Cursor = Cursors.Hand, Enabled = false };
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:158: d.Columns.Add("Cid", typeof(int));
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:159: d.Columns.Add("Unread", typeof(int));
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:160: d.Columns.Add("Nieuw");
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:161: d.Columns.Add("Klant");
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:162: d.Columns.Add("Laatste");
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:175: MessageBox.Show("Kon de gesprekken niet laden:\n" + ex.Message, "Berichten", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:199: lblThreadTitle.Text = "Selecteer een gesprek";
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:205: lblThreadTitle.Text = Convert.ToString(grid.CurrentRow.Cells["Klant"].Value);
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:223: MessageBox.Show("Kon het gesprek niet laden:\n" + ex.Message, "Berichten", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:233: Text = (mine ? (who == "" ? "Medewerker" : who) : who) + "  Â·  " + when.ToString("dd-MM HH:mm"),
+Rent-A-Car-App-Gio-Cavo-Serdar\MessagesPage.cs:294: MessageBox.Show("Kon het bericht niet versturen:\n" + ex.Message, "Berichten", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:32: Text = "Nieuw bericht";
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:39: var title = new Label { Text = "Nieuw bericht", Dock = DockStyle.Top, Height = 52, Font = new Font("Segoe UI", 16F, FontStyle.Bold), TextAlign = ContentAlignment.MiddleCenter };
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:40: var btnClose = new Button { Text = "âœ•", Location = new Point(404, 6), Size = new Size(30, 30), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, ForeColor = Muted, TabStop = false, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:43: Controls.Add(new Label { Text = "Aan welke klant?", Location = new Point(30, 70), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:46: Controls.Add(new Label { Text = "Bericht", Location = new Point(30, 130), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:49: var btnSend = new Button { Text = "Verzenden", Location = new Point(220, 300), Size = new Size(190, 40), FlatStyle = FlatStyle.Flat, BackColor = Accent, ForeColor = Color.White, Font = new Font("Segoe UI", 10F, FontStyle.Bold), Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:52: var btnCancel = new Button { Text = "Annuleren", Location = new Point(30, 300), Size = new Size(150, 40), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:67: cboCustomer.Items.Add(new Item { Id = Convert.ToInt32(r["ID"]), Name = r["Naam"].ToString() });
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:73: MessageBox.Show("Kon de klanten niet laden:\n" + ex.Message, "Nieuw bericht", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:81: MessageBox.Show("Kies een klant.", "Nieuw bericht", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\NewMessageForm.cs:86: MessageBox.Show("Typ een bericht.", "Nieuw bericht", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\PdfInvoice.cs:30: public string CarText = "";
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:42: var header = new Label { Text = "Rechten", Dock = DockStyle.Fill, Font = new Font("Segoe UI", 18F, FontStyle.Bold), ForeColor = Ink };
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:81: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "ID", DataPropertyName = "ID", Visible = false });
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:82: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Naam", HeaderText = "Medewerker", DataPropertyName = "Naam", FillWeight = 100 });
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:83: grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Email", HeaderText = "E-mail", DataPropertyName = "Email", FillWeight = 130 });
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:94: lblTitle = new Label { Location = new Point(20, 18), Size = new Size(430, 26), Text = "Selecteer een medewerker", Font = new Font("Segoe UI", 13F, FontStyle.Bold), ForeColor = Ink };
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:95: lblHint = new Label { Location = new Point(20, 48), Size = new Size(430, 20), Text = "Vink aan wat deze medewerker mag gebruiken.", ForeColor = Muted, Font = new Font("Segoe UI", 9F) };
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:115: Text = "Opslaan",
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:143: display.Columns.Add("ID", typeof(int));
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:144: display.Columns.Add("Naam");
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:145: display.Columns.Add("Email");
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:155: MessageBox.Show("Kon de medewerkers niet laden:\n" + ex.Message, "Rechten", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:164: lblTitle.Text = "Selecteer een medewerker";
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:171: lblTitle.Text = "Rechten van " + grid.CurrentRow.Cells["Naam"].Value;
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:198: MessageBox.Show("Kon de rechten niet opslaan:\n" + ex.Message, "Rechten", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:201: MessageBox.Show("De rechten zijn opgeslagen. Ze gelden de volgende keer dat de medewerker inlogt.",
+Rent-A-Car-App-Gio-Cavo-Serdar\PermissionsPage.cs:202: "Rechten", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:34: Text = "Profielinstellingen";
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:41: Controls.Add(new Label { Text = "Profielinstellingen", Location = new Point(30, 20), AutoSize = true, Font = new Font("Segoe UI", 18F, FontStyle.Bold), ForeColor = Ink });
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:42: var btnClose = new Button { Text = "âœ•", Location = new Point(464, 8), Size = new Size(30, 30), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, ForeColor = Muted, TabStop = false, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:49: var btnPhoto = new Button { Text = "Foto wijzigen", Location = new Point(136, 82), Size = new Size(150, 32), FlatStyle = FlatStyle.Flat, BackColor = Color.White, ForeColor = Color.FromArgb(31, 41, 55), Font = new Font("Segoe UI", 9.5F, FontStyle.Bold), Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:52: var btnRemovePhoto = new Button { Text = "Verwijderen", Location = new Point(296, 82), Size = new Size(120, 32), FlatStyle = FlatStyle.Flat, BackColor = Color.White, ForeColor = Color.FromArgb(185, 28, 28), Font = new Font("Segoe UI", 9.5F, FontStyle.Bold), Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:65: Controls.Add(new Label { Text = "Wachtwoord wijzigen", Location = new Point(30, 436), AutoSize = true, Font = new Font("Segoe UI", 11F, FontStyle.Bold), ForeColor = Ink });
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:66: Controls.Add(new Label { Text = "Vul een nieuw wachtwoord in en bevestig met de code die we e-mailen.", Location = new Point(30, 462), AutoSize = true, ForeColor = Muted, Font = new Font("Segoe UI", 8.5F) });
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:73: var btnSendCode = new Button { Text = "Verstuur code", Location = new Point(30, 556), Size = new Size(160, 32), FlatStyle = FlatStyle.Flat, BackColor = Color.White, ForeColor = Accent, Font = new Font("Segoe UI", 9.5F, FontStyle.Bold), Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:77: Controls.Add(new Label { Text = "Code", Location = new Point(206, 538), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:80: var btnSave = new Button { Text = "Opslaan", Location = new Point(310, 664), Size = new Size(160, 40), FlatStyle = FlatStyle.Flat, BackColor = Accent, ForeColor = Color.White, Font = new Font("Segoe UI", 10F, FontStyle.Bold), Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:83: var btnCancel = new Button { Text = "Annuleren", Location = new Point(30, 664), Size = new Size(150, 40), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:104: txtName.Text = row["Name"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:105: txtLastName.Text = row["LastName"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:106: txtEmail.Text = row["Email"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:107: txtPhone.Text = row["Phone_Number"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:108: txtAddress.Text = row["Address"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:109: txtCity.Text = row["City"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:129: MessageBox.Show("De foto is groter dan 3 MB.", "Profielfoto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:133: catch (Exception ex) { MessageBox.Show("Kon de foto niet laden:\n" + ex.Message, "Profielfoto", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:157: MessageBox.Show("De e-mailinstellingen (SMTP) zijn niet ingesteld, dus er kan geen code verstuurd worden.", "Code versturen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:173: MessageBox.Show("Kon de code niet versturen:\n" + ex.Message, "Code versturen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:178: lblCodeInfo.Text = "Code verstuurd naar " + txtEmail.Text.Trim() + ". Vul deze hierboven in.";
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:185: MessageBox.Show("Het nieuwe wachtwoord moet minimaal 8 tekens zijn.", "Wachtwoord wijzigen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:190: MessageBox.Show("De nieuwe wachtwoorden komen niet overeen.", "Wachtwoord wijzigen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:201: MessageBox.Show("Vul alle velden in.", "Profielinstellingen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:206: MessageBox.Show("Telefoonnummer mag alleen cijfers bevatten (6 tot 15).", "Profielinstellingen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:216: MessageBox.Show("Klik eerst op 'Verstuur code' en vul de code uit je e-mail in.", "Wachtwoord wijzigen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:221: MessageBox.Show("De code is verlopen. Vraag een nieuwe code aan.", "Wachtwoord wijzigen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:226: MessageBox.Show("De verificatiecode is onjuist.", "Wachtwoord wijzigen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:237: MessageBox.Show("Er bestaat al een account met dit e-mailadres.", "Profielinstellingen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:265: MessageBox.Show("Kon je profiel niet opslaan:\n" + ex.Message, "Profielinstellingen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\ProfileForm.cs:269: MessageBox.Show("Je profiel is opgeslagen.", "Profielinstellingen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:24: Text = "Registreren";
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:30: Controls.Add(new Label { Text = "Account aanmaken", Location = new Point(0, 28), Size = new Size(460, 36), Font = new Font("Segoe UI", 19F, FontStyle.Bold), ForeColor = Ink, TextAlign = ContentAlignment.MiddleCenter });
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:31: Controls.Add(new Label { Text = "Maak een account om een auto te huren", Location = new Point(0, 66), Size = new Size(460, 20), ForeColor = Muted, TextAlign = ContentAlignment.MiddleCenter });
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:33: var btnClose = new Button { Text = "âœ•", Location = new Point(424, 8), Size = new Size(30, 30), FlatStyle = FlatStyle.Flat, DialogResult = DialogResult.Cancel, ForeColor = Muted, TabStop = false, Cursor = Cursors.Hand };
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:43: Controls.Add(new Label { Text = "Wachtwoord", Location = new Point(30, 394), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:46: btnShowPassword.Click += (s, e) => { txtPassword.UseSystemPasswordChar = !txtPassword.UseSystemPasswordChar; btnShowPassword.Text = txtPassword.UseSystemPasswordChar ? "ðŸ‘" : "ðŸ™ˆ"; };
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:48: Controls.Add(new Label { Text = "Bevestig wachtwoord", Location = new Point(30, 450), AutoSize = true, ForeColor = Muted });
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:51: btnShowConfirmPassword.Click += (s, e) => { txtConfirmPassword.UseSystemPasswordChar = !txtConfirmPassword.UseSystemPasswordChar; btnShowConfirmPassword.Text = txtConfirmPassword.UseSystemPasswordChar ? "ðŸ‘" : "ðŸ™ˆ"; };
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:55: Text = "Registreren",
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:69: Text = "Al een account?  Inloggen",
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:97: var b = new Button { Text = "ðŸ‘", Location = new Point(x, y), Size = new Size(40, 27), FlatStyle = FlatStyle.Flat, BackColor = Color.White, Cursor = Cursors.Hand, TabStop = false };
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:105: txtPhone.Text.Trim() == "" || txtAddress.Text.Trim() == "" || txtCity.Text.Trim() == "" || txtPassword.Text == "")
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:107: MessageBox.Show("Vul alle velden in.", "Registreren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:112: MessageBox.Show("Het wachtwoord moet minimaal 8 tekens zijn.", "Registreren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:117: MessageBox.Show("Telefoonnummer mag alleen cijfers bevatten (6 tot 15).", "Registreren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:122: MessageBox.Show("De wachtwoorden komen niet overeen.", "Registreren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:131: MessageBox.Show("Er bestaat al een account met dit e-mailadres.", "Registreren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:148: MessageBox.Show("Kon het account niet aanmaken:\n" + ex.Message, "Registreren", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\RegisterForm.cs:152: MessageBox.Show("Je account is aangemaakt. Je kunt nu inloggen.", "Registreren", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.cs:98: btnProfile.Text = name + " " + lastName + "  â–¾";
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.cs:112: lblMenuName.Text = name + " " + lastName + roleName;
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.cs:113: lblMenuEmail.Text = user.Rows[0]["Email"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.cs:137: lblInitials.Text = "";
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.cs:208: Text = "   " + text,
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.Designer.cs:42: this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.Designer.cs:46: this.lblTitle.Name = "lblTitle";
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.Designer.cs:49: this.lblTitle.Text = "Rent A Car";
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.Designer.cs:62: this.lblInitials.Text = "?";
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.Designer.cs:80: this.btnProfile.Text = "Profile  â–¾";
+Rent-A-Car-App-Gio-Cavo-Serdar\TopBar.Designer.cs:102: this.btnLogin.Text = "Log in";
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:42: Text = "Klant beoordelen";
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:51: Text = "âœ•",
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:95: var lblFront = new Label { Text = "Voorkant", Location = new Point(24, 96), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:96: var lblBack = new Label { Text = "Achterkant", Location = new Point(388, 96), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:111: Text = "Gegevens overnemen van de ID",
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:118: var lblFn = new Label { Text = "Voornaam", Location = new Point(24, 372), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:121: var lblLn = new Label { Text = "Achternaam", Location = new Point(248, 372), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:124: var lblBirth = new Label { Text = "Geboortedatum", Location = new Point(472, 372), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:127: var lblExp = new Label { Text = "Vervaldatum", Location = new Point(600, 372), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:130: var lblDoc = new Label { Text = "Documentnummer", Location = new Point(24, 428), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:133: var lblReason = new Label { Text = "Reden (verplicht bij afkeuren)", Location = new Point(24, 484), AutoSize = true, ForeColor = Muted };
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:138: Text = "Goedkeuren",
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:152: Text = "Afkeuren",
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:192: Text = "PDF openen",
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:215: lblIdData.Text = "Deze klant heeft nog geen ID-kaart geÃ¼pload.";
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:216: lblFrontNote.Text = "Geen scan";
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:217: lblBackNote.Text = "Geen scan";
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:220: lblReviewInfo.Text = "";
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:229: lblIdData.Text = "Bestand: " + fname;
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:238: txtFirstName.Text = row["ID_First_Name"] == DBNull.Value ? "" : row["ID_First_Name"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:239: txtLastName.Text = row["ID_Last_Name"] == DBNull.Value ? "" : row["ID_Last_Name"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:242: txtDocument.Text = row["Document_Number"] == DBNull.Value ? "" : row["Document_Number"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:243: txtReason.Text = row["Reject_Reason"] == DBNull.Value ? "" : row["Reject_Reason"].ToString();
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:252: lblReviewInfo.Text = VerificationHelper.StatusLabel(status) + " door " + who + " op " + when +
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:258: lblReviewInfo.Text = "In behandeling - neem de gegevens over van de ID en keur goed of af.";
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:288: note.Text = "PDF-document geÃ¼pload.";
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:293: try { box.Image = Image.FromStream(new MemoryStream(bytes)); note.Text = ""; }
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:294: catch { note.Text = "Kon afbeelding niet tonen."; }
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:299: note.Text = reviewed ? "Na verificatie verwijderd." : (isFront ? "Geen scan" : "Geen achterkant");
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:314: MessageBox.Show("Vul de voor- en achternaam van de ID in.", "Goedkeuren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:320: MessageBox.Show("Vul eerst het documentnummer in.", "Goedkeuren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:326: var ok = MessageBox.Show("De vervaldatum ligt in het verleden. Toch goedkeuren?",
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:327: "Goedkeuren", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:353: MessageBox.Show("Kon niet goedkeuren:\n" + ex.Message, "Goedkeuren", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:357: MessageBox.Show("De klant is geverifieerd.", "Goedkeuren", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:366: MessageBox.Show("Een reden is verplicht bij afkeuren.", "Afkeuren", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:385: MessageBox.Show("Kon niet afkeuren:\n" + ex.Message, "Afkeuren", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:389: MessageBox.Show("De klant is afgekeurd.", "Afkeuren", MessageBoxButtons.OK, MessageBoxIcon.Information);
+Rent-A-Car-App-Gio-Cavo-Serdar\VerificationReviewForm.cs:424: MessageBox.Show("Kon de PDF niet openen:\n" + ex.Message, "Klantverificatie", MessageBoxButtons.OK, MessageBoxIcon.Error);
+Rent-A-Car-App-Gio-Cavo-Serdar\Properties\AssemblyInfo.cs:8: [assembly: AssemblyTitle("Rent-A-Car-App-Gio-Cavo-Serdar")]

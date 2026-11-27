@@ -102,11 +102,11 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
             if (AuthHelper.loggedinroleid == AuthHelper.RoleAdmin)
             {
-                roleName = " (Admin)";
+                roleName = " (Beheerder)";
             }
             else if (AuthHelper.loggedinroleid == AuthHelper.RoleEmployee)
             {
-                roleName = " (Employee)";
+                roleName = " (Medewerker)";
             }
 
             lblMenuName.Text = name + " " + lastName + roleName;
@@ -181,10 +181,10 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
                 BackColor = BorderColor
             };
 
-            Button btnSettings = createMenuButton("Profile settings", 86);
+            Button btnSettings = createMenuButton("Profielinstellingen", 86);
             btnSettings.Click += btnSettings_Click;
 
-            Button btnLogout = createMenuButton("Log out", 126);
+            Button btnLogout = createMenuButton("Uitloggen", 126);
             btnLogout.ForeColor = Color.FromArgb(220, 38, 38);
             btnLogout.Click += btnLogout_Click;
 

@@ -82,6 +82,9 @@ namespace Rent_A_Car_App_Gio_Cavo_Serdar
 
         public NewReservationControl()
         {
+            // Zorg ervoor dat oude instellingen worden verwijderd
+            this.DoubleBuffered = true;
+
             BackColor = Color.White;
             Font = new Font("Segoe UI", 9.75F);
 
